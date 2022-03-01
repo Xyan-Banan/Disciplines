@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/disciplinesMenu">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.disciplines.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_disciplinesMenu"
+            app:destination="@id/disciplinesMenu" />
+    </fragment>
+    <fragment
+        android:id="@+id/disciplinesMenu"
+        android:name="com.example.disciplines.ui.disciplinesMenu.DisciplinesMenu"
+        android:label="disciplines_menu_fragment"
+        tools:layout="@layout/disciplines_menu_fragment" >
+        <argument
+            android:name="groupNumber"
+            app:argType="string"
+            android:defaultValue="в3530904/90321" />
+        <action
+            android:id="@+id/action_disciplinesMenu_to_disciplineByChoiceFragment"
+            app:destination="@id/disciplineByChoiceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/disciplineByChoiceFragment"
+        android:name="com.example.disciplines.ui.disciplinesByChoice.DisciplineByChoiceFragment"
+        android:label="fragment_item_list"
+        tools:layout="@layout/disciplines_by_choice_list_fragment" >
+        <argument
+            android:name="groupNumber"
+            app:argType="string"
+            android:defaultValue="в3530904/90321" />
+    </fragment>
+</navigation>
