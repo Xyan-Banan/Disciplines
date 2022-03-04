@@ -6,16 +6,18 @@
     <data>
 
         <variable
-            name="disciplinePair"
+            name="disciplinesPair"
             type="com.example.disciplines.data.database.DisciplinesPair" />
     </data>
 
     <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/marginStartEnd"
         android:layout_marginEnd="@dimen/marginStartEnd"
         android:layout_marginBottom="10dp"
+        app:disciplinesPair="@{disciplinesPair}"
         android:background="@drawable/border_polytech_main"
         android:divider="@android:color/white"
         android:dividerPadding="5dp"
@@ -27,7 +29,7 @@
             android:layout_height="wrap_content"
             android:buttonTint="@android:color/white"
             android:textColor="@color/polytechFontColor"
-            app:discipline="@{disciplinePair.first}"
+            app:discipline="@{disciplinesPair.first}"
             tools:checked="true"
             tools:text="Дисциплина 1.1 (# часов)" />
 
@@ -38,7 +40,7 @@
             android:buttonTint="@color/white"
             android:buttonTintMode="src_atop"
             android:textColor="@color/polytechFontColor"
-            app:discipline="@{disciplinePair.second}"
+            app:discipline="@{disciplinesPair.second}"
             tools:text="Дисциплина 1.2 (# часов)" />
 
     </RadioGroup>
