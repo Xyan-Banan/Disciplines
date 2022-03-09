@@ -26,15 +26,23 @@
         <action
             android:id="@+id/action_disciplinesMenu_to_disciplineByChoiceFragment"
             app:destination="@id/disciplineByChoiceFragment" />
+        <action
+            android:id="@+id/action_disciplinesMenu_to_mobilityModuleFragment"
+            app:destination="@id/mobilityModuleFragment" />
     </fragment>
     <fragment
         android:id="@+id/disciplineByChoiceFragment"
         android:name="com.example.disciplines.ui.disciplinesByChoice.DisciplineByChoiceFragment"
         android:label="fragment_item_list"
-        tools:layout="@layout/disciplines_by_choice_list_fragment" >
+        tools:layout="@layout/list_fragment" >
         <argument
             android:name="groupNumber"
             app:argType="string"
             android:defaultValue="в3530904/90321" />
     </fragment>
+    <fragment
+        android:id="@+id/mobilityModuleFragment"
+        android:name="com.example.disciplines.ui.mobilityModule.MobilityModuleFragment"
+        android:label="mobility_module"
+        tools:layout="@layout/mobility_module_list" />
 </navigation>

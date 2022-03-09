@@ -6,11 +6,20 @@ import androidx.databinding.BindingAdapter
 import com.example.disciplines.R
 import com.example.disciplines.data.database.Discipline
 import com.example.disciplines.data.database.DisciplinesPair
+import com.example.disciplines.data.database.MobilityModule
 
 @BindingAdapter("discipline")
 fun RadioButton.setDiscipline(discipline: Discipline?) {
     discipline?.apply {
         text = resources.getString(R.string.discipline, name, hours)
+    }
+}
+
+@BindingAdapter("mobilityModule")
+fun RadioButton.setMobilityModule(mobilityModule: MobilityModule?){
+    mobilityModule?.apply {
+        val disciplinesList = disciplines.joinToString("\n") { "-${it.name} (${it.hours} часов)" }
+        text = resources.getString(R.string.mobilityModuleCardText, name, intensity, disciplinesList)
     }
 }
 

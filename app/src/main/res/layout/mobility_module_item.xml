@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="mobilityModule"
+            type="com.example.disciplines.data.database.MobilityModule" />
+    </data>
+
+    <RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/radioButton"
+        style="@style/mobilityModuleRadioButton"
+        app:mobilityModule="@{mobilityModule}" />
+</layout>

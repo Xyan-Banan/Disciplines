@@ -15,7 +15,7 @@
         android:id="@+id/fragmentTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/disciplinesByChoiceBtnText"
+        android:text="@string/disciplinesByChoice"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,9 +24,9 @@
         android:id="@+id/instructions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/instructionsTopMargin"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/fragmentTitle"
         app:layout_constraintTop_toBottomOf="@+id/fragmentTitle"
-        tools:text="@string/instructions_text" />
+        tools:text="@string/instructions_disciplinesByChoice" />
 </androidx.constraintlayout.widget.ConstraintLayout>

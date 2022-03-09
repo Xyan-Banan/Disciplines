@@ -28,6 +28,11 @@ class DisciplinesMenu : Fragment() {
                 )
             )
         }
+        binding.mobilityModuleBtn.setOnClickListener {
+            findNavController().navigate(
+                DisciplinesMenuDirections.actionDisciplinesMenuToMobilityModuleFragment()
+            )
+        }
 
         viewModel = ViewModelProvider(this).get(DisciplinesMenuViewModel::class.java)
         groupNumber = DisciplinesMenuArgs.fromBundle(requireArguments()).groupNumber

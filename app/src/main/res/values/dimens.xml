@@ -6,4 +6,5 @@
     <dimen name="menuBtnWidth">250dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="marginStartEnd">20dp</dimen>
+    <dimen name="instructionsTopMargin">5dp</dimen>
 </resources>

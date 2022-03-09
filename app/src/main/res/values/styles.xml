@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="mobilityModuleRadioButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/border_polytech_main</item>
+        <item name="android:buttonTint">@color/polytechFontColor</item>
+        <item name="android:textColor">@color/polytechFontColor</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <!--        <item name="android:padding">10dp</item>-->
+        <!--        <item name="android:paddingTop">5dp</item>-->
+        <item name="android:padding">5dp</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:gravity">top|start</item>
+        <item name="android:text">Модуль мобильности 1 (# зачетных единиц)\nВходящие
+            дисциплины: \n-дисциплина 1 (# часов) \n-дисциплина 1 (# часов) \n-дисциплина 1 (#
+            часов)
+        </item>
+    </style>
+</resources>

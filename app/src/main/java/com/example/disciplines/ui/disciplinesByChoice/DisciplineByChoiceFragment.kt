@@ -10,23 +10,24 @@ import android.widget.Toast
 import com.example.disciplines.R
 import com.example.disciplines.data.database.DisciplinesPair
 import com.example.disciplines.data.database.TestValues
-import com.example.disciplines.databinding.DisciplinesByChoiceListFragmentBinding
+import com.example.disciplines.databinding.ListFragmentBinding
+import com.example.disciplines.ui.mobilityModule.MobilityModuleAdapter
 
 /**
  * A fragment representing a list of Items.
  */
 class DisciplineByChoiceFragment : Fragment() {
-    private lateinit var binding: DisciplinesByChoiceListFragmentBinding
+    private lateinit var binding: ListFragmentBinding
     private lateinit var list: List<DisciplinesPair>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DisciplinesByChoiceListFragmentBinding.inflate(inflater)
+        binding = ListFragmentBinding.inflate(inflater)
 
         // Set the adapter
-        list = TestValues.generateDisciplinesByChoice(15)
+        list = TestValues.generateDisciplinesPairs(15)
         binding.disciplinesPairsList.adapter =
             DisciplinesByChoiceAdapter(
                 list,
@@ -38,8 +39,8 @@ class DisciplineByChoiceFragment : Fragment() {
 
     private fun getListHeader(list: List<DisciplinesPair>) = resources.getString(
         when (list.isEmpty()) {
-            true -> R.string.empty_list_instructions_text
-            false -> R.string.instructions_text
+            true -> R.string.instructions_disciplinesByChoice_empty
+            false -> R.string.instructions_disciplinesByChoice
         }
     )
 

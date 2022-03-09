@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.example.disciplines.R
 import com.example.disciplines.data.database.DisciplinesPair
-import com.example.disciplines.databinding.DisciplinesByChoiceListItemFragmentBinding
-import com.example.disciplines.databinding.ListButtonBinding
-import com.example.disciplines.databinding.ListHeaderBinding
+import com.example.disciplines.data.database.MobilityModule
+import com.example.disciplines.databinding.*
+
 
 class HeaderViewHolder private constructor(
     binding: ListHeaderBinding,
@@ -29,34 +30,10 @@ class HeaderViewHolder private constructor(
     )
 }
 
-class DisciplinePairViewHolder private constructor(private val binding: DisciplinesByChoiceListItemFragmentBinding) :
-    RecyclerView.ViewHolder(binding.root) {
-    init {
-        binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.disciplineRadio1 -> binding.disciplinesPair?.checked =
-                    DisciplinesPair.Checked.First
-                R.id.disciplineRadio2 -> binding.disciplinesPair?.checked =
-                    DisciplinesPair.Checked.Second
-            }
-        }
-        setIsRecyclable(false)
-    }
-
-    constructor(parent: ViewGroup) : this(
-        DisciplinesByChoiceListItemFragmentBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-    )
-
-    fun bind(item: DisciplinesPair) {
-        binding.disciplinesPair = item
-    }
-}
-
-class ButtonViewHolder(binding: ListButtonBinding, listener: View.OnClickListener) :
+class ButtonViewHolder private constructor(
+    binding: ListButtonBinding,
+    listener: View.OnClickListener
+) :
     RecyclerView.ViewHolder(binding.root) {
     init {
         binding.button.setOnClickListener(listener)
@@ -70,4 +47,52 @@ class ButtonViewHolder(binding: ListButtonBinding, listener: View.OnClickListene
         ),
         listener
     )
+}
+
+abstract class ViewHolder<T>(binding: ViewBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+    abstract fun bind(item: T)
+}
+
+class DisciplinePairViewHolder private constructor(private val binding: DisciplinesPairBinding) :
+    ViewHolder<DisciplinesPair>(binding) {
+
+    init {
+        binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.disciplineRadio1 -> binding.disciplinesPair?.checked =
+                    DisciplinesPair.Checked.First
+                R.id.disciplineRadio2 -> binding.disciplinesPair?.checked =
+                    DisciplinesPair.Checked.Second
+            }
+        }
+        setIsRecyclable(false)
+    }
+
+    constructor(parent: ViewGroup) : this(
+        DisciplinesPairBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+    )
+
+    override fun bind(item: DisciplinesPair) {
+        binding.disciplinesPair = item
+    }
+}
+
+class MobilityModuleViewHolder(binding: MobilityModuleItemBinding) :
+    ViewHolder<MobilityModule>(binding) {
+    constructor(parent: ViewGroup) : this(
+        MobilityModuleItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+    )
+
+    override fun bind(item: MobilityModule) {
+
+    }
 }
