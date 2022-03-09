@@ -48,14 +48,7 @@
             android:layout_marginStart="@dimen/marginStartEnd"
             android:layout_marginEnd="@dimen/marginStartEnd"
             app:layout_constraintBottom_toTopOf="@+id/btn"
-            app:layout_constraintTop_toBottomOf="@+id/instructions">
-
-            <RadioButton style="@style/mobilityModuleRadioButton"/>
-
-            <RadioButton style="@style/mobilityModuleRadioButton" />
-
-            <RadioButton style="@style/mobilityModuleRadioButton" />
-        </RadioGroup>
+            app:layout_constraintTop_toBottomOf="@+id/instructions"/>
 
         <Button
             android:id="@+id/btn"

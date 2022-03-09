@@ -11,11 +11,7 @@ import com.example.disciplines.R
 import com.example.disciplines.data.database.DisciplinesPair
 import com.example.disciplines.data.database.TestValues
 import com.example.disciplines.databinding.ListFragmentBinding
-import com.example.disciplines.ui.mobilityModule.MobilityModuleAdapter
 
-/**
- * A fragment representing a list of Items.
- */
 class DisciplineByChoiceFragment : Fragment() {
     private lateinit var binding: ListFragmentBinding
     private lateinit var list: List<DisciplinesPair>
