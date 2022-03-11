@@ -12,7 +12,13 @@ object TestValues {
     }
 
     fun genereateDisciplinesList(count: Int) =
-        List(count) { Discipline(Random.nextUInt(), "Дисциплина ${it + 1}", Random.nextInt(150)) }
+        List(count) {
+            Discipline(
+                Random.nextUInt(),
+                "Дисциплина ${it + 1}",
+                Random.nextInt(30, 150)
+            )
+        }
 
     fun generateMobilityModules(count: Int) = List(count) {
         MobilityModule(

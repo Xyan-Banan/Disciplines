@@ -2,10 +2,12 @@ package com.example.disciplines.ui.mobilityModule
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.disciplines.R
 import com.example.disciplines.data.database.MobilityModule
 import com.example.disciplines.data.database.TestValues
@@ -18,12 +20,12 @@ class MobilityModuleFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val list = TestValues.generateMobilityModules(10)
+    ): View {
+        val list = TestValues.generateMobilityModules(5)
         binding = MobilityModuleListBinding.inflate(inflater)
 
         binding.instructions.text = getHeader(list)
-
+        binding.confirmBtn.visibility = getButtonVisibility(list)
         binding.radioGroup2.apply {
             for (item in list) {
                 val btn = MobilityModuleItemBinding.inflate(inflater, binding.radioGroup2, false)
@@ -31,6 +33,18 @@ class MobilityModuleFragment : Fragment() {
 //                btn.root.setOnClickListener { Log.i("TAG", "${it.id} $it") }
                 addView(btn.root)
             }
+        }
+
+        binding.confirmBtn.setOnClickListener {
+            val checkedId = binding.radioGroup2.checkedRadioButtonId //это именно id, а не индекс!!!
+            val text =
+                if (checkedId >= 0)
+                    "Выбран модуль мобильности $checkedId"
+                else
+                    "Необходимо выбрать хотя бы один модуль мобильности"
+            val toast = Toast.makeText(context, text, Toast.LENGTH_LONG)
+            toast.setGravity(Gravity.CENTER, 0, 0)
+            toast.show()
         }
         return binding.root
     }
@@ -41,4 +55,7 @@ class MobilityModuleFragment : Fragment() {
             false -> R.string.instructions_mobilityModule
         }
     )
+
+    private fun getButtonVisibility(list: List<MobilityModule>) =
+        if (list.isEmpty()) View.GONE else View.VISIBLE
 }
