@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.disciplines.R
-import com.example.disciplines.data.database.DisciplinesPair
-import com.example.disciplines.data.database.TestValues
+import com.example.disciplines.data.network.model.DisciplinesPair
+import com.example.disciplines.data.network.TestValues
 import com.example.disciplines.databinding.ListFragmentBinding
 
 class DisciplineByChoiceFragment : Fragment() {
@@ -24,6 +24,7 @@ class DisciplineByChoiceFragment : Fragment() {
 
         // Set the adapter
         list = TestValues.generateDisciplinesPairs(15)
+//        list = Network.retrofitService.getDisciplinesByChoice("")
         binding.disciplinesPairsList.adapter =
             DisciplinesByChoiceAdapter(
                 list,

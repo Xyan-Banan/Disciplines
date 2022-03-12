@@ -19,6 +19,10 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-ext{
-
+ext {
+    version_moshi = '1.13.0'
+    version_gson = '2.9.0'
+    version_okhttp = '5.0.0-alpha.5'
+    version_retrofit = '2.9.0'
+    version_retrofit_coroutines_adapter = "0.9.2"
 }

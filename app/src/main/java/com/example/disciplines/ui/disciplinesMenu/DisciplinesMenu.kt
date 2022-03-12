@@ -19,7 +19,14 @@ class DisciplinesMenu : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        groupNumber = try {
+            DisciplinesMenuArgs.fromBundle(requireArguments()).groupNumber
+        } catch (e: Exception) {
+            "в353090490321"
+        }
+        viewModel = ViewModelProvider(this).get(DisciplinesMenuViewModel::class.java)
+
         binding = DisciplinesMenuFragmentBinding.inflate(inflater)
         binding.disciplinesByChoiceBtn.setOnClickListener {
             findNavController().navigate(
@@ -30,12 +37,9 @@ class DisciplinesMenu : Fragment() {
         }
         binding.mobilityModuleBtn.setOnClickListener {
             findNavController().navigate(
-                DisciplinesMenuDirections.actionDisciplinesMenuToMobilityModuleFragment()
+                DisciplinesMenuDirections.actionDisciplinesMenuToMobilityModuleFragment(groupNumber)
             )
         }
-
-        viewModel = ViewModelProvider(this).get(DisciplinesMenuViewModel::class.java)
-        groupNumber = DisciplinesMenuArgs.fromBundle(requireArguments()).groupNumber
 
         return binding.root
     }

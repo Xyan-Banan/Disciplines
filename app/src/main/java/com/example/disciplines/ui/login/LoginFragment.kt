@@ -30,7 +30,7 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
@@ -71,7 +71,7 @@ class LoginFragment : Fragment() {
             }
             loginResult.success?.let {
                 updateUiWithUser(it)
-                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToDisciplinesMenu())
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToDisciplinesMenu("в3530904/90321"))
             }
         }
 

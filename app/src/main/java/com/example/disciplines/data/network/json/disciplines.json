@@ -1,0 +1,65 @@
+[
+  {
+    "name": "Аддитивные технологии (3D печать). Вводный курс",
+    "platform": "Coursera",
+    "link": "https://www.coursera.org/learn/additivnye-tekhnologii",
+    "intensity": 1,
+    "hours": 36
+  },
+  {
+    "name": "Астрофизика: от звезд до границ Вселенной",
+    "platform": "Coursera",
+    "link": "https://www.coursera.org/learn/astrofizika",
+    "intensity": 2,
+    "hours": 72
+  },
+  {
+    "name": "Атомная энергетика. Введение",
+    "platform": "НПОО",
+    "link": "https://openedu.ru/course/spbstu/NUCPOW/",
+    "intensity": 3,
+    "hours": 108
+  },
+  {
+    "name": "Безопасность жизнедеятельности",
+    "platform": "СДО",
+    "link": "https://lms.spbstu.ru/course/view.php?id=12947",
+    "intensity": 2,
+    "hours": 72
+  },
+  {
+    "name": "Биомеханика",
+    "platform": "НПОО",
+    "link": "https://openedu.ru/course/spbstu/BIOMECH/",
+    "intensity": 3,
+    "hours": 108
+  },
+  {
+    "name": "Биоэтика",
+    "platform": "НПОО",
+    "link": "https://openedu.ru/course/spbstu/BIOETHICS/",
+    "intensity": 2,
+    "hours": 72
+  },
+  {
+    "name": "Бухгалтерский учет",
+    "platform": "СДО",
+    "link": "https://dl-imet.spbstu.ru/course/view.php?id=7295",
+    "intensity": 5,
+    "hours": 180
+  },
+  {
+    "name": "Введение в язык Котлин",
+    "platform": "Coursera",
+    "link": "https://www.coursera.org/learn/vvedenie-v-yazyk-kotlin",
+    "intensity": 1,
+    "hours": 36
+  },
+  {
+    "name": "Высшая математика (для технических направлений, 1 семестр)",
+    "platform": "СДО",
+    "link": "https://lms.spbstu.ru/course/view.php?id=12948",
+    "intensity": 4,
+    "hours": 144
+  }
+]

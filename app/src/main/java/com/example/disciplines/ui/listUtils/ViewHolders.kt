@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.example.disciplines.R
-import com.example.disciplines.data.database.DisciplinesPair
-import com.example.disciplines.data.database.MobilityModule
+import com.example.disciplines.data.network.model.DisciplinesPair
+import com.example.disciplines.data.network.model.MobilityModule
 import com.example.disciplines.databinding.*
 
 
