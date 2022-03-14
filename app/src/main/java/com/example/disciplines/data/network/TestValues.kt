@@ -2,6 +2,7 @@ package com.example.disciplines.data.network
 
 import com.example.disciplines.data.network.model.Discipline
 import com.example.disciplines.data.network.model.DisciplinesPair
+import com.example.disciplines.data.network.model.Elective
 import com.example.disciplines.data.network.model.MobilityModule
 import kotlin.random.Random
 
@@ -13,7 +14,7 @@ object TestValues {
         )
     }
 
-    fun genereateDisciplinesList(count: Int) =
+    fun generateDisciplinesList(count: Int) =
         List(count) {
             Discipline(
                 Random.nextInt(),
@@ -29,5 +30,9 @@ object TestValues {
             it % 3 + 3,
             (it % 3 + 3) * 36
         )
+    }
+
+    fun generateElectives(count: Int) = List(count) {
+        Elective("Факультатив ${it + 1}")
     }
 }

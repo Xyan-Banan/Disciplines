@@ -1,11 +1,11 @@
 package com.example.disciplines.ui.disciplinesMenu
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.disciplines.databinding.DisciplinesMenuFragmentBinding
 
@@ -38,6 +38,11 @@ class DisciplinesMenu : Fragment() {
         binding.mobilityModuleBtn.setOnClickListener {
             findNavController().navigate(
                 DisciplinesMenuDirections.actionDisciplinesMenuToMobilityModuleFragment(groupNumber)
+            )
+        }
+        binding.electivesBtn.setOnClickListener {
+            findNavController().navigate(
+                DisciplinesMenuDirections.actionDisciplinesMenuToElectives(groupNumber)
             )
         }
 

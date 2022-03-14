@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="elective"
+            type="com.example.disciplines.data.network.model.Elective" />
+    </data>
+
+    <CheckBox
+        style="@style/listItemButton"
+        android:layout_marginStart="@dimen/marginStartEnd"
+        android:layout_marginEnd="@dimen/marginStartEnd"
+        app:elective="@{elective}" />
+</layout>

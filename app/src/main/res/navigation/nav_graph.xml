@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_disciplinesMenu_to_mobilityModuleFragment"
             app:destination="@id/mobilityModuleFragment" />
+        <action
+            android:id="@+id/action_disciplinesMenu_to_electives"
+            app:destination="@id/electives" />
     </fragment>
     <fragment
         android:id="@+id/disciplineByChoiceFragment"
@@ -46,6 +49,13 @@
         tools:layout="@layout/mobility_module_list" >
         <argument
             android:name="groupName"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/electives"
+        android:name="com.example.disciplines.ui.electives.Electives"
+        android:label="Electives" >
+        <argument android:name="groupNumber"
             app:argType="string" />
     </fragment>
 </navigation>

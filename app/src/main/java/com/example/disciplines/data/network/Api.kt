@@ -35,7 +35,7 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
-interface DisciplinesApiService {
+interface Api {
     @GET("disciplinesByChoice")
     suspend fun getDisciplinesByChoice(@Query("groupName") name: String): Response<DisciplinesPair>
 //            List<DisciplinesPair>
@@ -48,5 +48,5 @@ interface DisciplinesApiService {
 }
 
 object Network {
-    val retrofitService: DisciplinesApiService by lazy { retrofit.create(DisciplinesApiService::class.java) }
+    val api: Api by lazy { retrofit.create(Api::class.java) }
 }

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class AbstractListAdapter<T>(
     items: List<T>,
-    private val headerText: String,
+    private val header: Header,
     private val buttonListener: View.OnClickListener,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -22,7 +22,7 @@ abstract class AbstractListAdapter<T>(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            ListItemType.Header.ordinal -> HeaderViewHolder(parent, headerText)
+            ListItemType.Header.ordinal -> HeaderViewHolder(parent, header)
             ListItemType.Item.ordinal -> createItemViewHolder(parent)
             else -> ButtonViewHolder(parent, buttonListener)
         }

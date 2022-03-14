@@ -10,6 +10,6 @@
     </data>
 
     <RadioButton
-        style="@style/mobilityModuleRadioButton"
+        style="@style/listItemButton"
         app:mobilityModule="@{mobilityModule}" />
 </layout>

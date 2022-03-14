@@ -13,20 +13,20 @@ import com.example.disciplines.databinding.*
 
 class HeaderViewHolder private constructor(
     binding: ListHeaderBinding,
-    text: String
+    header: Header
 ) :
     RecyclerView.ViewHolder(binding.root) {
     init {
-        binding.instructions.text = text
+        binding.header = header
     }
 
-    constructor(parent: ViewGroup, text: String) : this(
+    constructor(parent: ViewGroup, header: Header) : this(
         ListHeaderBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         ),
-        text
+        header
     )
 }
 
@@ -52,47 +52,4 @@ class ButtonViewHolder private constructor(
 abstract class ViewHolder<T>(binding: ViewBinding) :
     RecyclerView.ViewHolder(binding.root) {
     abstract fun bind(item: T)
-}
-
-class DisciplinePairViewHolder private constructor(private val binding: DisciplinesPairBinding) :
-    ViewHolder<DisciplinesPair>(binding) {
-
-    init {
-        binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.disciplineRadio1 -> binding.disciplinesPair?.checked =
-                    DisciplinesPair.Checked.First
-                R.id.disciplineRadio2 -> binding.disciplinesPair?.checked =
-                    DisciplinesPair.Checked.Second
-            }
-        }
-        setIsRecyclable(false)
-    }
-
-    constructor(parent: ViewGroup) : this(
-        DisciplinesPairBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-    )
-
-    override fun bind(item: DisciplinesPair) {
-        binding.disciplinesPair = item
-    }
-}
-
-class MobilityModuleViewHolder(binding: MobilityModuleItemBinding) :
-    ViewHolder<MobilityModule>(binding) {
-    constructor(parent: ViewGroup) : this(
-        MobilityModuleItemBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-    )
-
-    override fun bind(item: MobilityModule) {
-
-    }
 }
