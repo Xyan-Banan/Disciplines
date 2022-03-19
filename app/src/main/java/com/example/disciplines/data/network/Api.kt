@@ -15,7 +15,8 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-private const val BASE_URL = "https://disciplines.getsandbox.com"
+//private const val BASE_URL = "https://disciplines.getsandbox.com"
+private const val BASE_URL = "https://dogsbetterthancats.blankhex.com/"
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
@@ -42,6 +43,9 @@ interface Api {
 
     @GET("mobilityModules/{groupName}")
     suspend fun getMobilityModules(@Path("groupName") name: String): List<MobilityModule>
+
+    @GET("mobilityModules/disciplines.json")
+    suspend fun getMobilityModules(): List<MobilityModule>
 
     @GET("electives")
     suspend fun getElectives(@Query("groupName") name: String): List<Elective>

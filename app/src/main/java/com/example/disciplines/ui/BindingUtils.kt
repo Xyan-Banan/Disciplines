@@ -3,6 +3,7 @@ package com.example.disciplines.ui
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
+import android.view.LayoutInflater
 import android.widget.CheckBox
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -12,6 +13,7 @@ import com.example.disciplines.data.network.model.Discipline
 import com.example.disciplines.data.network.model.DisciplinesPair
 import com.example.disciplines.data.network.model.Elective
 import com.example.disciplines.data.network.model.MobilityModule
+import com.example.disciplines.databinding.MobilityModuleItemBinding
 
 @BindingAdapter("discipline")
 fun RadioButton.setDiscipline(discipline: Discipline?) {
@@ -43,6 +45,19 @@ fun RadioButton.setMobilityModule(mobilityModule: MobilityModule?) {
     }
 }
 
+@BindingAdapter("mobilityModules")
+fun RadioGroup.setMobilityModules(list: List<MobilityModule>?) {
+    list?.forEach { item ->
+        val btn = MobilityModuleItemBinding.inflate(
+            LayoutInflater.from(context),
+            this,
+            false
+        )
+        btn.mobilityModule = item
+//                btn.root.setOnClickListener { Log.i("TAG", "${it.id} $it") }
+        addView(btn.root)
+    }
+}
 
 @BindingAdapter("elective")
 fun CheckBox.setElective(elective: Elective?) {

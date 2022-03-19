@@ -13,6 +13,7 @@
     <string name="mobilityModule">Модуль мобильности</string>
     <string name="electives">Факультативы</string>
     <string name="confirmSelectionBtnText">Подтвердить выбор</string>
+    <string name="instructions_error_loading">Ошибка при загрузке данных. Проверьте подключение к интернету</string>
     <string name="instructions_disciplinesByChoice">В каждой паре выберете дисциплину</string>
     <string name="instructions_disciplinesByChoice_empty">Нет доступных дисциплин по выбору. Обратитесь в администрацию университета.</string>
     <string name="instructions_mobilityModule">Выберите одну из предложенных дисциплин модуля мобильности</string>
@@ -22,4 +23,5 @@
     <string name="instructions_electives_empty">Нет доступных факультативов. Обратитесь в администрацию университета.</string>
     <string name="discipline">%1$s (%2$d часов)</string>
     <string name="mobilityModuleCardText">%1$s (%2$d зачетных единиц) \nВходящие дисциплины: \n%3$s</string>
+    <string name="status_image_description">Иконка статуса загрузки</string>
 </resources>
