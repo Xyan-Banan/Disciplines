@@ -7,28 +7,42 @@ import android.view.LayoutInflater
 import android.widget.CheckBox
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import androidx.core.view.get
 import androidx.databinding.BindingAdapter
 import com.example.disciplines.R
-import com.example.disciplines.data.network.model.Discipline
-import com.example.disciplines.data.network.model.DisciplinesPair
+import com.example.disciplines.data.network.model.DisciplineS
+import com.example.disciplines.data.network.model.DisciplinesBundle
 import com.example.disciplines.data.network.model.Elective
 import com.example.disciplines.data.network.model.MobilityModule
+import com.example.disciplines.databinding.DisciplineItemBinding
 import com.example.disciplines.databinding.MobilityModuleItemBinding
 
 @BindingAdapter("discipline")
-fun RadioButton.setDiscipline(discipline: Discipline?) {
+fun RadioButton.setDiscipline(discipline: DisciplineS.ByChoice?) {
     discipline?.let {
         text = resources.getString(R.string.discipline, it.name, it.hours)
     }
 }
 
-@BindingAdapter("disciplinesPair")
-fun RadioGroup.setDisciplinesPair(disciplinesPair: DisciplinesPair?) {
-    disciplinesPair?.let {
-        when (it.checked) {
-            DisciplinesPair.Checked.None -> clearCheck()
-            DisciplinesPair.Checked.First -> check(R.id.disciplineRadio1)
-            DisciplinesPair.Checked.Second -> check(R.id.disciplineRadio2)
+@BindingAdapter("disciplinesBundle")
+fun RadioGroup.setDisciplinesPair(disciplinesBundle: DisciplinesBundle?) {
+    disciplinesBundle?.let {
+        removeAllViews()
+        it.list.forEach {
+            val btn = DisciplineItemBinding.inflate(
+                LayoutInflater.from(context),
+                this,
+                false
+            )
+
+            btn.discipline = it
+
+            addView(btn.root)
+        }
+
+        when (it.checkedIndex) {
+            -1 -> clearCheck()
+            else -> check(get(it.checkedIndex).id)
         }
     }
 }

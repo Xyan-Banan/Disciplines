@@ -1,6 +1,6 @@
 package com.example.disciplines.data.network
 
-import com.example.disciplines.data.network.model.DisciplinesPair
+import com.example.disciplines.data.network.model.DisciplinesBundle
 import com.example.disciplines.data.network.model.Elective
 import com.example.disciplines.data.network.model.MobilityModule
 import com.squareup.moshi.Moshi
@@ -37,9 +37,11 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface Api {
-    @GET("disciplinesByChoice")
-    suspend fun getDisciplinesByChoice(@Query("groupName") name: String): Response<DisciplinesPair>
-//            List<DisciplinesPair>
+//    @GET("disciplinesByChoice")
+//    suspend fun getDisciplinesByChoice(@Query("groupName") name: String): List<DisciplinesPair>
+
+    @GET("disciplinesByChoice/{groupName}")
+    suspend fun getDisciplinesByChoice(@Path("groupName") name: String): List<DisciplinesBundle>
 
     @GET("mobilityModules/{groupName}")
     suspend fun getMobilityModules(@Path("groupName") name: String): List<MobilityModule>

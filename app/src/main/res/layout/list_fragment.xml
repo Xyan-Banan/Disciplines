@@ -14,6 +14,6 @@
         tools:context=".ui.disciplinesByChoice.DisciplineByChoiceFragment"
         tools:itemCount="10"
         tools:layout_editor_absoluteX="20dp"
-        tools:listitem="@layout/disciplines_pair" />
+        tools:listitem="@layout/disciplines_bundle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

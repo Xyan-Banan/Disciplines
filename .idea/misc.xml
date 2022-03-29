@@ -12,7 +12,9 @@
         <entry key="..\:/Users/Michael/AndroidStudioProjects/Disciplines/app/src/main/res/font/pt_sans_bold.xml" value="0.396875" />
         <entry key="..\:/Users/Michael/AndroidStudioProjects/Disciplines/app/src/main/res/font/pt_serif.xml" value="0.23541666666666666" />
         <entry key="..\:/Users/Michael/AndroidStudioProjects/Disciplines/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Michael/AndroidStudioProjects/Disciplines/app/src/main/res/layout/discipline_item.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/Michael/AndroidStudioProjects/Disciplines/app/src/main/res/layout/discipline_lalala.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Michael/AndroidStudioProjects/Disciplines/app/src/main/res/layout/disciplines_bundle.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/Michael/AndroidStudioProjects/Disciplines/app/src/main/res/layout/disciplines_by_choice_list_fragment.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Michael/AndroidStudioProjects/Disciplines/app/src/main/res/layout/disciplines_by_choice_list_header_fragment.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Michael/AndroidStudioProjects/Disciplines/app/src/main/res/layout/disciplines_by_choice_list_item_fragment.xml" value="0.1" />
@@ -30,7 +32,7 @@
         <entry key="..\:/Users/Michael/AndroidStudioProjects/Disciplines/app/src/main/res/layout/long_list.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Michael/AndroidStudioProjects/Disciplines/app/src/main/res/layout/mobility_module.xml" value="0.33" />
         <entry key="..\:/Users/Michael/AndroidStudioProjects/Disciplines/app/src/main/res/layout/mobility_module_item.xml" value="0.31565656565656564" />
-        <entry key="..\:/Users/Michael/AndroidStudioProjects/Disciplines/app/src/main/res/layout/mobility_module_list.xml" value="0.1" />
+        <entry key="..\:/Users/Michael/AndroidStudioProjects/Disciplines/app/src/main/res/layout/mobility_module_list.xml" value="0.22" />
         <entry key="..\:/Users/Michael/AppData/Local/Android/Sdk/platforms/android-31/data/res/drawable/btn_radio.xml" value="0.22135416666666666" />
       </map>
     </option>

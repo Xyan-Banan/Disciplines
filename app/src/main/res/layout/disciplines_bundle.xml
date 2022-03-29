@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="disciplinesBundle"
+            type="com.example.disciplines.data.network.model.DisciplinesBundle" />
+    </data>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/marginStartEnd"
+        android:layout_marginEnd="@dimen/marginStartEnd"
+        android:layout_marginBottom="10dp"
+        app:disciplinesBundle="@{disciplinesBundle}"
+        android:background="@drawable/border_polytech_main"
+        android:divider="@android:color/white"
+        android:dividerPadding="5dp"
+        android:showDividers="middle">
+
+<!--        <RadioButton-->
+<!--            android:id="@+id/disciplineRadio1"-->
+<!--            app:discipline="@{disciplinesBundle.list[0]}"-->
+<!--            tools:checked="true"-->
+<!--            tools:text="Дисциплина 1.1 (# часов)"-->
+<!--            style="@style/discipline_radio_button" />-->
+
+<!--        <RadioButton-->
+<!--            android:id="@+id/disciplineRadio2"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:buttonTint="@color/white"-->
+<!--            android:buttonTintMode="src_atop"-->
+<!--            android:textColor="@color/polytechFontColor"-->
+<!--            app:discipline="@{disciplinesPair.second}"-->
+<!--            tools:text="Дисциплина 1.2 (# часов)" />-->
+
+    </RadioGroup>
+</layout>

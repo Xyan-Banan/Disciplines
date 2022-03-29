@@ -9,13 +9,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.disciplines.R
 import com.example.disciplines.data.network.TestValues
-import com.example.disciplines.data.network.model.DisciplinesPair
+import com.example.disciplines.data.network.model.DisciplinesBundle
 import com.example.disciplines.databinding.ListFragmentBinding
 import com.example.disciplines.ui.listUtils.Header
 
 class DisciplineByChoiceFragment : Fragment() {
     private lateinit var binding: ListFragmentBinding
-    private lateinit var list: List<DisciplinesPair>
+    private lateinit var list: List<DisciplinesBundle>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +24,7 @@ class DisciplineByChoiceFragment : Fragment() {
         binding = ListFragmentBinding.inflate(inflater)
 
         // Set the adapter
-        list = TestValues.generateDisciplinesPairs(15)
+        list = TestValues.generateDisciplinesBundles(15)
 //        list = Network.retrofitService.getDisciplinesByChoice("")
         binding.rvList.adapter =
             DisciplinesByChoiceAdapter(
@@ -35,10 +35,10 @@ class DisciplineByChoiceFragment : Fragment() {
         return binding.root
     }
 
-    private fun getHeader(list: List<DisciplinesPair>) =
+    private fun getHeader(list: List<DisciplinesBundle>) =
         Header(getString(R.string.disciplinesByChoice), getInstructions(list))
 
-    private fun getInstructions(list: List<DisciplinesPair>) = getString(
+    private fun getInstructions(list: List<DisciplinesBundle>) = getString(
         when (list.isEmpty()) {
             true -> R.string.instructions_disciplinesByChoice_empty
             false -> R.string.instructions_disciplinesByChoice
@@ -46,7 +46,7 @@ class DisciplineByChoiceFragment : Fragment() {
     )
 
     private fun getButtonListener() = View.OnClickListener {
-        val checked = list.count { it.checked != DisciplinesPair.Checked.None }
+        val checked = list.count { it.checkedIndex >= 0 }
         val text =
             if (checked == list.size)
                 "Все дисциплины выбраны! Идем на следующий экран!"

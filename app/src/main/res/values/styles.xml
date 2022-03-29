@@ -17,4 +17,11 @@
         <item name="android:text">Название дисциплины \n
             Трудоемкость: # з.е./# ч.</item>
     </style>
+
+    <style name="discipline_radio_button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:buttonTint">@android:color/white</item>
+        <item name="android:textColor">@color/polytechFontColor</item>
+    </style>
 </resources>

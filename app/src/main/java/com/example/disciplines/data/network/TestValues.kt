@@ -1,16 +1,22 @@
 package com.example.disciplines.data.network
 
-import com.example.disciplines.data.network.model.Discipline
-import com.example.disciplines.data.network.model.DisciplinesPair
-import com.example.disciplines.data.network.model.Elective
-import com.example.disciplines.data.network.model.MobilityModule
+import com.example.disciplines.data.network.model.*
 import kotlin.random.Random
 
 object TestValues {
-    fun generateDisciplinesPairs(count: Int) = List(count) {
-        DisciplinesPair(
-            Discipline(Random.nextInt(), "Дисциплина ${it + 1}.1", Random.nextInt(150)),
-            Discipline(Random.nextInt(), "Дисциплина ${it + 1}.2", Random.nextInt(150))
+    fun generateDisciplinesBundles(count: Int) = List(count) { bundleIndex ->
+        DisciplinesBundle(
+            buildList {
+                repeat(Random.nextInt(2, 5)) { disciplineIndex ->
+                    add(
+                        DisciplineS.ByChoice(
+                            Random.nextInt(),
+                            "Дисциплина ${bundleIndex + 1}.${disciplineIndex + 1}",
+                            Random.nextInt(1, 5) * 36
+                        )
+                    )
+                }
+            }
         )
     }
 
