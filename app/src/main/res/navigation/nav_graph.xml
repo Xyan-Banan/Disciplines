@@ -19,9 +19,6 @@
         android:name="com.example.disciplines.ui.disciplinesMenu.DisciplinesMenu"
         android:label="disciplines_menu_fragment"
         tools:layout="@layout/disciplines_menu_fragment" >
-        <argument
-            android:name="groupNumber"
-            app:argType="string" />
         <action
             android:id="@+id/action_disciplinesMenu_to_disciplineByChoiceFragment"
             app:destination="@id/disciplineByChoiceFragment" />
@@ -36,26 +33,14 @@
         android:id="@+id/disciplineByChoiceFragment"
         android:name="com.example.disciplines.ui.disciplinesByChoice.DisciplineByChoiceFragment"
         android:label="fragment_item_list"
-        tools:layout="@layout/list_fragment" >
-        <argument
-            android:name="groupNumber"
-            app:argType="string"
-            android:defaultValue="в3530904/90321" />
-    </fragment>
+        tools:layout="@layout/list_fragment" />
     <fragment
         android:id="@+id/mobilityModuleFragment"
         android:name="com.example.disciplines.ui.mobilityModule.MobilityModuleFragment"
         android:label="mobility_module"
-        tools:layout="@layout/mobility_module_list" >
-        <argument
-            android:name="groupName"
-            app:argType="string" />
-    </fragment>
+        tools:layout="@layout/mobility_module_list" />
     <fragment
         android:id="@+id/electives"
         android:name="com.example.disciplines.ui.electives.Electives"
-        android:label="Electives" >
-        <argument android:name="groupNumber"
-            app:argType="string" />
-    </fragment>
+        android:label="Electives" />
 </navigation>

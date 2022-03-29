@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.disciplines.databinding.MobilityModuleListBinding
+import com.example.disciplines.ui.CurrentGroup
 
 class MobilityModuleFragment : Fragment() {
     private lateinit var binding: MobilityModuleListBinding
@@ -18,7 +19,7 @@ class MobilityModuleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 //        val list = TestValues.generateMobilityModules(5)
-        val groupName = MobilityModuleFragmentArgs.fromBundle(requireArguments()).groupName
+        val groupName = CurrentGroup.value ?: "в353090490321"
         val viewModel: MobilityModuleViewModel by viewModels {
             MobilityModuleViewModelFactory(groupName)
         }

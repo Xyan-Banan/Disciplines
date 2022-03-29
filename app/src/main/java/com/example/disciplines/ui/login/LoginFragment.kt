@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.disciplines.databinding.FragmentLoginBinding
 
 import com.example.disciplines.R
+import com.example.disciplines.ui.CurrentGroup
 
 class LoginFragment : Fragment() {
 
@@ -71,7 +72,8 @@ class LoginFragment : Fragment() {
             }
             loginResult.success?.let {
                 updateUiWithUser(it)
-                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToDisciplinesMenu("в3530904/90321"))
+                CurrentGroup.value = "в353090490321"
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToDisciplinesMenu())
             }
         }
 
