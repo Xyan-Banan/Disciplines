@@ -7,7 +7,7 @@
 
         <variable
             name="discipline"
-            type="com.example.disciplines.data.network.model.DisciplineS.ByChoice" />
+            type="com.example.disciplines.data.network.model.Discipline.ByChoice" />
     </data>
 
     <RadioButton

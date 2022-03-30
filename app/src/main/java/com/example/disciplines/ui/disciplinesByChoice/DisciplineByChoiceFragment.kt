@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.disciplines.data.network.model.Discipline
 import com.example.disciplines.databinding.DisciplineListBinding
 
 class DisciplineByChoiceFragment : Fragment() {
@@ -39,6 +41,16 @@ class DisciplineByChoiceFragment : Fragment() {
             val toast = Toast.makeText(context, text, Toast.LENGTH_LONG)
             toast.setGravity(Gravity.CENTER, 0, 0)
             toast.show()
+
+            if (checked == list.size) {
+                val checkedItems: Array<Discipline> =
+                    list.map { it.list[it.checkedIndex] }.toTypedArray()
+                findNavController().navigate(
+                    DisciplineByChoiceFragmentDirections.actionDisciplineByChoiceFragmentToConfirmationFragment(
+                        checkedItems
+                    )
+                )
+            }
         }
         return binding.root
     }

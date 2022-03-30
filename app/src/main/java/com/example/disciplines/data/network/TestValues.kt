@@ -15,7 +15,7 @@ object TestValues {
         val bStr = bundleIndex?.let { "$it." } ?: ""
         repeat(count) {
             add(
-                DisciplineS.ByChoice(
+                Discipline.ByChoice(
                     UUID.randomUUID(),
                     "Дисциплина ${bStr}${it + 1}",
                     Random.nextInt(30, 150)
@@ -34,6 +34,6 @@ object TestValues {
     }
 
     fun generateElectives(count: Int) = List(count) {
-        DisciplineS.Elective("Факультатив ${it + 1}")
+        Discipline.Elective("Факультатив ${it + 1}")
     }
 }

@@ -1,6 +1,6 @@
 package com.example.disciplines.data.network
 
-import com.example.disciplines.data.network.model.DisciplineS
+import com.example.disciplines.data.network.model.Discipline
 import com.example.disciplines.data.network.model.MobilityModule
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -35,7 +35,7 @@ private val retrofit = Retrofit.Builder()
 
 interface Api {
     @GET("disciplinesByChoice/{groupName}")
-    suspend fun getDisciplinesByChoice(@Path("groupName") name: String): List<List<DisciplineS.ByChoice>>
+    suspend fun getDisciplinesByChoice(@Path("groupName") name: String): List<List<Discipline.ByChoice>>
 
     @GET("mobilityModules/{groupName}")
     suspend fun getMobilityModules(@Path("groupName") name: String): List<MobilityModule>
@@ -44,7 +44,7 @@ interface Api {
     suspend fun getMobilityModules(): List<MobilityModule>
 
     @GET("electives")
-    suspend fun getElectives(@Query("groupName") name: String): List<DisciplineS.Elective>
+    suspend fun getElectives(@Query("groupName") name: String): List<Discipline.Elective>
 }
 
 object Network {

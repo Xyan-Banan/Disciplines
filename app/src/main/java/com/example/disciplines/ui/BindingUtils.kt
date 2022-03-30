@@ -11,16 +11,15 @@ import android.widget.RadioGroup
 import androidx.core.view.get
 import androidx.databinding.BindingAdapter
 import com.example.disciplines.R
-import com.example.disciplines.data.network.model.DisciplineS
+import com.example.disciplines.data.network.model.Discipline
 import com.example.disciplines.data.network.model.DisciplinesBundle
-import com.example.disciplines.data.network.model.Elective
 import com.example.disciplines.data.network.model.MobilityModule
 import com.example.disciplines.databinding.DisciplineItemBinding
 import com.example.disciplines.databinding.DisciplinesBundleBinding
 import com.example.disciplines.databinding.MobilityModuleItemBinding
 
 @BindingAdapter("discipline")
-fun RadioButton.setDiscipline(discipline: DisciplineS.ByChoice?) {
+fun RadioButton.setDiscipline(discipline: Discipline.ByChoice?) {
     discipline?.let {
         text = resources.getString(R.string.discipline, it.name, it.intensity)
     }
@@ -98,7 +97,7 @@ fun RadioGroup.setMobilityModules(list: List<MobilityModule>?) {
 }
 
 @BindingAdapter("elective")
-fun CheckBox.setElective(elective: DisciplineS.Elective?) {
+fun CheckBox.setElective(elective: Discipline.Elective?) {
     elective?.let {
         text = it.name
         isChecked = it.isChecked

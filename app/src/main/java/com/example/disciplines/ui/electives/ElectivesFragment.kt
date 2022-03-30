@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.disciplines.R
 import com.example.disciplines.data.network.TestValues
-import com.example.disciplines.data.network.model.DisciplineS
+import com.example.disciplines.data.network.model.Discipline
 import com.example.disciplines.databinding.ListFragmentBinding
 import com.example.disciplines.ui.CurrentGroup
 import com.example.disciplines.ui.listUtils.Header
@@ -38,7 +38,7 @@ class ElectivesFragment : Fragment() {
         return binding.root
     }
 
-    private fun getButtonListener(list: List<DisciplineS.Elective>) = View.OnClickListener {
+    private fun getButtonListener(list: List<Discipline.Elective>) = View.OnClickListener {
         val checked = list.count { it.isChecked }
         val text =
             if (checked > 0)
@@ -50,13 +50,13 @@ class ElectivesFragment : Fragment() {
         toast.show()
     }
 
-    private fun getHeader(list: List<DisciplineS.Elective>) =
+    private fun getHeader(list: List<Discipline.Elective>) =
         Header(
             getString(R.string.electives),
             getInstructions(list)
         )
 
-    private fun getInstructions(list: List<DisciplineS.Elective>) =
+    private fun getInstructions(list: List<Discipline.Elective>) =
         if (list.isEmpty())
             getString(R.string.instructions_electives_empty)
         else {
