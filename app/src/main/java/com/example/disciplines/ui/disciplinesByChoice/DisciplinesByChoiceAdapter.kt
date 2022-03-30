@@ -22,10 +22,10 @@ class DisciplinesByChoiceAdapter(
         ViewHolder<DisciplinesBundle>(binding) {
 
         init {
-            binding.radioGroup.setOnCheckedChangeListener { rg, checkedId ->
-                binding.disciplinesBundle?.checkedIndex =
-                    rg.indexOfChild(rg.findViewById(checkedId))
-            }
+//            binding.radioGroup.setOnCheckedChangeListener { rg, checkedId ->
+//                binding.disciplinesBundle?.checkedIndex =
+//                    rg.indexOfChild(rg.findViewById(checkedId))
+//            }
 //            setIsRecyclable(false)
         }
 

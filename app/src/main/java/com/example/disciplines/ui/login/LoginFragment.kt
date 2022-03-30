@@ -1,9 +1,5 @@
 package com.example.disciplines.ui.login
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.disciplines.databinding.FragmentLoginBinding
-
 import com.example.disciplines.R
+import com.example.disciplines.databinding.FragmentLoginBinding
 import com.example.disciplines.ui.CurrentGroup
 
 class LoginFragment : Fragment() {

@@ -5,6 +5,7 @@ import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
 import android.view.LayoutInflater
 import android.widget.CheckBox
+import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.core.view.get
@@ -15,19 +16,20 @@ import com.example.disciplines.data.network.model.DisciplinesBundle
 import com.example.disciplines.data.network.model.Elective
 import com.example.disciplines.data.network.model.MobilityModule
 import com.example.disciplines.databinding.DisciplineItemBinding
+import com.example.disciplines.databinding.DisciplinesBundleBinding
 import com.example.disciplines.databinding.MobilityModuleItemBinding
 
 @BindingAdapter("discipline")
 fun RadioButton.setDiscipline(discipline: DisciplineS.ByChoice?) {
     discipline?.let {
-        text = resources.getString(R.string.discipline, it.name, it.hours)
+        text = resources.getString(R.string.discipline, it.name, it.intensity)
     }
 }
 
 @BindingAdapter("disciplinesBundle")
-fun RadioGroup.setDisciplinesPair(disciplinesBundle: DisciplinesBundle?) {
+fun RadioGroup.setDisciplinesBundle(disciplinesBundle: DisciplinesBundle?) {
     disciplinesBundle?.let {
-        removeAllViews()
+//        removeAllViews()
         it.list.forEach {
             val btn = DisciplineItemBinding.inflate(
                 LayoutInflater.from(context),
@@ -43,6 +45,28 @@ fun RadioGroup.setDisciplinesPair(disciplinesBundle: DisciplinesBundle?) {
         when (it.checkedIndex) {
             -1 -> clearCheck()
             else -> check(get(it.checkedIndex).id)
+        }
+    }
+}
+
+@BindingAdapter("disciplines")
+fun LinearLayout.setDisciplines(disciplines: List<DisciplinesBundle>?) {
+    disciplines?.let { bundlesList ->
+        bundlesList.forEach { bundle ->
+            val rg = DisciplinesBundleBinding.inflate(
+                LayoutInflater.from(context),
+                this,
+                false
+            )
+
+            rg.disciplinesBundle = bundle
+
+            (rg.root as RadioGroup).setOnCheckedChangeListener { group, checkedId ->
+                rg.disciplinesBundle?.checkedIndex =
+                    group.indexOfChild(group.findViewById(checkedId))
+            }
+
+            addView(rg.root)
         }
     }
 }
@@ -74,9 +98,9 @@ fun RadioGroup.setMobilityModules(list: List<MobilityModule>?) {
 }
 
 @BindingAdapter("elective")
-fun CheckBox.setElective(elective: Elective?) {
+fun CheckBox.setElective(elective: DisciplineS.Elective?) {
     elective?.let {
         text = it.name
-        isChecked = it.checked
+        isChecked = it.isChecked
     }
 }

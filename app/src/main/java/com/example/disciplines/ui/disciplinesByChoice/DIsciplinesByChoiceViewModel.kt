@@ -1,4 +1,4 @@
-package com.example.disciplines.ui.mobilityModule
+package com.example.disciplines.ui.disciplinesByChoice
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
@@ -8,25 +8,26 @@ import androidx.lifecycle.viewModelScope
 import com.example.disciplines.R
 import com.example.disciplines.data.network.Network
 import com.example.disciplines.data.network.RequestStatus
-import com.example.disciplines.data.network.model.MobilityModule
+import com.example.disciplines.data.network.model.DisciplinesBundle
+import com.example.disciplines.data.network.model.asBundlesList
 import com.example.disciplines.ui.CurrentGroup
 import kotlinx.coroutines.launch
 
-
-class MobilityModuleViewModel : ViewModel() {
-    val modulesList = MutableLiveData<List<MobilityModule>>()
+class DisciplinesByChoiceViewModel : ViewModel() {
+    val disciplinesList = MutableLiveData<List<DisciplinesBundle>>()
     private val requestStatus = MutableLiveData<RequestStatus>()
+
     val confirmBtnVisibility = requestStatus.map {
         when (it) {
-            RequestStatus.DONE -> if (modulesList.value.isNullOrEmpty()) View.GONE else View.VISIBLE
+            RequestStatus.DONE -> if (disciplinesList.value.isNullOrEmpty()) View.GONE else View.VISIBLE
             else -> View.GONE
         }
     }
     val instructions = requestStatus.map {
         when (it) {
             RequestStatus.DONE ->
-                if (modulesList.value.isNullOrEmpty()) R.string.instructions_mobilityModule_empty
-                else R.string.instructions_mobilityModule
+                if (disciplinesList.value.isNullOrEmpty()) R.string.instructions_disciplinesByChoice_empty
+                else R.string.instructions_disciplinesByChoice
             else -> R.string.instructions_error_loading
         }
     }
@@ -50,23 +51,21 @@ class MobilityModuleViewModel : ViewModel() {
     }
 
     init {
-        val groupName = CurrentGroup.value ?: "353090490100" // TODO: handle null value properly
-        getModulesList(groupName)
+        val groupName = CurrentGroup.value ?: "353090490000" // TODO: handle null value properly
+        getDisciplines(groupName)
     }
 
-    private fun getModulesList(groupName: String) {
+    private fun getDisciplines(groupName: String) {
         viewModelScope.launch {
-            val course = groupName[groupName.length - 3].digitToInt()
             requestStatus.value = RequestStatus.LOADING
             try {
-//                modulesList.value = Network.api.getMobilityModules(groupName)
-                modulesList.value = Network.api.getMobilityModules()
-                    .filter { it.intensity >= course }
+                disciplinesList.value = //TestValues.generateDisciplinesBundles(15)
+                    Network.api.getDisciplinesByChoice(groupName).asBundlesList()
                 requestStatus.value = RequestStatus.DONE
             } catch (e: Exception) {
                 println(e.message)
-                modulesList.value = emptyList()
-                requestStatus.value = RequestStatus.ERROR
+                disciplinesList.value = emptyList()
+                requestStatus.value = RequestStatus.DONE
             }
         }
     }

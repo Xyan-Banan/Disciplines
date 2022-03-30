@@ -14,14 +14,13 @@ class DisciplinesMenu : Fragment() {
 
     private lateinit var viewModel: DisciplinesMenuViewModel
     private lateinit var binding: DisciplinesMenuFragmentBinding
-    private lateinit var groupNumber: String
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        groupNumber = CurrentGroup.value ?: "в353090490321"
+        val groupNumber = CurrentGroup.value ?: "в353090490321"
         viewModel = ViewModelProvider(this).get(DisciplinesMenuViewModel::class.java)
 
         binding = DisciplinesMenuFragmentBinding.inflate(inflater)

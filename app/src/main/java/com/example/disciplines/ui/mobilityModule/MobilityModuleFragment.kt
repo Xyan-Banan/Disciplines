@@ -19,10 +19,7 @@ class MobilityModuleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 //        val list = TestValues.generateMobilityModules(5)
-        val groupName = CurrentGroup.value ?: "в353090490321"
-        val viewModel: MobilityModuleViewModel by viewModels {
-            MobilityModuleViewModelFactory(groupName)
-        }
+        val viewModel: MobilityModuleViewModel by viewModels() //{ MobilityModuleViewModelFactory(groupName) }
         binding = MobilityModuleListBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel

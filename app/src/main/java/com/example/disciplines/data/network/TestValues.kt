@@ -1,33 +1,28 @@
 package com.example.disciplines.data.network
 
 import com.example.disciplines.data.network.model.*
+import java.util.*
 import kotlin.random.Random
 
 object TestValues {
     fun generateDisciplinesBundles(count: Int) = List(count) { bundleIndex ->
         DisciplinesBundle(
-            buildList {
-                repeat(Random.nextInt(2, 5)) { disciplineIndex ->
-                    add(
-                        DisciplineS.ByChoice(
-                            Random.nextInt(),
-                            "Дисциплина ${bundleIndex + 1}.${disciplineIndex + 1}",
-                            Random.nextInt(1, 5) * 36
-                        )
-                    )
-                }
-            }
+            generateDisciplinesList(Random.nextInt(2, 5), bundleIndex + 1)
         )
     }
 
-    fun generateDisciplinesList(count: Int) =
-        List(count) {
-            Discipline(
-                Random.nextInt(),
-                "Дисциплина ${it + 1}",
-                Random.nextInt(30, 150)
+    fun generateDisciplinesList(count: Int, bundleIndex: Int? = null) = buildList {
+        val bStr = bundleIndex?.let { "$it." } ?: ""
+        repeat(count) {
+            add(
+                DisciplineS.ByChoice(
+                    UUID.randomUUID(),
+                    "Дисциплина ${bStr}${it + 1}",
+                    Random.nextInt(30, 150)
+                )
             )
         }
+    }
 
     fun generateMobilityModules(count: Int) = List(count) {
         MobilityModule(
@@ -39,6 +34,6 @@ object TestValues {
     }
 
     fun generateElectives(count: Int) = List(count) {
-        Elective("Факультатив ${it + 1}")
+        DisciplineS.Elective("Факультатив ${it + 1}")
     }
 }

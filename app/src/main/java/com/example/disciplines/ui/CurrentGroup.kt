@@ -1,5 +1,5 @@
 package com.example.disciplines.ui
 
 object CurrentGroup {
-    var value: String? = null
+    lateinit var value: String
 }

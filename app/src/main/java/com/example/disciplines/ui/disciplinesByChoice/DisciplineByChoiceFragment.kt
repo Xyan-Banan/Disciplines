@@ -7,54 +7,39 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.disciplines.R
-import com.example.disciplines.data.network.TestValues
-import com.example.disciplines.data.network.model.DisciplinesBundle
-import com.example.disciplines.databinding.ListFragmentBinding
-import com.example.disciplines.ui.listUtils.Header
+import androidx.fragment.app.viewModels
+import com.example.disciplines.databinding.DisciplineListBinding
 
 class DisciplineByChoiceFragment : Fragment() {
-    private lateinit var binding: ListFragmentBinding
-    private lateinit var list: List<DisciplinesBundle>
+    private lateinit var binding: DisciplineListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = ListFragmentBinding.inflate(inflater)
 
-        // Set the adapter
-        list = TestValues.generateDisciplinesBundles(15)
-//        list = Network.retrofitService.getDisciplinesByChoice("")
-        binding.rvList.adapter =
-            DisciplinesByChoiceAdapter(
-                list,
-                getHeader(list),
-                getButtonListener()
-            )
+        val viewModel: DisciplinesByChoiceViewModel by viewModels()
+
+        // TODO: refactor to simple scroll view
+        binding = DisciplineListBinding.inflate(inflater)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+
+        binding.confirmBtn.setOnClickListener {
+            if (viewModel.disciplinesList.value.isNullOrEmpty()) return@setOnClickListener
+
+            val list = viewModel.disciplinesList.value!!
+
+            val checked = list.count { it.checkedIndex >= 0 }
+            val text =
+                if (checked == list.size)
+                    "Все дисциплины выбраны! Идем на следующий экран!"
+                else
+                    "Вы должны выборать в каждой паре по одной дисциплине! Выбрано: $checked из ${list.size}"
+            val toast = Toast.makeText(context, text, Toast.LENGTH_LONG)
+            toast.setGravity(Gravity.CENTER, 0, 0)
+            toast.show()
+        }
         return binding.root
     }
-
-    private fun getHeader(list: List<DisciplinesBundle>) =
-        Header(getString(R.string.disciplinesByChoice), getInstructions(list))
-
-    private fun getInstructions(list: List<DisciplinesBundle>) = getString(
-        when (list.isEmpty()) {
-            true -> R.string.instructions_disciplinesByChoice_empty
-            false -> R.string.instructions_disciplinesByChoice
-        }
-    )
-
-    private fun getButtonListener() = View.OnClickListener {
-        val checked = list.count { it.checkedIndex >= 0 }
-        val text =
-            if (checked == list.size)
-                "Все дисциплины выбраны! Идем на следующий экран!"
-            else
-                "Вы должны выборать в каждой паре по одной дисциплине! Выбрано: $checked из ${list.size}"
-        val toast = Toast.makeText(context, text, Toast.LENGTH_LONG)
-        toast.setGravity(Gravity.CENTER, 0, 0)
-        toast.show()
-    }
-
 }

@@ -32,8 +32,8 @@
     <fragment
         android:id="@+id/disciplineByChoiceFragment"
         android:name="com.example.disciplines.ui.disciplinesByChoice.DisciplineByChoiceFragment"
-        android:label="fragment_item_list"
-        tools:layout="@layout/list_fragment" />
+        android:label="disciplines_by_choice"
+        tools:layout="@layout/discipline_list" />
     <fragment
         android:id="@+id/mobilityModuleFragment"
         android:name="com.example.disciplines.ui.mobilityModule.MobilityModuleFragment"
@@ -41,6 +41,7 @@
         tools:layout="@layout/mobility_module_list" />
     <fragment
         android:id="@+id/electives"
-        android:name="com.example.disciplines.ui.electives.Electives"
-        android:label="Electives" />
+        android:name="com.example.disciplines.ui.electives.ElectivesFragment"
+        android:label="Electives"
+        tools:layout="@layout/list_fragment"/>
 </navigation>

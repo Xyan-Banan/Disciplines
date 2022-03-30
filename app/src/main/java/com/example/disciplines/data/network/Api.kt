@@ -1,22 +1,19 @@
 package com.example.disciplines.data.network
 
-import com.example.disciplines.data.network.model.DisciplinesBundle
-import com.example.disciplines.data.network.model.Elective
+import com.example.disciplines.data.network.model.DisciplineS
 import com.example.disciplines.data.network.model.MobilityModule
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-//private const val BASE_URL = "https://disciplines.getsandbox.com"
-private const val BASE_URL = "https://dogsbetterthancats.blankhex.com/"
+private const val BASE_URL = "https://disciplines.getsandbox.com"
+//private const val BASE_URL = "https://dogsbetterthancats.blankhex.com/"
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
@@ -31,17 +28,14 @@ private val retrofit = Retrofit.Builder()
             )
             .build()
     )
-    .addConverterFactory(MoshiConverterFactory.create(moshi))
-//    .addConverterFactory(GsonConverterFactory.create())
+//    .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .addConverterFactory(GsonConverterFactory.create())
     .baseUrl(BASE_URL)
     .build()
 
 interface Api {
-//    @GET("disciplinesByChoice")
-//    suspend fun getDisciplinesByChoice(@Query("groupName") name: String): List<DisciplinesPair>
-
     @GET("disciplinesByChoice/{groupName}")
-    suspend fun getDisciplinesByChoice(@Path("groupName") name: String): List<DisciplinesBundle>
+    suspend fun getDisciplinesByChoice(@Path("groupName") name: String): List<List<DisciplineS.ByChoice>>
 
     @GET("mobilityModules/{groupName}")
     suspend fun getMobilityModules(@Path("groupName") name: String): List<MobilityModule>
@@ -50,7 +44,7 @@ interface Api {
     suspend fun getMobilityModules(): List<MobilityModule>
 
     @GET("electives")
-    suspend fun getElectives(@Query("groupName") name: String): List<Elective>
+    suspend fun getElectives(@Query("groupName") name: String): List<DisciplineS.Elective>
 }
 
 object Network {
