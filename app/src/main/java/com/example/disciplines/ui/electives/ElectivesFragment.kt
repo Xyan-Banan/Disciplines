@@ -10,8 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.disciplines.R
-import com.example.disciplines.data.network.TestValues
+import com.example.disciplines.applyGravity
 import com.example.disciplines.data.network.model.Discipline
 import com.example.disciplines.databinding.ListFragmentBinding
 import com.example.disciplines.ui.CurrentGroup
@@ -19,35 +21,48 @@ import com.example.disciplines.ui.listUtils.Header
 
 class ElectivesFragment : Fragment() {
     private lateinit var binding: ListFragmentBinding
-    private lateinit var viewModel: ElectivesViewModel
+    private val viewModel: ElectivesViewModel by viewModels() {
+        ElectivesViewModelFactory(
+            requireActivity().application
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val list = TestValues.generateElectives(25)
 
         binding = ListFragmentBinding.inflate(inflater)
-        binding.rvList.adapter = ElectivesAdapter(
-            list,
-            getHeader(list),
-            getButtonListener(list)
-        )
+        viewModel.electivesList.observe(viewLifecycleOwner) {
+            if(it == null) return@observe
+            binding.rvList.adapter = ElectivesAdapter(
+                it,
+                getHeader(it),
+                getButtonListener()
+            )
+        }
 
-        viewModel = ElectivesViewModel()
         return binding.root
     }
 
-    private fun getButtonListener(list: List<Discipline.Elective>) = View.OnClickListener {
-        val checked = list.count { it.isChecked }
-        val text =
-            if (checked > 0)
-                "Идем на следующий экран!"
-            else
-                "Выберите хотя бы одну дисциплину"
-        val toast = Toast.makeText(context, text, Toast.LENGTH_LONG)
-        toast.setGravity(Gravity.CENTER, 0, 0)
-        toast.show()
+    private fun getButtonListener() = View.OnClickListener {
+        val checked: Array<Discipline> =
+            viewModel.electivesList.value!!.filter { it.isChecked }.toTypedArray()
+
+        if (checked.isNotEmpty())
+            findNavController().navigate(
+                ElectivesFragmentDirections.actionElectivesToConfirmationFragment(
+                    checked
+                )
+            )
+        else {
+            Toast.makeText(
+                context,
+                getString(R.string.toast_text_electives),
+                Toast.LENGTH_LONG
+            ).applyGravity(Gravity.CENTER, 0, 0)
+                .show()
+        }
     }
 
     private fun getHeader(list: List<Discipline.Elective>) =
@@ -60,7 +75,7 @@ class ElectivesFragment : Fragment() {
         if (list.isEmpty())
             getString(R.string.instructions_electives_empty)
         else {
-            val groupName = CurrentGroup.value
+            val groupName = CurrentGroup.value ?: "353090490010"
             val isBachelor = groupName[2].digitToInt() == 3
             val (studentType, neededPeople) = if (isBachelor) "бакалавриата" to 18 else "магистратуры" to 12
             val spannable = SpannableString(

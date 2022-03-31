@@ -8,13 +8,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.disciplines.R
 import com.example.disciplines.data.network.Network
 import com.example.disciplines.data.network.RequestStatus
-import com.example.disciplines.data.network.model.MobilityModule
+import com.example.disciplines.data.network.model.Discipline
 import com.example.disciplines.ui.CurrentGroup
 import kotlinx.coroutines.launch
 
 
 class MobilityModuleViewModel : ViewModel() {
-    val modulesList = MutableLiveData<List<MobilityModule>>()
+    val modulesList = MutableLiveData<List<Discipline.MobilityModule>>()
     private val requestStatus = MutableLiveData<RequestStatus>()
     val confirmBtnVisibility = requestStatus.map {
         when (it) {

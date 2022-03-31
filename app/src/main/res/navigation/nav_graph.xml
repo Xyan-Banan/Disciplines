@@ -27,7 +27,7 @@
             app:destination="@id/mobilityModuleFragment" />
         <action
             android:id="@+id/action_disciplinesMenu_to_electives"
-            app:destination="@id/electives" />
+            app:destination="@id/electivesFragment" />
     </fragment>
     <fragment
         android:id="@+id/disciplineByChoiceFragment"
@@ -48,7 +48,7 @@
             app:destination="@id/confirmationFragment" />
     </fragment>
     <fragment
-        android:id="@+id/electives"
+        android:id="@+id/electivesFragment"
         android:name="com.example.disciplines.ui.electives.ElectivesFragment"
         android:label="Electives"
         tools:layout="@layout/list_fragment">

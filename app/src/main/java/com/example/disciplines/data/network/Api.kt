@@ -41,7 +41,7 @@ interface Api {
     suspend fun getMobilityModules(@Path("groupName") name: String): List<MobilityModule>
 
     @GET("mobilityModules/disciplines.json")
-    suspend fun getMobilityModules(): List<MobilityModule>
+    suspend fun getMobilityModules(): List<Discipline.MobilityModule>
 
     @GET("electives")
     suspend fun getElectives(@Query("groupName") name: String): List<Discipline.Elective>

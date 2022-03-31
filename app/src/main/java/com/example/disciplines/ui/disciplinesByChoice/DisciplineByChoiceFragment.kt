@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.disciplines.R
+import com.example.disciplines.applyGravity
 import com.example.disciplines.data.network.model.Discipline
 import com.example.disciplines.databinding.DisciplineListBinding
 
@@ -33,16 +35,9 @@ class DisciplineByChoiceFragment : Fragment() {
             val list = viewModel.disciplinesList.value!!
 
             val checked = list.count { it.checkedIndex >= 0 }
-            val text =
-                if (checked == list.size)
-                    "Все дисциплины выбраны! Идем на следующий экран!"
-                else
-                    "Вы должны выборать в каждой паре по одной дисциплине! Выбрано: $checked из ${list.size}"
-            val toast = Toast.makeText(context, text, Toast.LENGTH_LONG)
-            toast.setGravity(Gravity.CENTER, 0, 0)
-            toast.show()
 
             if (checked == list.size) {
+                println("Все дисциплины выбраны! Идем на следующий экран!")
                 val checkedItems: Array<Discipline> =
                     list.map { it.list[it.checkedIndex] }.toTypedArray()
                 findNavController().navigate(
@@ -50,8 +45,14 @@ class DisciplineByChoiceFragment : Fragment() {
                         checkedItems
                     )
                 )
+            } else {
+                val text = getString(R.string.toast_text_disciplinesByChoice, checked, list.size)
+                Toast.makeText(context, text, Toast.LENGTH_LONG)
+                    .applyGravity(Gravity.CENTER, 0, 0)
+                    .show()
             }
         }
+
         return binding.root
     }
 }

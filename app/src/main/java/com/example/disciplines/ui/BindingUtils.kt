@@ -13,7 +13,6 @@ import androidx.databinding.BindingAdapter
 import com.example.disciplines.R
 import com.example.disciplines.data.network.model.Discipline
 import com.example.disciplines.data.network.model.DisciplinesBundle
-import com.example.disciplines.data.network.model.MobilityModule
 import com.example.disciplines.databinding.DisciplineItemBinding
 import com.example.disciplines.databinding.DisciplinesBundleBinding
 import com.example.disciplines.databinding.MobilityModuleItemBinding
@@ -29,14 +28,14 @@ fun RadioButton.setDiscipline(discipline: Discipline.ByChoice?) {
 fun RadioGroup.setDisciplinesBundle(disciplinesBundle: DisciplinesBundle?) {
     disciplinesBundle?.let {
 //        removeAllViews()
-        it.list.forEach {
+        it.list.forEach { discipline ->
             val btn = DisciplineItemBinding.inflate(
                 LayoutInflater.from(context),
                 this,
                 false
             )
 
-            btn.discipline = it
+            btn.discipline = discipline
 
             addView(btn.root)
         }
@@ -71,7 +70,7 @@ fun LinearLayout.setDisciplines(disciplines: List<DisciplinesBundle>?) {
 }
 
 @BindingAdapter("mobilityModule")
-fun RadioButton.setMobilityModule(mobilityModule: MobilityModule?) {
+fun RadioButton.setMobilityModule(mobilityModule: Discipline.MobilityModule?) {
     mobilityModule?.let {
         val stringBuilder = SpannableStringBuilder()
             .append(it.name + "\n", RelativeSizeSpan(1.2f), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -83,7 +82,7 @@ fun RadioButton.setMobilityModule(mobilityModule: MobilityModule?) {
 }
 
 @BindingAdapter("mobilityModules")
-fun RadioGroup.setMobilityModules(list: List<MobilityModule>?) {
+fun RadioGroup.setMobilityModules(list: List<Discipline.MobilityModule>?) {
     list?.forEach { item ->
         val btn = MobilityModuleItemBinding.inflate(
             LayoutInflater.from(context),

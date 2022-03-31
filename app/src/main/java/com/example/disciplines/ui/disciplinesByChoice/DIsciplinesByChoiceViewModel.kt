@@ -12,6 +12,7 @@ import com.example.disciplines.data.network.model.DisciplinesBundle
 import com.example.disciplines.data.network.model.asBundlesList
 import com.example.disciplines.ui.CurrentGroup
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 
 class DisciplinesByChoiceViewModel : ViewModel() {
     val disciplinesList = MutableLiveData<List<DisciplinesBundle>>()
@@ -62,10 +63,11 @@ class DisciplinesByChoiceViewModel : ViewModel() {
                 disciplinesList.value = //TestValues.generateDisciplinesBundles(15)
                     Network.api.getDisciplinesByChoice(groupName).asBundlesList()
                 requestStatus.value = RequestStatus.DONE
-            } catch (e: Exception) {
+            } catch (e: UnknownHostException) {
                 println(e.message)
+                println(e.javaClass)
                 disciplinesList.value = emptyList()
-                requestStatus.value = RequestStatus.DONE
+                requestStatus.value = RequestStatus.ERROR
             }
         }
     }
