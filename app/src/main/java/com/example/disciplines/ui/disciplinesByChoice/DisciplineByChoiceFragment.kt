@@ -24,12 +24,12 @@ class DisciplineByChoiceFragment : Fragment() {
 
         val viewModel: DisciplinesByChoiceViewModel by viewModels()
 
-        // TODO: refactor to simple scroll view
         binding = DisciplineListBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
         binding.confirmBtn.setOnClickListener {
+            // TODO: поменять на бандлы
             if (viewModel.disciplinesList.value.isNullOrEmpty()) return@setOnClickListener
 
             val list = viewModel.disciplinesList.value!!

@@ -1,7 +1,6 @@
 package com.example.disciplines.data.network
 
 import com.example.disciplines.data.network.model.*
-import java.util.*
 import kotlin.random.Random
 
 object TestValues {
@@ -16,7 +15,6 @@ object TestValues {
         repeat(count) {
             add(
                 Discipline.ByChoice(
-                    UUID.randomUUID(),
                     "Дисциплина ${bStr}${it + 1}",
                     Random.nextInt(30, 150)
                 )
@@ -25,15 +23,16 @@ object TestValues {
     }
 
     fun generateMobilityModules(count: Int) = List(count) {
-        MobilityModule(
+        val intensity = Random.nextInt(3, 7)
+        Discipline.MobilityModule(
             "Модуль мобильности ${it + 1}",
+            intensity,
             listOf("НПОО", "СДО").random(),
-            it % 3 + 3,
-            (it % 3 + 3) * 36
+            intensity * 36
         )
     }
 
     fun generateElectives(count: Int) = List(count) {
-        Discipline.Elective("Факультатив ${it + 1}")
+        Discipline.Elective("Факультатив ${it + 1}", Random.nextInt(3, 6))
     }
 }

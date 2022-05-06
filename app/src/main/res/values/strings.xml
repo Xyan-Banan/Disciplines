@@ -25,8 +25,14 @@
     <string name="discipline">%1$s (%2$d часов)</string>
     <string name="mobilityModuleCardText">%1$s (%2$d зачетных единиц) \nВходящие дисциплины: \n%3$s</string>
     <string name="status_image_description">Иконка статуса загрузки</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="toast_text_electives">Выберите хотя бы одну дисциплину</string>
     <string name="toast_text_mobilityModule">Необходимо выбрать хотя бы один модуль мобильности</string>
+    <string name="title_error">Ошибка</string>
+    <string name="title_selected_electives">Выбранные факультативы</string>
+    <string name="title_selected_disciplinesByChoice">Выбранные дисциплины</string>
+    <string name="title_selected_mobilityModule">Выбранный модуль мобильности</string>
+    <string name="create_application_btn_text">Сформировать заявление</string>
+    <string name="saveToPhone">Сохранить в память телефона</string>
+    <string name="open">Открыть</string>
+    <string name="fileIcon">Иконка файла</string>
 </resources>

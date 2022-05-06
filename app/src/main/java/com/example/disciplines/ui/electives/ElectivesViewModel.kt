@@ -4,6 +4,7 @@ import android.app.Application
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.RelativeSizeSpan
+import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
@@ -17,7 +18,7 @@ import com.example.disciplines.ui.listUtils.Header
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 
-class ElectivesViewModel(private val app: Application) : AndroidViewModel(app) {
+class ElectivesViewModel(private val app: Application, listener: View.OnClickListener) : AndroidViewModel(app) {
     val electivesList = MutableLiveData<List<Discipline.Elective>>()
     val requestStatus = MutableLiveData<RequestStatus>()
     val header = requestStatus.map {
@@ -29,6 +30,17 @@ class ElectivesViewModel(private val app: Application) : AndroidViewModel(app) {
         Header(title, instructions)
     }
 
+    val adapter = electivesList.map {
+        if (it == null)
+            return@map null
+        ElectivesAdapter(
+            it,
+            header.value!!,
+            listener
+        )
+
+    }
+
     init {
         val groupName = CurrentGroup.value ?: "353090490010"
         getElectivesList(groupName)
@@ -38,7 +50,7 @@ class ElectivesViewModel(private val app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             requestStatus.value = RequestStatus.LOADING
             try {
-                electivesList.value = TestValues.generateElectives(15)
+                electivesList.value = TestValues.generateElectives(5)
                 //Network.api.getElectives(groupName)
                 requestStatus.value = RequestStatus.DONE
             } catch (e: UnknownHostException) {

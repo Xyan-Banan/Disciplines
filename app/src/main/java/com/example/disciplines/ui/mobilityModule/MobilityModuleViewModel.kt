@@ -50,7 +50,7 @@ class MobilityModuleViewModel : ViewModel() {
     }
 
     init {
-        val groupName = CurrentGroup.value ?: "353090490100" // TODO: handle null value properly
+        val groupName = CurrentGroup.value ?: "353090490300" // TODO: handle null value properly
         getModulesList(groupName)
     }
 
@@ -59,8 +59,8 @@ class MobilityModuleViewModel : ViewModel() {
             val course = groupName[groupName.length - 3].digitToInt()
             requestStatus.value = RequestStatus.LOADING
             try {
-//                modulesList.value = Network.api.getMobilityModules(groupName)
-                modulesList.value = Network.api.getMobilityModules()
+                modulesList.value = Network.api.getMobilityModules(groupName)
+//                modulesList.value = Network.api.getMobilityModules()
                     .filter { it.intensity >= course }
                 requestStatus.value = RequestStatus.DONE
             } catch (e: Exception) {

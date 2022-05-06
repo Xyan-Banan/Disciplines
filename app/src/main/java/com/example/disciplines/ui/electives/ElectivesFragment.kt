@@ -21,9 +21,10 @@ import com.example.disciplines.ui.listUtils.Header
 
 class ElectivesFragment : Fragment() {
     private lateinit var binding: ListFragmentBinding
-    private val viewModel: ElectivesViewModel by viewModels() {
+    private val viewModel: ElectivesViewModel by viewModels {
         ElectivesViewModelFactory(
-            requireActivity().application
+            requireActivity().application,
+            getButtonListener()
         )
     }
 
@@ -33,8 +34,12 @@ class ElectivesFragment : Fragment() {
     ): View {
 
         binding = ListFragmentBinding.inflate(inflater)
+//        binding.rvList.adapter = viewModel.adapter.value
+//        viewModel.adapter.observe(viewLifecycleOwner) {
+//            binding.rvList.adapter = it
+//        }
         viewModel.electivesList.observe(viewLifecycleOwner) {
-            if(it == null) return@observe
+            if (it == null) return@observe
             binding.rvList.adapter = ElectivesAdapter(
                 it,
                 getHeader(it),
@@ -51,9 +56,7 @@ class ElectivesFragment : Fragment() {
 
         if (checked.isNotEmpty())
             findNavController().navigate(
-                ElectivesFragmentDirections.actionElectivesToConfirmationFragment(
-                    checked
-                )
+                ElectivesFragmentDirections.actionElectivesToConfirmationFragment(checked)
             )
         else {
             Toast.makeText(

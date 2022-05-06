@@ -1,7 +1,6 @@
 package com.example.disciplines.data.network
 
 import com.example.disciplines.data.network.model.Discipline
-import com.example.disciplines.data.network.model.MobilityModule
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -38,7 +37,7 @@ interface Api {
     suspend fun getDisciplinesByChoice(@Path("groupName") name: String): List<List<Discipline.ByChoice>>
 
     @GET("mobilityModules/{groupName}")
-    suspend fun getMobilityModules(@Path("groupName") name: String): List<MobilityModule>
+    suspend fun getMobilityModules(@Path("groupName") name: String): List<Discipline.MobilityModule>
 
     @GET("mobilityModules/disciplines.json")
     suspend fun getMobilityModules(): List<Discipline.MobilityModule>

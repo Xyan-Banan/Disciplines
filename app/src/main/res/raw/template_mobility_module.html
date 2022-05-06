@@ -1,0 +1,111 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Template Mobility Module</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "Times New Roman", serif;
+        }
+
+        p {
+            font-size: 14pt;
+        }
+
+        .paragraph {
+            padding: 10pt 0pt;
+            text-indent: 1.5cm;
+            text-align: justify;
+        }
+
+        td {
+            border: 1px solid black;
+            padding: 0pt 5pt;
+            font-size: 10pt;
+            text-align: center;
+        }
+
+        .subcaption {
+            font-size: 9pt;
+            text-align: center;
+        }
+
+        h1 {
+            font-weight: bold;
+            font-size: 14pt;
+            text-align: center;
+        }
+
+        table,
+        tbody {
+            vertical-align: top;
+            overflow: visible;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="display: flex;">
+        <div style="flex-grow: 1;"></div>
+        <div>
+            <p style="text-align: right;">Руководителю ОП ____________</p>
+            <p class="subcaption" style="text-align: right;">Наименование ООП</p>
+
+            <p>____________________________</p>
+            <p class="subcaption">ФИО руководителя</p>
+
+            <p style="padding-top: 4pt;">студента группы _____________</p>
+            <p style="padding-top: 3pt;">____________________________</p>
+            <p class="subcaption">(ФИО студента полностью)</p>
+        </div>
+    </div>
+
+    <h1 style="padding-top: 50pt;">ЗАЯВЛЕНИЕ</h1>
+    <p class="paragraph">Прошу разрешить включить в модуль мобильности
+        следующую дисциплину:</p>
+    <table style="border-collapse:collapse;margin:auto;" cellspacing="0">
+        <tr>
+            <td style="width:200pt;">Наименование дисциплины</td>
+            <td style="width:70pt;">Трудоемкость, з.е.</td>
+            <td style="width:50pt;">Период изучения<br> (семестр)</td>
+            <td style="width:200pt;"> Ссылка на курс <br> (МООК-курс / дисциплинарный <br> модуль с
+                электронным ресурсом)</td>
+        </tr>
+        %s
+
+    </table>
+    <p class="paragraph">Дисциплина входит в пул дисциплин модуля мобильности для моего направления обучения.</p>
+    <table style="margin: 30pt auto 0pt auto; border-spacing: 20px 0px;">
+        <tr>
+            <td style="border-bottom: 1px; width: 100pt;"></td>
+            <td style="border-bottom: 1px; width: 100pt;"></td>
+            <td style="border-bottom: 1px; width: 100pt;"></td>
+        </tr>
+        <tr>
+            <td class="subcaption" style="border: none;">(дата)</td>
+            <td class="subcaption" style="border: none;">(подпись)</td>
+            <td class="subcaption" style="border: none;">(ФИО)</td>
+        </tr>
+    </table>
+    <p class="paragraph">До меня доведена информация о том, что в случае отсутствия или несвоевременного предоставления
+        документа, подтверждающего оценку результатов обучения, у меня возникнет академическая задолженность.</p>
+    <p style="text-align: left;"><br /></p>
+    <table style="margin: 30pt auto 0pt auto; border-spacing: 20px 0px;">
+        <tr>
+            <td style="border-bottom: 1px; width: 100pt;"></td>
+            <td style="border-bottom: 1px; width: 100pt;"></td>
+            <td style="border-bottom: 1px; width: 100pt;"></td>
+        </tr>
+        <tr>
+            <td class="subcaption" style="border: none;">(дата)</td>
+            <td class="subcaption" style="border: none;">(подпись)</td>
+            <td class="subcaption" style="border: none;">(ФИО)</td>
+        </tr>
+    </table>
+</body>
+
+</html>

@@ -3,7 +3,7 @@ package com.example.disciplines.ui.mobilityModule
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.disciplines.data.network.model.MobilityModule
+import com.example.disciplines.data.network.model.Discipline.MobilityModule
 import com.example.disciplines.databinding.MobilityModuleItemBinding
 import com.example.disciplines.ui.listUtils.AbstractListAdapter
 import com.example.disciplines.ui.listUtils.Header
