@@ -11,7 +11,5 @@
 
     <CheckBox
         style="@style/listItemButton"
-        android:layout_marginStart="@dimen/marginStartEnd"
-        android:layout_marginEnd="@dimen/marginStartEnd"
         app:elective="@{elective}" />
 </layout>

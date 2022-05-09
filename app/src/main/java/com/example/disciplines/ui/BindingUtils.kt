@@ -15,6 +15,7 @@ import com.example.disciplines.data.network.model.Discipline
 import com.example.disciplines.data.network.model.DisciplinesBundle
 import com.example.disciplines.databinding.DisciplineItemBinding
 import com.example.disciplines.databinding.DisciplinesBundleBinding
+import com.example.disciplines.databinding.ElectiveItemBinding
 import com.example.disciplines.databinding.MobilityModuleItemBinding
 
 @BindingAdapter("discipline")
@@ -66,7 +67,26 @@ fun LinearLayout.setDisciplines(disciplines: List<DisciplinesBundle>?) {
 
         addView(binding.root)
     }
+}
 
+@BindingAdapter("electives")
+fun LinearLayout.setElectives(electives: List<Discipline.Elective>?) {
+    electives ?: return
+
+    for(elective in electives) {
+        val binding = ElectiveItemBinding.inflate(
+            LayoutInflater.from(context),
+            this,
+            false
+        )
+
+        binding.elective = elective
+        (binding.root as CheckBox).setOnCheckedChangeListener { _, isChecked ->
+            binding.elective?.isChecked = isChecked
+        }
+
+        addView(binding.root)
+    }
 }
 
 @BindingAdapter("mobilityModule")

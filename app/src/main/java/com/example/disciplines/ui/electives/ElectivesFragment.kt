@@ -16,12 +16,13 @@ import com.example.disciplines.R
 import com.example.disciplines.applyGravity
 import com.example.disciplines.data.network.model.Discipline
 import com.example.disciplines.data.network.model.SelectedDisciplines
+import com.example.disciplines.databinding.ElectiveListBinding
 import com.example.disciplines.databinding.ListFragmentBinding
 import com.example.disciplines.ui.CurrentGroup
 import com.example.disciplines.ui.listUtils.Header
 
 class ElectivesFragment : Fragment() {
-    private lateinit var binding: ListFragmentBinding
+    private lateinit var binding: ElectiveListBinding
     private val viewModel: ElectivesViewModel by viewModels {
         ElectivesViewModelFactory(
             requireActivity().application,
@@ -34,19 +35,24 @@ class ElectivesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = ListFragmentBinding.inflate(inflater)
+        binding =  ElectiveListBinding.inflate(inflater)
+//            ListFragmentBinding.inflate(inflater)
 //        binding.rvList.adapter = viewModel.adapter.value
 //        viewModel.adapter.observe(viewLifecycleOwner) {
 //            binding.rvList.adapter = it
 //        }
-        viewModel.electivesList.observe(viewLifecycleOwner) {
-            if (it == null) return@observe
-            binding.rvList.adapter = ElectivesAdapter(
-                it,
-                getHeader(it),
-                getButtonListener()
-            )
-        }
+//        viewModel.electivesList.observe(viewLifecycleOwner) {
+//            if (it == null) return@observe
+//            binding.rvList.adapter = ElectivesAdapter(
+//                it,
+//                getHeader(it),
+//                getButtonListener()
+//            )
+//        }
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        binding.confirmBtn.setOnClickListener(getButtonListener())
 
         return binding.root
     }
