@@ -1,19 +1,20 @@
 package com.example.disciplines.ui.confirmation
 
-import kotlinx.html.*
-import com.example.disciplines.R
 import com.example.disciplines.data.network.model.Discipline
 import com.example.disciplines.data.network.model.DisciplinesBundle
+import com.example.disciplines.data.network.model.SelectedDisciplines
+import kotlinx.html.a
+import kotlinx.html.i
 import kotlinx.html.stream.appendHTML
-import java.lang.StringBuilder
+import kotlinx.html.td
+import kotlinx.html.tr
 
 class ApplicationTemplate(private val rawHtml: String) {
-    fun fill(selectedDisciplines: Array<Discipline>, from: Int): String {
-        val rows = when (from) {
-            R.id.mobilityModuleFragment -> getModulesRows(selectedDisciplines.map { it as Discipline.MobilityModule })
-            R.id.electivesFragment -> getElectivesRows(selectedDisciplines.map { it as Discipline.Elective })
-            R.id.disciplineByChoiceFragment -> getByChoiceRows(selectedDisciplines.map { it as DisciplinesBundle })
-            else -> throw IllegalStateException()
+    fun fill(selectedDisciplines: SelectedDisciplines): String {
+        val rows = when (selectedDisciplines) {
+            is SelectedDisciplines.MobilityModule -> getModulesRows(selectedDisciplines.module)
+            is SelectedDisciplines.Electives -> getElectivesRows(selectedDisciplines.electives)
+            is SelectedDisciplines.ByChoice -> getByChoiceRows(selectedDisciplines.bundles)
         }
         return rawHtml.format(rows)
     }
@@ -43,7 +44,7 @@ class ApplicationTemplate(private val rawHtml: String) {
                             }
                         }
                         td {
-                            +if (disciplineIndex == checked) "✅ ✓ ✔ \uD83D\uDDF8" else ""
+                            +if (disciplineIndex == checked) "√ ✓ ✔ \uD83D\uDDF8" else ""
                         }
                     }
                 }
@@ -62,19 +63,12 @@ class ApplicationTemplate(private val rawHtml: String) {
         }.finalize().toString()
     }
 
-    // https://play.kotlinlang.org/koans/Builders/Html%20builders/html.kt
-
-    private fun getModulesRows(modules: Collection<Discipline.MobilityModule>): String {
-        return StringBuilder().appendHTML().apply {
-            for (module in modules)
-                tr {
+    private fun getModulesRows(module: Discipline.MobilityModule): String {
+        return StringBuilder().appendHTML().tr {
                     td { +module.name }
                     td { +module.intensity.toString() }
                     td { +"текущий семестр" }
                     td { a(module.link) { +module.link } }
-                }
-        }.finalize().toString()
+                }.toString()
     }
-
-
 }

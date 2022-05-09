@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.disciplines.R
 import com.example.disciplines.applyGravity
-import com.example.disciplines.data.network.model.Discipline
+import com.example.disciplines.data.network.model.SelectedDisciplines
 import com.example.disciplines.databinding.MobilityModuleListBinding
 
 class MobilityModuleFragment : Fragment() {
@@ -22,7 +22,6 @@ class MobilityModuleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-//        val list = TestValues.generateMobilityModules(5)
         val viewModel: MobilityModuleViewModel by viewModels() //{ MobilityModuleViewModelFactory(groupName) }
         binding = MobilityModuleListBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
@@ -32,13 +31,12 @@ class MobilityModuleFragment : Fragment() {
             val checkedId = binding.radioGroup2.checkedRadioButtonId //это именно id, а не индекс!!!
 
             if (checkedId >= 0) {
-                println("Выбран модуль мобильности $checkedId")
                 val checkedRadioButton = binding.radioGroup2.findViewById<RadioButton>(checkedId)
                 val checkedIndex = binding.radioGroup2.indexOfChild(checkedRadioButton)
-                val checked = arrayOf<Discipline>(viewModel.modulesList.value!![checkedIndex])
+                val checked = viewModel.modulesList.value!![checkedIndex]
                 findNavController().navigate(
                     MobilityModuleFragmentDirections.actionMobilityModuleFragmentToConfirmationFragment(
-                        checked
+                        SelectedDisciplines.MobilityModule(checked)
                     )
                 )
 

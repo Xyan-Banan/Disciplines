@@ -1,19 +1,15 @@
 <!DOCTYPE html
-        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-        xml:lang="ru"
-        lang="ru">
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
 
-    <head>
-        <meta
-                http-equiv="Content-Type"
-                content="text/html; charset=utf-8" />
-        <title>Template Mobility Module</title>
-        <style type="text/css">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Template Mobility Module</title>
+    <style type="text/css">
         * {
             margin: 0;
             padding: 0;
-            font-family: "Times New Roman", serif;
+            font-family: "Times New Roman", Times, Tinos, FreeSerif, serif;
         }
 
         p {
@@ -26,11 +22,17 @@
             text-align: justify;
         }
 
+        th,
         td {
             border: 1px solid black;
             padding: 0pt 5pt;
             font-size: 10pt;
             text-align: center;
+        }
+
+        th {
+            font-weight: normal;
+            vertical-align: top;
         }
 
         .subcaption {
@@ -46,100 +48,80 @@
 
         table,
         tbody {
-            vertical-align: top;
+            vertical-align: middle;
             overflow: visible;
         }
+    </style>
+</head>
 
-        </style>
-    </head>
+<body>
+    <div style="display: flex;">
+        <div style="flex-grow: 1;"></div>
+        <div>
+            <p style="text-align: right;">Руководителю ОП ____________</p>
+            <p class="subcaption" style="text-align: right;">Наименование ООП
+            </p>
 
-    <body>
-        <div style="display: flex;">
-            <div style="flex-grow: 1;"></div>
-            <div>
-                <p style="text-align: right;">Руководителю ОП ____________</p>
-                <p
-                        class="subcaption"
-                        style="text-align: right;">Наименование ООП
-                </p>
+            <p>____________________________</p>
+            <p class="subcaption">ФИО руководителя</p>
 
-                <p>____________________________</p>
-                <p class="subcaption">ФИО руководителя</p>
-
-                <p style="padding-top: 4pt;">студента группы _____________</p>
-                <p style="padding-top: 3pt;">____________________________</p>
-                <p class="subcaption">(ФИО студента полностью)</p>
-            </div>
+            <p style="padding-top: 4pt;">студента группы _____________</p>
+            <p style="padding-top: 3pt;">____________________________</p>
+            <p class="subcaption">(ФИО студента полностью)</p>
         </div>
+    </div>
 
-        <h1 style="padding-top: 50pt;">ЗАЯВЛЕНИЕ</h1>
-        <p class="paragraph">Прошу утвердить в качестве факультативного модуля следующие
-            дисциплины:
-        </p>
-        <table
-                style="border-collapse:collapse;margin:auto;"
-                cellspacing="0">
-            <tr>
-                <td style="width:200pt;">Наименование дисциплины</td>
-                <td style="width:70pt;">Трудоемкость, з.е.</td>
-                <td style="width:50pt;">Период изучения
-                    <br>
-                    (семестр)
-                </td>
-            </tr>
-            %s
+    <h1 style="padding-top: 50pt;">ЗАЯВЛЕНИЕ</h1>
+    <p class="paragraph">Прошу утвердить в качестве факультативного модуля следующие
+        дисциплины:
+    </p>
+    <table style="border-collapse:collapse;margin:auto;" cellspacing="0">
+        <tr>
+            <th style="width:200pt;">Наименование дисциплины</th>
+            <th style="width:70pt;">Трудоемкость, з.е.</th>
+            <th style="width:50pt;">Период изучения<br>(семестр)</th>
+        </tr>
+        %s
 
-        </table>
-        <!-- <p class="paragraph">Дисциплина входит в пул дисциплин модуля мобильности для моего направления обучения.</p> -->
-        <table style="margin: 30pt auto 0pt auto; border-spacing: 20px 0px;">
-            <tr>
-                <td style="border-bottom: 1px; width: 100pt;"></td>
-                <td style="border-bottom: 1px; width: 100pt;"></td>
-                <td style="border-bottom: 1px; width: 100pt;"></td>
-            </tr>
-            <tr>
-                <td
-                        class="subcaption"
-                        style="border: none;">(дата)
-                </td>
-                <td
-                        class="subcaption"
-                        style="border: none;">(подпись)
-                </td>
-                <td
-                        class="subcaption"
-                        style="border: none;">(ФИО)
-                </td>
-            </tr>
-        </table>
-        <p class="paragraph">До меня доведена информация о том, что теперь эти факультативные
-            дисциплины являются обязательными для изучения, несдача зачетов по ним влечёт
-            возникновение академической задолженности.
-        </p>
-        <p style="text-align: left;">
-            <br />
-        </p>
-        <table style="margin: 30pt auto 0pt auto; border-spacing: 20px 0px;">
-            <tr>
-                <td style="border-bottom: 1px; width: 100pt;"></td>
-                <td style="border-bottom: 1px; width: 100pt;"></td>
-                <td style="border-bottom: 1px; width: 100pt;"></td>
-            </tr>
-            <tr>
-                <td
-                        class="subcaption"
-                        style="border: none;">(дата)
-                </td>
-                <td
-                        class="subcaption"
-                        style="border: none;">(подпись)
-                </td>
-                <td
-                        class="subcaption"
-                        style="border: none;">(ФИО)
-                </td>
-            </tr>
-        </table>
-    </body>
+    </table>
+    <!-- <p class="paragraph">Дисциплина входит в пул дисциплин модуля мобильности для моего направления обучения.</p> -->
+    <table style="margin: 30pt auto 0pt auto; border-spacing: 20px 0px;">
+        <tr>
+            <td style="border-bottom: 1px; width: 100pt;"></td>
+            <td style="border-bottom: 1px; width: 100pt;"></td>
+            <td style="border-bottom: 1px; width: 100pt;"></td>
+        </tr>
+        <tr>
+            <td class="subcaption" style="border: none;">(дата)
+            </td>
+            <td class="subcaption" style="border: none;">(подпись)
+            </td>
+            <td class="subcaption" style="border: none;">(ФИО)
+            </td>
+        </tr>
+    </table>
+    <p class="paragraph">До меня доведена информация о том, что теперь эти факультативные
+        дисциплины являются обязательными для изучения, несдача зачетов по ним влечёт
+        возникновение академической задолженности.
+    </p>
+    <p style="text-align: left;">
+        <br />
+    </p>
+    <table style="margin: 30pt auto 0pt auto; border-spacing: 20px 0px;">
+        <tr>
+            <td style="border-bottom: 1px; width: 100pt;"></td>
+            <td style="border-bottom: 1px; width: 100pt;"></td>
+            <td style="border-bottom: 1px; width: 100pt;"></td>
+        </tr>
+        <tr>
+            <td class="subcaption" style="border: none;">(дата)
+            </td>
+            <td class="subcaption" style="border: none;">(подпись)
+            </td>
+            <td class="subcaption" style="border: none;">(ФИО)
+            </td>
+        </tr>
+    </table>
+</body>
 
 </html>

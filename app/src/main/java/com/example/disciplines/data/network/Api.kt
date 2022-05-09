@@ -1,5 +1,6 @@
 package com.example.disciplines.data.network
 
+import com.example.disciplines.BuildConfig
 import com.example.disciplines.data.network.model.Discipline
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -11,7 +12,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-private const val BASE_URL = "https://disciplines.getsandbox.com"
+//private const val BASE_URL = "https://disciplines.getsandbox.com"
 //private const val BASE_URL = "https://dogsbetterthancats.blankhex.com/"
 
 private val moshi = Moshi.Builder()
@@ -29,7 +30,7 @@ private val retrofit = Retrofit.Builder()
     )
 //    .addConverterFactory(MoshiConverterFactory.create(moshi))
     .addConverterFactory(GsonConverterFactory.create())
-    .baseUrl(BASE_URL)
+    .baseUrl(BuildConfig.BASE_URL)
     .build()
 
 interface Api {

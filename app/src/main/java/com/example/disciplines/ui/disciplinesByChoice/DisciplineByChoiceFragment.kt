@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.disciplines.R
 import com.example.disciplines.applyGravity
-import com.example.disciplines.data.network.model.Discipline
+import com.example.disciplines.data.network.model.SelectedDisciplines
 import com.example.disciplines.databinding.DisciplineListBinding
 
 class DisciplineByChoiceFragment : Fragment() {
@@ -33,16 +33,12 @@ class DisciplineByChoiceFragment : Fragment() {
             if (viewModel.disciplinesList.value.isNullOrEmpty()) return@setOnClickListener
 
             val list = viewModel.disciplinesList.value!!
-
             val checked = list.count { it.checkedIndex >= 0 }
 
             if (checked == list.size) {
-                println("Все дисциплины выбраны! Идем на следующий экран!")
-                val checkedItems: Array<Discipline> =
-                    list.map { it.list[it.checkedIndex] }.toTypedArray()
                 findNavController().navigate(
                     DisciplineByChoiceFragmentDirections.actionDisciplineByChoiceFragmentToConfirmationFragment(
-                        checkedItems
+                        SelectedDisciplines.ByChoice(list)
                     )
                 )
             } else {

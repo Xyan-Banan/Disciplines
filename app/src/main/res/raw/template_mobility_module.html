@@ -9,7 +9,7 @@
         * {
             margin: 0;
             padding: 0;
-            font-family: "Times New Roman", serif;
+            font-family: "Times New Roman", Times, Tinos, FreeSerif, serif;
         }
 
         p {
@@ -22,11 +22,17 @@
             text-align: justify;
         }
 
+        th,
         td {
             border: 1px solid black;
             padding: 0pt 5pt;
             font-size: 10pt;
             text-align: center;
+        }
+
+        th {
+            font-weight: normal;
+            vertical-align: top;
         }
 
         .subcaption {
@@ -42,7 +48,7 @@
 
         table,
         tbody {
-            vertical-align: top;
+            vertical-align: middle;
             overflow: visible;
         }
     </style>
@@ -69,11 +75,11 @@
         следующую дисциплину:</p>
     <table style="border-collapse:collapse;margin:auto;" cellspacing="0">
         <tr>
-            <td style="width:200pt;">Наименование дисциплины</td>
-            <td style="width:70pt;">Трудоемкость, з.е.</td>
-            <td style="width:50pt;">Период изучения<br> (семестр)</td>
-            <td style="width:200pt;"> Ссылка на курс <br> (МООК-курс / дисциплинарный <br> модуль с
-                электронным ресурсом)</td>
+            <th style="width:200pt;">Наименование дисциплины</th>
+            <th style="width:70pt;">Трудоемкость, з.е.</th>
+            <th style="width:50pt;">Период изучения<br> (семестр)</th>
+            <th style="width:200pt;"> Ссылка на курс <br> (МООК-курс / дисциплинарный <br> модуль с электронным
+                ресурсом)</th>
         </tr>
         %s
 

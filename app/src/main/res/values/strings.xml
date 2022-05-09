@@ -15,12 +15,12 @@
     <string name="confirmSelectionBtnText">Подтвердить выбор</string>
     <string name="instructions_error_loading">Ошибка при загрузке данных. Проверьте подключение к интернету</string>
     <string name="instructions_disciplinesByChoice">В каждой паре выберете дисциплину</string>
-    <string name="instructions_disciplinesByChoice_empty">Нет доступных дисциплин по выбору. Обратитесь в администрацию университета.</string>
+    <string name="instructions_disciplinesByChoice_empty">Нет доступных дисциплин по выбору. Обратитесь к руководителю образовательной программы.</string>
     <string name="instructions_mobilityModule">Выберите одну из предложенных дисциплин модуля мобильности</string>
-    <string name="instructions_mobilityModule_empty">Нет доступных модулей мобильности. Обратитесь в администрацию университета.</string>
+    <string name="instructions_mobilityModule_empty">Нет доступных модулей мобильности. Обратитесь к руководителю образовательной программы.</string>
     <string name="instructions_electives">Выберите по желанию необходимое количество факультативов.\n
         Помните, что для проведения факультатива для %1$s, необходимо, чтобы из потока на него записалось не менее %2$d человек</string>
-    <string name="instructions_electives_empty">Нет доступных факультативов. Обратитесь в администрацию университета.</string>
+    <string name="instructions_electives_empty">Нет доступных факультативов. Обратитесь к руководителю образовательной программы.</string>
     <string name="toast_text_disciplinesByChoice">"Вы должны выборать в каждой паре по одной дисциплине! Выбрано: %1$d из %2$d"</string>
     <string name="discipline">%1$s (%2$d часов)</string>
     <string name="mobilityModuleCardText">%1$s (%2$d зачетных единиц) \nВходящие дисциплины: \n%3$s</string>
@@ -35,4 +35,5 @@
     <string name="saveToPhone">Сохранить в память телефона</string>
     <string name="open">Открыть</string>
     <string name="fileIcon">Иконка файла</string>
+    <string name="blockName">Блок дисциплин %1$d</string>
 </resources>

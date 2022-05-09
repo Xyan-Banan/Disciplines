@@ -3,11 +3,11 @@ package com.example.disciplines.ui.confirmation
 import android.app.Application
 import android.os.Build
 import android.text.SpannableStringBuilder
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import android.view.View
+import androidx.lifecycle.*
 import com.example.disciplines.R
-import com.example.disciplines.data.network.model.Discipline
+import com.example.disciplines.data.network.model.SelectedDisciplines
 import com.example.disciplines.spanWithBullet
 import com.itextpdf.html2pdf.ConverterProperties
 import com.itextpdf.html2pdf.HtmlConverter
@@ -16,77 +16,140 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.text.DateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class ConfirmationViewModel(
-    selectedDisciplines: Array<Discipline>,
-    from: Int,
+    selected: SelectedDisciplines,
     val app: Application
 ) :
     AndroidViewModel(app) {
-    val title = getTitle(from)
-    val selectedText = getSelectedText(selectedDisciplines)
+    val title = getTitle(selected)
+    val selectedText = getSelectedText(selected)
+    val applicationName = getApplicationName(selected)
     lateinit var pdf: File
-    val showLoading = MutableLiveData(false)
+    private val _isLoading = MutableLiveData(false)
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
+    val progressBarVisibility = isLoading.map { if (it) View.VISIBLE else View.GONE }
+    private val _pdfCreatedEvent = MutableLiveData(false)
+    val pdfCreatedEvent: LiveData<Boolean>
+        get() = _pdfCreatedEvent
+
 
     init {
         viewModelScope.launch {
-            showLoading.value = true
-            pdf = getPdf(selectedDisciplines, from)
-            showLoading.value = false
+            _isLoading.value = true
+            pdf = createPdf(selected)
+            _isLoading.value = false
+            _pdfCreatedEvent.value = true
         }
     }
 
-    private suspend fun getPdf(selectedDisciplines: Array<Discipline>, from: Int): File =
+
+    private suspend fun createPdf(selectedDisciplines: SelectedDisciplines): File =
         withContext(Dispatchers.IO) {
-            val template = ApplicationTemplate(getHtml(from))
-            val filled = template.fill(selectedDisciplines, from)
+            val template = ApplicationTemplate(getHtml(selectedDisciplines))
+            val filled = template.fill(selectedDisciplines)
+//            println(filled)
             val pdf = File(app.cacheDir, "cache.pdf")
-            pdf.outputStream().use {
+            val converterProperties = getConverterProperties()
+
+            pdf.outputStream().use { outputStream ->
                 HtmlConverter.convertToPdf(
                     filled,
-                    it,
-                    ConverterProperties()
-                        .setFontProvider(
-                            DefaultFontProvider(
-                                true,
-                                true,
-                                true
-                            )
-                        )
+                    outputStream,
+                    converterProperties
                 )
             }
             return@withContext pdf
         }
 
-    private fun getHtml(from: Int): String {
-        val templateId = when (from) {
-            R.id.mobilityModuleFragment -> R.raw.template_mobility_module
-            R.id.disciplineByChoiceFragment -> R.raw.test
-            R.id.electivesFragment -> R.raw.template_electives
-            else -> throw IllegalStateException()
+    private fun getConverterProperties(): ConverterProperties {
+        val fonts = listOf(
+            R.font.tinos,
+            R.font.tinos_bold,
+            R.font.tinos_italic,
+            R.font.tinos_bold_italic
+        )
+
+        val fontProvider = DefaultFontProvider(true, true, true)
+        fonts.forEach { font ->
+            try {
+                app.resources.openRawResource(font).use { stream ->
+                    fontProvider.addFont(stream.readBytes())
+                }
+            } catch (e: Exception) {
+                Log.e("ConfirmationViewModel", "Could not add font: " + e.message)
+            }
+        }
+
+        return ConverterProperties()
+            .setCharset("utf8")
+            .setFontProvider(fontProvider)
+    }
+
+    private fun getHtml(selectedDisciplines: SelectedDisciplines): String {
+        val templateId = when (selectedDisciplines) {
+            is SelectedDisciplines.MobilityModule -> R.raw.template_mobility_module
+            is SelectedDisciplines.ByChoice -> R.raw.template_by_choice
+            is SelectedDisciplines.Electives -> R.raw.template_electives
         }
         return app.resources.openRawResource(templateId)
             .use { it.bufferedReader().use { it.readText() } }
     }
 
 
-    private fun getSelectedText(selected: Array<Discipline>): CharSequence {
-        return if (selected.size == 1) selected.first().name
-        else selected.asSequence().map {
-            // if api >= 28 use BulletSpan, else simple dash
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                spanWithBullet(it.name, app.resources)
-            } else {
-                "- ${it.name}"
-            }
-        }.joinTo(SpannableStringBuilder(), "\n")
+    private fun getSelectedText(selected: SelectedDisciplines): CharSequence {
+        return selected.getIterable().run {
+            if (size == 1)
+                first().name
+            else
+                asSequence().map { discipline ->
+                    // if api >= 28 use BulletSpan, else simple dash
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        //TODO: не работает
+                        spanWithBullet(discipline.name, app.resources)
+                    } else {
+                        "- ${discipline.name}"
+                    }
+                }.joinTo(SpannableStringBuilder(), "\n")
+        }
     }
 
-    private fun getTitle(from: Int) = when (from) {
-        R.id.mobilityModuleFragment -> R.string.title_selected_mobilityModule
-        R.id.disciplineByChoiceFragment -> R.string.title_selected_disciplinesByChoice
-        R.id.electivesFragment -> R.string.title_selected_electives
-        else -> throw IllegalStateException()
+    private fun getTitle(selectedDisciplines: SelectedDisciplines) = when (selectedDisciplines) {
+        is SelectedDisciplines.MobilityModule -> R.string.title_selected_mobilityModule
+        is SelectedDisciplines.ByChoice -> R.string.title_selected_disciplinesByChoice
+        is SelectedDisciplines.Electives -> R.string.title_selected_electives
+    }
+
+    private fun getApplicationName(selected: SelectedDisciplines): String {
+        val dateTime = getDateTime()
+        val applicationType = getApplicationType(selected)
+        return "Заявление ($applicationType) $dateTime"
+    }
+
+    private fun getApplicationType(selected: SelectedDisciplines): String {
+        val id = when (selected) {
+            is SelectedDisciplines.ByChoice -> R.string.disciplinesByChoice
+            is SelectedDisciplines.MobilityModule -> R.string.mobilityModule
+            is SelectedDisciplines.Electives -> R.string.electives
+        }
+        return app.resources.getString(id)
+    }
+
+    private fun getDateTime(): String {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            DateTimeFormatter.ofPattern("dd.MM.yyyy_hh.mm.ss").format(LocalDateTime.now())
+        } else {
+            DateFormat.getDateTimeInstance(
+                DateFormat.SHORT,
+                DateFormat.MEDIUM,
+                Locale.getDefault()
+            ).format(Date())
+        }
     }
 }
 

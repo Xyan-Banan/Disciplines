@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.disciplines.R
 import com.example.disciplines.applyGravity
 import com.example.disciplines.data.network.model.Discipline
+import com.example.disciplines.data.network.model.SelectedDisciplines
 import com.example.disciplines.databinding.ListFragmentBinding
 import com.example.disciplines.ui.CurrentGroup
 import com.example.disciplines.ui.listUtils.Header
@@ -51,12 +52,13 @@ class ElectivesFragment : Fragment() {
     }
 
     private fun getButtonListener() = View.OnClickListener {
-        val checked: Array<Discipline> =
-            viewModel.electivesList.value!!.filter { it.isChecked }.toTypedArray()
+        val checked = viewModel.electivesList.value!!.filter { it.isChecked }
 
         if (checked.isNotEmpty())
             findNavController().navigate(
-                ElectivesFragmentDirections.actionElectivesToConfirmationFragment(checked)
+                ElectivesFragmentDirections.actionElectivesToConfirmationFragment(
+                    SelectedDisciplines.Electives(checked)
+                )
             )
         else {
             Toast.makeText(

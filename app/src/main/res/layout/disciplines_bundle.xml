@@ -8,15 +8,42 @@
         <variable
             name="disciplinesBundle"
             type="com.example.disciplines.data.network.model.DisciplinesBundle" />
+
+        <variable
+            name="blockName"
+            type="String" />
     </data>
 
-    <RadioGroup
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/border_polytech_main"
-        android:divider="@android:color/white"
-        android:dividerPadding="5dp"
-        android:showDividers="middle"
-        app:disciplinesBundle="@{disciplinesBundle}" />
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/blockNameTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{blockName}"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bundleRG"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/blockName" />
+
+        <RadioGroup
+            android:id="@+id/bundleRG"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/border_polytech_main"
+            android:divider="@android:color/white"
+            android:dividerPadding="5dp"
+            android:showDividers="middle"
+            app:disciplinesBundle="@{disciplinesBundle}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/blockNameTV" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

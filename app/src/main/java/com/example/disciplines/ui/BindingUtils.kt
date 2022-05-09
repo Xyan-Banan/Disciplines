@@ -27,7 +27,6 @@ fun RadioButton.setDiscipline(discipline: Discipline.ByChoice?) {
 @BindingAdapter("disciplinesBundle")
 fun RadioGroup.setDisciplinesBundle(disciplinesBundle: DisciplinesBundle?) {
     disciplinesBundle?.let {
-//        removeAllViews()
         it.list.forEach { discipline ->
             val btn = DisciplineItemBinding.inflate(
                 LayoutInflater.from(context),
@@ -44,29 +43,30 @@ fun RadioGroup.setDisciplinesBundle(disciplinesBundle: DisciplinesBundle?) {
             -1 -> clearCheck()
             else -> check(get(it.checkedIndex).id)
         }
+
+        setOnCheckedChangeListener { group, checkedId ->
+            disciplinesBundle.checkedIndex = group.indexOfChild(group.findViewById(checkedId))
+        }
     }
 }
 
 @BindingAdapter("disciplines")
 fun LinearLayout.setDisciplines(disciplines: List<DisciplinesBundle>?) {
-    disciplines?.let { bundlesList ->
-        bundlesList.forEach { bundle ->
-            val rg = DisciplinesBundleBinding.inflate(
-                LayoutInflater.from(context),
-                this,
-                false
-            )
+    val bundlesList = disciplines ?: return
 
-            rg.disciplinesBundle = bundle
+    for(bundle in bundlesList.withIndex()) {
+        val binding = DisciplinesBundleBinding.inflate(
+            LayoutInflater.from(context),
+            this,
+            false
+        )
 
-            (rg.root as RadioGroup).setOnCheckedChangeListener { group, checkedId ->
-                rg.disciplinesBundle?.checkedIndex =
-                    group.indexOfChild(group.findViewById(checkedId))
-            }
+        binding.disciplinesBundle = bundle.value
+        binding.blockName = context.getString(R.string.blockName, bundle.index + 1)
 
-            addView(rg.root)
-        }
+        addView(binding.root)
     }
+
 }
 
 @BindingAdapter("mobilityModule")
