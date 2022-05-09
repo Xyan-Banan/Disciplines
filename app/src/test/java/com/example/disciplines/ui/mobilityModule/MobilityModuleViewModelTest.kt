@@ -8,11 +8,9 @@ import com.example.disciplines.MainCoroutineRule
 import com.example.disciplines.R
 import com.example.disciplines.data.network.model.Discipline
 import com.example.disciplines.getOrAwaitValue
-import com.example.disciplines.ui.listUtils.Header
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
-import org.junit.Assert
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -74,15 +72,4 @@ class MobilityModuleViewModelTest {
         assertEquals(ex, list)
     }
 
-    @Test
-    fun getInstructions() {
-        val list = viewModel.modulesList.getOrAwaitValue()
-        val instructions = viewModel.instructions.getOrAwaitValue()
-
-        val resources = ApplicationProvider.getApplicationContext<Application>().resources
-        if (list.isNullOrEmpty())
-            assertEquals(R.string.instructions_mobilityModule_empty, instructions)
-        else
-            assertEquals(R.string.instructions_mobilityModule, instructions)
-    }
 }

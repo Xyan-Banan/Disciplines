@@ -5,28 +5,21 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.RelativeSizeSpan
 import android.view.View
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import com.example.disciplines.R
-import com.example.disciplines.data.network.Network
 import com.example.disciplines.data.network.RequestStatus
 import com.example.disciplines.data.network.TestValues
 import com.example.disciplines.data.network.model.Discipline
 import com.example.disciplines.ui.CurrentGroup
-import com.example.disciplines.ui.listUtils.Header
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 
 class ElectivesViewModel(private val app: Application, listener: View.OnClickListener) : AndroidViewModel(app) {
     val electivesList = MutableLiveData<List<Discipline.Elective>>()
     val requestStatus = MutableLiveData<RequestStatus>()
-    val header = requestStatus.map {
-        val title = app.getString(R.string.electives)
-        val instructions = when (it) {
-            RequestStatus.DONE -> getInstructions()
-            else -> app.getString(R.string.instructions_error_loading)
-        }
-        Header(title, instructions)
-    }
 
     val confirmBtnVisibility = requestStatus.map {
         when (it) {
@@ -57,17 +50,6 @@ class ElectivesViewModel(private val app: Application, listener: View.OnClickLis
             RequestStatus.ERROR -> R.drawable.ic_connection_error
             else -> R.drawable.loading_animation
         }
-    }
-
-    val adapter = electivesList.map {
-        if (it == null)
-            return@map null
-        ElectivesAdapter(
-            it,
-            header.value!!,
-            listener
-        )
-
     }
 
     init {

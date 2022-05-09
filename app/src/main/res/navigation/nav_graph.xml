@@ -51,7 +51,7 @@
         android:id="@+id/electivesFragment"
         android:name="com.example.disciplines.ui.electives.ElectivesFragment"
         android:label="Electives"
-        tools:layout="@layout/list_fragment">
+        tools:layout="@layout/elective_list">
         <action
             android:id="@+id/action_electives_to_confirmationFragment"
             app:destination="@id/confirmationFragment" />
