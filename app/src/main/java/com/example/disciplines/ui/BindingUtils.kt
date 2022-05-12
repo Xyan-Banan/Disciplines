@@ -4,10 +4,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
 import android.view.LayoutInflater
-import android.widget.CheckBox
-import android.widget.LinearLayout
-import android.widget.RadioButton
-import android.widget.RadioGroup
+import android.widget.*
 import androidx.core.view.get
 import androidx.databinding.BindingAdapter
 import com.example.disciplines.R
@@ -121,4 +118,9 @@ fun CheckBox.setElective(elective: Discipline.Elective?) {
         text = it.name
         isChecked = it.isChecked
     }
+}
+
+@BindingAdapter("error")
+fun EditText.setErrorString(error: String?){
+    this.error = error
 }

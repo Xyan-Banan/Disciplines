@@ -9,11 +9,7 @@
         android:id="@+id/loginFragment"
         android:name="com.example.disciplines.ui.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_loginFragment_to_disciplinesMenu"
-            app:destination="@id/disciplinesMenu" />
-    </fragment>
+        tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/disciplinesMenu"
         android:name="com.example.disciplines.ui.disciplinesMenu.DisciplinesMenu"
@@ -37,6 +33,9 @@
         <action
             android:id="@+id/action_disciplineByChoiceFragment_to_confirmationFragment"
             app:destination="@id/confirmationFragment" />
+        <argument
+            android:name="groupNumber"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/mobilityModuleFragment"
@@ -46,6 +45,9 @@
         <action
             android:id="@+id/action_mobilityModuleFragment_to_confirmationFragment"
             app:destination="@id/confirmationFragment" />
+        <argument
+            android:name="groupNumber"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/electivesFragment"
@@ -55,6 +57,9 @@
         <action
             android:id="@+id/action_electives_to_confirmationFragment"
             app:destination="@id/confirmationFragment" />
+        <argument
+            android:name="groupNumber"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/confirmationFragment"

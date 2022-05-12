@@ -1,11 +1,8 @@
 package com.example.disciplines.ui.mobilityModule
 
-import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.disciplines.MainCoroutineRule
-import com.example.disciplines.R
 import com.example.disciplines.data.network.model.Discipline
 import com.example.disciplines.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi

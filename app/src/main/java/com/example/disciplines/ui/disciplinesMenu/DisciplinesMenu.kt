@@ -1,14 +1,18 @@
 package com.example.disciplines.ui.disciplinesMenu
 
+import android.content.Context
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.disciplines.databinding.DisciplinesMenuFragmentBinding
-import com.example.disciplines.ui.CurrentGroup
 
 class DisciplinesMenu : Fragment() {
 
@@ -20,20 +24,62 @@ class DisciplinesMenu : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val groupNumber = CurrentGroup.value ?: "в353090490321"
         viewModel = ViewModelProvider(this).get(DisciplinesMenuViewModel::class.java)
 
         binding = DisciplinesMenuFragmentBinding.inflate(inflater)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
         binding.disciplinesByChoiceBtn.setOnClickListener {
-            findNavController().navigate(DisciplinesMenuDirections.actionDisciplinesMenuToDisciplineByChoiceFragment())
+            findNavController().navigate(
+                DisciplinesMenuDirections.actionDisciplinesMenuToDisciplineByChoiceFragment(
+                    viewModel.groupNumber.value!!
+                )
+            )
         }
         binding.mobilityModuleBtn.setOnClickListener {
-            findNavController().navigate(DisciplinesMenuDirections.actionDisciplinesMenuToMobilityModuleFragment())
+            findNavController().navigate(
+                DisciplinesMenuDirections.actionDisciplinesMenuToMobilityModuleFragment(
+                    viewModel.groupNumber.value!!
+                )
+            )
         }
         binding.electivesBtn.setOnClickListener {
-            findNavController().navigate(DisciplinesMenuDirections.actionDisciplinesMenuToElectives())
+            findNavController().navigate(
+                DisciplinesMenuDirections.actionDisciplinesMenuToElectives(
+                    viewModel.groupNumber.value!!
+                )
+            )
         }
 
+        binding.groupNumberET.addTextChangedListener(onTextChanged = { _, _, _, _ ->
+            viewModel.isValidGroupNumber.value = false
+            viewModel.error.value = null
+        })
+        binding.groupNumberET.setOnEditorActionListener { _, actionId, event ->
+            if (event?.keyCode == KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_DONE) {
+                submitGroupNumber()
+            }
+            false
+        }
+
+        binding.submitBtn.setOnClickListener {
+            submitGroupNumber()
+        }
         return binding.root
+    }
+
+    private fun submitGroupNumber() {
+        val gNumber = binding.groupNumberET.text.toString().trim()
+        viewModel.submitGroupNumber(gNumber)
+        if (viewModel.isValidGroupNumber.value == true)
+            hideKeyboard()
+    }
+
+    private fun hideKeyboard() {
+        val manager =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        manager.hideSoftInputFromWindow(requireView().windowToken, 0)
+        requireView().clearFocus()
     }
 }

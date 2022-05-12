@@ -1,47 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.disciplinesMenu.DisciplinesMenu">
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
 
-    <Button
-        android:id="@+id/disciplinesByChoiceBtn"
-        android:layout_width="@dimen/menuBtnWidth"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/topBottomMargin"
+        <variable
+            name="viewModel"
+            type="com.example.disciplines.ui.disciplinesMenu.DisciplinesMenuViewModel" />
+    </data>
 
-        android:text="@string/disciplinesByChoice"
-        app:layout_constraintBottom_toTopOf="@+id/mobilityModuleBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.disciplinesMenu.DisciplinesMenu">
 
-    <Button
-        android:id="@+id/mobilityModuleBtn"
-        android:layout_width="@dimen/menuBtnWidth"
-        android:layout_height="wrap_content"
-        android:text="@string/mobilityModule"
-        app:layout_constraintBottom_toTopOf="@+id/electivesBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/disciplinesByChoiceBtn" />
+        <TextView
+            android:id="@+id/instructionsTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/instructions_disciplinesMenu"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toTopOf="@+id/groupNumberET"
+            app:layout_constraintEnd_toEndOf="@+id/groupNumberET"
+            app:layout_constraintStart_toStartOf="@+id/groupNumberET" />
 
-    <Button
-        android:id="@+id/electivesBtn"
-        android:layout_width="@dimen/menuBtnWidth"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/topBottomMargin"
-        android:text="@string/electives"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mobilityModuleBtn" />
+        <EditText
+            android:id="@+id/groupNumberET"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="20dp"
+            android:ems="10"
+            android:hint="@string/groupNumber_editText_hint"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:minHeight="48dp"
+            app:error="@{viewModel.error}"
+            app:layout_constraintBottom_toTopOf="@+id/disciplinesByChoiceBtn"
+            app:layout_constraintEnd_toStartOf="@+id/submitBtn"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@+id/disciplinesByChoiceBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:ignore="TextFields" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageButton
+            android:id="@+id/submitBtn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/submit_btn_description"
+            android:src="@drawable/ic_check"
+            app:layout_constraintBottom_toBottomOf="@+id/groupNumberET"
+            app:layout_constraintEnd_toEndOf="@+id/disciplinesByChoiceBtn"
+            app:layout_constraintStart_toEndOf="@+id/groupNumberET"
+            app:layout_constraintTop_toTopOf="@+id/groupNumberET" />
+
+        <Button
+            android:id="@+id/disciplinesByChoiceBtn"
+            android:layout_width="@dimen/menuBtnWidth"
+            android:layout_height="wrap_content"
+            android:enabled="@{viewModel.isValidGroupNumber}"
+            android:text="@string/disciplinesByChoice"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toTopOf="@+id/mobilityModuleBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/groupNumberET" />
+
+        <Button
+            android:id="@+id/mobilityModuleBtn"
+            android:layout_width="@dimen/menuBtnWidth"
+            android:layout_height="wrap_content"
+            android:enabled="@{viewModel.isValidGroupNumber}"
+            android:text="@string/mobilityModule"
+            app:layout_constraintBottom_toTopOf="@+id/electivesBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/disciplinesByChoiceBtn" />
+
+        <Button
+            android:id="@+id/electivesBtn"
+            android:layout_width="@dimen/menuBtnWidth"
+            android:layout_height="wrap_content"
+            android:enabled="@{viewModel.isValidGroupNumber}"
+            android:text="@string/electives"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mobilityModuleBtn" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
