@@ -69,5 +69,8 @@
         <argument
             android:name="selected"
             app:argType="com.example.disciplines.data.network.model.SelectedDisciplines" />
+        <argument
+            android:name="groupInfo"
+            app:argType="com.example.disciplines.GroupNumberInfo" />
     </fragment>
 </navigation>

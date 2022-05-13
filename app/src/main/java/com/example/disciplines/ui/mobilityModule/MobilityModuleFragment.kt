@@ -37,7 +37,7 @@ class MobilityModuleFragment : Fragment() {
                 val checked = viewModel.modulesList.value!![checkedIndex]
                 findNavController().navigate(
                     MobilityModuleFragmentDirections.actionMobilityModuleFragmentToConfirmationFragment(
-                        SelectedDisciplines.MobilityModule(checked)
+                        SelectedDisciplines.MobilityModule(checked), groupInfo
                     )
                 )
 

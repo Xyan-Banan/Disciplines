@@ -35,17 +35,19 @@ class ConfirmationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val selected = ConfirmationFragmentArgs.fromBundle(requireArguments()).selected
+        val (selected, groupInfo) = ConfirmationFragmentArgs.fromBundle(requireArguments())
+            .run { selected to groupInfo }
         viewModel = ViewModelProvider(
             this,
             ConfirmationViewModelFactory(
                 selected,
+                groupInfo,
                 requireActivity().application
             )
         ).get(ConfirmationViewModel::class.java)
 
         viewModel.pdfCreatedEvent.observe(viewLifecycleOwner) { isCreated ->
-            if(isCreated) Toast.makeText(context,"Файл создан",Toast.LENGTH_SHORT).show()
+            if (isCreated) Toast.makeText(context, "Файл создан", Toast.LENGTH_SHORT).show()
         }
 
         val binding = ConfirmationFragmentBinding.inflate(inflater)

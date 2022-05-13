@@ -9,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import com.example.disciplines.GroupNumberInfo
 import com.example.disciplines.R
 import com.example.disciplines.data.network.Network
 import com.example.disciplines.data.network.RequestStatus
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
 
-class ElectivesViewModel(private val app: Application, private val groupNumber: String) :
+class ElectivesViewModel(private val app: Application, groupInfo: GroupNumberInfo) :
     AndroidViewModel(app) {
     val electivesList = MutableLiveData<List<Discipline.Elective>>()
     val requestStatus = MutableLiveData<RequestStatus>()
@@ -32,7 +33,7 @@ class ElectivesViewModel(private val app: Application, private val groupNumber: 
     }
     val instructions = requestStatus.map {
         when (it) {
-            RequestStatus.DONE -> getInstructions(groupNumber)
+            RequestStatus.DONE -> getInstructions(groupInfo)
             else -> app.getString(R.string.instructions_error_loading)
         }
     }
@@ -56,15 +57,16 @@ class ElectivesViewModel(private val app: Application, private val groupNumber: 
     }
 
     init {
-        getElectivesList(groupNumber)
+        getElectivesList(groupInfo)
     }
 
-    private fun getElectivesList(groupNumber: String) {
+    private fun getElectivesList(groupInfo: GroupNumberInfo) {
         viewModelScope.launch {
             requestStatus.value = RequestStatus.LOADING
             try {
-                val list = withContext(Dispatchers.IO) { Network.api.getElectives(groupNumber) }
-                //TestValues.generateElectives(5)
+                val list =
+//                    withContext(Dispatchers.IO) { Network.api.getElectives(groupInfo.groupNumber) }
+                    TestValues.generateElectives(5)
                 electivesList.value = list
                 requestStatus.value = RequestStatus.DONE
             } catch (e: UnknownHostException) {
@@ -74,12 +76,14 @@ class ElectivesViewModel(private val app: Application, private val groupNumber: 
         }
     }
 
-    private fun getInstructions(groupNumber: String): CharSequence {
+    private fun getInstructions(groupInfo: GroupNumberInfo): CharSequence {
         if (electivesList.value.isNullOrEmpty())
             return app.getString(R.string.instructions_electives_empty)
         else {
-            val isBachelor = groupNumber[2].digitToInt() == 3
-            val (studentType, neededPeople) = if (isBachelor) "бакалавриата" to 18 else "магистратуры" to 12
+            val (studentType, neededPeople) = when (groupInfo.degree) {
+                GroupNumberInfo.Degree.BACHELOR -> "бакалавриата" to 18
+                GroupNumberInfo.Degree.MASTER -> "магистратуры" to 12
+            }
             val spannable = SpannableString(
                 app.getString(
                     R.string.instructions_electives,

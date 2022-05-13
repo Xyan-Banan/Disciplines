@@ -10,14 +10,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Query
 
-//private const val BASE_URL = "https://disciplines.getsandbox.com"
-//private const val BASE_URL = "https://dogsbetterthancats.blankhex.com/"
-
-private val moshi = Moshi.Builder()
-    .add(KotlinJsonAdapterFactory())
-    .build()
+//alternative to gson
+//private val moshi = Moshi.Builder()
+//    .add(KotlinJsonAdapterFactory())
+//    .build()
 
 private val retrofit = Retrofit.Builder()
     .client(
@@ -40,11 +37,8 @@ interface Api {
     @GET("mobilityModules/{groupName}")
     suspend fun getMobilityModules(@Path("groupName") name: String): List<Discipline.MobilityModule>
 
-    @GET("mobilityModules/disciplines.json")
-    suspend fun getMobilityModules(): List<Discipline.MobilityModule>
-
-    @GET("electives")
-    suspend fun getElectives(@Query("groupName") name: String): List<Discipline.Elective>
+    @GET("electives/{groupName}")
+    suspend fun getElectives(@Path("groupName") name: String): List<Discipline.Elective>
 }
 
 object Network {

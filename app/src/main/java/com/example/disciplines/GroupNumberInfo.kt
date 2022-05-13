@@ -9,6 +9,7 @@ class GroupNumberInfo(gNumber: String) : Serializable {
     val semester: Int
     val admissionYear: Int
     val formOfEducation: FormOfEducation
+    val degree: Degree
 
     init {
         groupNumber = gNumber.lowercase().replace("/", "")
@@ -18,6 +19,7 @@ class GroupNumberInfo(gNumber: String) : Serializable {
             else -> FormOfEducation.DAILY
         }
         val onlyNumbers = groupNumber.dropWhile { it.isLetter() }
+        degree = if (onlyNumbers[2] == '3') Degree.BACHELOR else Degree.MASTER
         course = onlyNumbers[onlyNumbers.length - 3].digitToInt()
         val calendar = Calendar.getInstance()
         semester = (course - 1) * 2 + if (calendar[Calendar.MONTH] >= 8) 1 else 2
@@ -28,5 +30,10 @@ class GroupNumberInfo(gNumber: String) : Serializable {
         DAILY,
         EVENING,
         DISTANCE
+    }
+
+    enum class Degree {
+        BACHELOR,
+        MASTER
     }
 }

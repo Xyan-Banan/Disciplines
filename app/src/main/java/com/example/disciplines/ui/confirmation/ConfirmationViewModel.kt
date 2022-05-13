@@ -6,6 +6,7 @@ import android.text.SpannableStringBuilder
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.*
+import com.example.disciplines.GroupNumberInfo
 import com.example.disciplines.R
 import com.example.disciplines.data.network.model.SelectedDisciplines
 import com.example.disciplines.spanWithBullet
@@ -16,13 +17,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.text.DateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
 import java.util.*
 
 class ConfirmationViewModel(
     selected: SelectedDisciplines,
+    groupInfo: GroupNumberInfo,
     val app: Application
 ) :
     AndroidViewModel(app) {
@@ -42,17 +42,20 @@ class ConfirmationViewModel(
     init {
         viewModelScope.launch {
             _isLoading.value = true
-            pdf = createPdf(selected)
+            pdf = createPdf(selected, groupInfo)
             _isLoading.value = false
             _pdfCreatedEvent.value = true
         }
     }
 
 
-    private suspend fun createPdf(selectedDisciplines: SelectedDisciplines): File =
+    private suspend fun createPdf(
+        selectedDisciplines: SelectedDisciplines,
+        groupInfo: GroupNumberInfo
+    ): File =
         withContext(Dispatchers.IO) {
             val template = ApplicationTemplate(getHtml(selectedDisciplines))
-            val filled = template.fill(selectedDisciplines)
+            val filled = template.fill(selectedDisciplines, groupInfo.semester.toString())
 //            println(filled)
             val pdf = File(app.cacheDir, "cache.pdf")
             val converterProperties = getConverterProperties()
@@ -110,7 +113,6 @@ class ConfirmationViewModel(
                 asSequence().map { discipline ->
                     // if api >= 28 use BulletSpan, else simple dash
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        //TODO: не работает
                         spanWithBullet(discipline.name, app.resources)
                     } else {
                         "- ${discipline.name}"
@@ -141,15 +143,9 @@ class ConfirmationViewModel(
     }
 
     private fun getDateTime(): String {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            DateTimeFormatter.ofPattern("dd.MM.yyyy_hh.mm.ss").format(LocalDateTime.now())
-        } else {
-            DateFormat.getDateTimeInstance(
-                DateFormat.SHORT,
-                DateFormat.MEDIUM,
-                Locale.getDefault()
-            ).format(Date())
-        }
+        val date = Calendar.getInstance().time
+        val pattern = "dd.MM.yy_HH.mm.ss"
+        return SimpleDateFormat(pattern, Locale.getDefault()).format(date)
     }
 }
 

@@ -21,7 +21,7 @@ class ElectivesFragment : Fragment() {
     ): View {
         val groupInfo = ElectivesFragmentArgs.fromBundle(requireArguments()).groupInfo
         val viewModel: ElectivesViewModel by viewModels {
-            ElectivesViewModelFactory(requireActivity().application, groupInfo.groupNumber)
+            ElectivesViewModelFactory(requireActivity().application, groupInfo)
         }
         val binding = ElectiveListBinding.inflate(inflater)
         binding.viewModel = viewModel
@@ -33,7 +33,7 @@ class ElectivesFragment : Fragment() {
             if (checked.isNotEmpty())
                 findNavController().navigate(
                     ElectivesFragmentDirections.actionElectivesToConfirmationFragment(
-                        SelectedDisciplines.Electives(checked)
+                        SelectedDisciplines.Electives(checked), groupInfo
                     )
                 )
             else {

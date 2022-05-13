@@ -1,6 +1,7 @@
 package com.example.disciplines
 
 import android.content.res.Resources
+import android.graphics.Color
 import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
@@ -21,7 +22,7 @@ fun spanWithBullet(
     bulletSizeRatio: Float = 0.5f,
     gapWidth: Int = 20,
     @ColorInt
-    bulletColor: Int = 0x000000
+    bulletColor: Int = Color.BLACK
 ): SpannableString {
 
     val textSize = resources.getDimension(R.dimen.default_text_size)

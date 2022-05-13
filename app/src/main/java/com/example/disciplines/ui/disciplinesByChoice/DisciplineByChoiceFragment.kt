@@ -30,7 +30,6 @@ class DisciplineByChoiceFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.confirmBtn.setOnClickListener {
-            // TODO: поменять на бандлы
             if (viewModel.disciplinesList.value.isNullOrEmpty()) return@setOnClickListener
 
             val list = viewModel.disciplinesList.value!!
@@ -39,7 +38,7 @@ class DisciplineByChoiceFragment : Fragment() {
             if (checked == list.size) {
                 findNavController().navigate(
                     DisciplineByChoiceFragmentDirections.actionDisciplineByChoiceFragmentToConfirmationFragment(
-                        SelectedDisciplines.ByChoice(list)
+                        SelectedDisciplines.ByChoice(list), groupInfo
                     )
                 )
             } else {
