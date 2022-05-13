@@ -15,16 +15,17 @@ import com.example.disciplines.data.network.model.SelectedDisciplines
 import com.example.disciplines.databinding.DisciplineListBinding
 
 class DisciplineByChoiceFragment : Fragment() {
-    private lateinit var binding: DisciplineListBinding
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        val viewModel: DisciplinesByChoiceViewModel by viewModels()
+        val groupName = DisciplineByChoiceFragmentArgs.fromBundle(requireArguments()).groupNumber
+        val viewModel: DisciplinesByChoiceViewModel by viewModels {
+            DisciplinesByChoiceViewModelFactory(groupName)
+        }
 
-        binding = DisciplineListBinding.inflate(inflater)
+        val binding = DisciplineListBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 

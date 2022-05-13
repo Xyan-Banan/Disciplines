@@ -15,44 +15,37 @@ import com.example.disciplines.data.network.model.SelectedDisciplines
 import com.example.disciplines.databinding.ElectiveListBinding
 
 class ElectivesFragment : Fragment() {
-    private lateinit var binding: ElectiveListBinding
-    private val viewModel: ElectivesViewModel by viewModels {
-        ElectivesViewModelFactory(
-            requireActivity().application,
-            getButtonListener()
-        )
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        binding =  ElectiveListBinding.inflate(inflater)
+        val groupNumber = ElectivesFragmentArgs.fromBundle(requireArguments()).groupNumber
+        val viewModel: ElectivesViewModel by viewModels {
+            ElectivesViewModelFactory(requireActivity().application, groupNumber)
+        }
+        val binding = ElectiveListBinding.inflate(inflater)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.confirmBtn.setOnClickListener(getButtonListener())
+        binding.confirmBtn.setOnClickListener {
+            val checked = viewModel.electivesList.value!!.filter { it.isChecked }
+
+            if (checked.isNotEmpty())
+                findNavController().navigate(
+                    ElectivesFragmentDirections.actionElectivesToConfirmationFragment(
+                        SelectedDisciplines.Electives(checked)
+                    )
+                )
+            else {
+                Toast.makeText(
+                    context,
+                    getString(R.string.toast_text_electives),
+                    Toast.LENGTH_LONG
+                ).applyGravity(Gravity.CENTER, 0, 0)
+                    .show()
+            }
+        }
 
         return binding.root
-    }
-
-    private fun getButtonListener() = View.OnClickListener {
-        val checked = viewModel.electivesList.value!!.filter { it.isChecked }
-
-        if (checked.isNotEmpty())
-            findNavController().navigate(
-                ElectivesFragmentDirections.actionElectivesToConfirmationFragment(
-                    SelectedDisciplines.Electives(checked)
-                )
-            )
-        else {
-            Toast.makeText(
-                context,
-                getString(R.string.toast_text_electives),
-                Toast.LENGTH_LONG
-            ).applyGravity(Gravity.CENTER, 0, 0)
-                .show()
-        }
     }
 }

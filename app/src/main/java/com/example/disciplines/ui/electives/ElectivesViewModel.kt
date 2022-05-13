@@ -10,14 +10,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.disciplines.R
+import com.example.disciplines.data.network.Network
 import com.example.disciplines.data.network.RequestStatus
 import com.example.disciplines.data.network.TestValues
 import com.example.disciplines.data.network.model.Discipline
-import com.example.disciplines.ui.CurrentGroup
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
 
-class ElectivesViewModel(private val app: Application, listener: View.OnClickListener) : AndroidViewModel(app) {
+class ElectivesViewModel(private val app: Application, private val groupNumber: String) :
+    AndroidViewModel(app) {
     val electivesList = MutableLiveData<List<Discipline.Elective>>()
     val requestStatus = MutableLiveData<RequestStatus>()
 
@@ -29,7 +32,7 @@ class ElectivesViewModel(private val app: Application, listener: View.OnClickLis
     }
     val instructions = requestStatus.map {
         when (it) {
-            RequestStatus.DONE -> getInstructions()
+            RequestStatus.DONE -> getInstructions(groupNumber)
             else -> app.getString(R.string.instructions_error_loading)
         }
     }
@@ -53,16 +56,16 @@ class ElectivesViewModel(private val app: Application, listener: View.OnClickLis
     }
 
     init {
-        val groupName = CurrentGroup.value ?: "353090490010"
-        getElectivesList(groupName)
+        getElectivesList(groupNumber)
     }
 
-    private fun getElectivesList(groupName: String) {
+    private fun getElectivesList(groupNumber: String) {
         viewModelScope.launch {
             requestStatus.value = RequestStatus.LOADING
             try {
-                electivesList.value = TestValues.generateElectives(5)
-                //Network.api.getElectives(groupName)
+                val list = withContext(Dispatchers.IO) { Network.api.getElectives(groupNumber) }
+                //TestValues.generateElectives(5)
+                electivesList.value = list
                 requestStatus.value = RequestStatus.DONE
             } catch (e: UnknownHostException) {
                 electivesList.value = emptyList()
@@ -71,12 +74,11 @@ class ElectivesViewModel(private val app: Application, listener: View.OnClickLis
         }
     }
 
-    private fun getInstructions(): CharSequence {
+    private fun getInstructions(groupNumber: String): CharSequence {
         if (electivesList.value.isNullOrEmpty())
             return app.getString(R.string.instructions_electives_empty)
         else {
-            val groupName = CurrentGroup.value ?: "353090490010"
-            val isBachelor = groupName[2].digitToInt() == 3
+            val isBachelor = groupNumber[2].digitToInt() == 3
             val (studentType, neededPeople) = if (isBachelor) "бакалавриата" to 18 else "магистратуры" to 12
             val spannable = SpannableString(
                 app.getString(

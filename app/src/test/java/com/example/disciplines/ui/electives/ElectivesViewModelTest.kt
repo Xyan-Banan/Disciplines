@@ -29,7 +29,7 @@ class ElectivesViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel = ElectivesViewModel(ApplicationProvider.getApplicationContext(), {})
+        viewModel = ElectivesViewModel(ApplicationProvider.getApplicationContext(),"")
     }
 
     @Test

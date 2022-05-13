@@ -16,14 +16,15 @@ import com.example.disciplines.data.network.model.SelectedDisciplines
 import com.example.disciplines.databinding.MobilityModuleListBinding
 
 class MobilityModuleFragment : Fragment() {
-    private lateinit var binding: MobilityModuleListBinding
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val viewModel: MobilityModuleViewModel by viewModels() //{ MobilityModuleViewModelFactory(groupName) }
-        binding = MobilityModuleListBinding.inflate(inflater)
+        val groupNumber = MobilityModuleFragmentArgs.fromBundle(requireArguments()).groupNumber
+        val viewModel: MobilityModuleViewModel by viewModels {
+            MobilityModuleViewModelFactory(groupNumber)
+        }
+        val binding = MobilityModuleListBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 

@@ -2,11 +2,7 @@ package com.example.disciplines.ui.electives
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.disciplines.R
-import com.example.disciplines.ui.confirmation.ConfirmationViewModel
-import com.example.disciplines.ui.confirmation.ConfirmationViewModelFactory
 import com.example.disciplines.ui.mobilityModule.MobilityModuleViewModel
-import junit.framework.TestCase
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -15,7 +11,7 @@ import org.junit.runner.RunWith
 class ElectivesViewModelFactoryTest{
     @Test
     fun create_onOtherViewModel_throwsException() {
-        val factory = ElectivesViewModelFactory(ApplicationProvider.getApplicationContext(), {})
+        val factory = ElectivesViewModelFactory(ApplicationProvider.getApplicationContext(),"")
 
         Assert.assertThrows(IllegalArgumentException::class.java) {
             factory.create(
@@ -26,7 +22,7 @@ class ElectivesViewModelFactoryTest{
 
     @Test
     fun create_returnsProperViewModel() {
-        val factory = ElectivesViewModelFactory(ApplicationProvider.getApplicationContext(), {})
+        val factory = ElectivesViewModelFactory(ApplicationProvider.getApplicationContext(),"")
 
         val vm = factory.create(ElectivesViewModel::class.java)
 

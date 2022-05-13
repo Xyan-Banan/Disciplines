@@ -39,6 +39,7 @@
             android:importantForAutofill="no"
             android:inputType="text"
             android:minHeight="48dp"
+            android:text="@string/default_group_name"
             app:error="@{viewModel.error}"
             app:layout_constraintBottom_toTopOf="@+id/disciplinesByChoiceBtn"
             app:layout_constraintEnd_toStartOf="@+id/submitBtn"

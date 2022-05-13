@@ -1,5 +1,6 @@
 package com.example.disciplines.ui.disciplinesByChoice
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,11 +11,15 @@ import com.example.disciplines.data.network.Network
 import com.example.disciplines.data.network.RequestStatus
 import com.example.disciplines.data.network.model.DisciplinesBundle
 import com.example.disciplines.data.network.model.asBundlesList
-import com.example.disciplines.ui.CurrentGroup
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
+import kotlin.time.ExperimentalTime
+import kotlin.time.measureTime
 
-class DisciplinesByChoiceViewModel : ViewModel() {
+@OptIn(ExperimentalTime::class)
+class DisciplinesByChoiceViewModel(groupNumber: String) : ViewModel() {
     val disciplinesList = MutableLiveData<List<DisciplinesBundle>>()
     private val requestStatus = MutableLiveData<RequestStatus>()
 
@@ -52,16 +57,18 @@ class DisciplinesByChoiceViewModel : ViewModel() {
     }
 
     init {
-        val groupName = CurrentGroup.value ?: "353090490000" // TODO: handle null value properly
-        getDisciplines(groupName)
+        val duration = measureTime { getDisciplines(groupNumber) }
+        Log.d(javaClass.simpleName, "Duration: $duration")
     }
 
-    private fun getDisciplines(groupName: String) {
+    private fun getDisciplines(groupNumber: String) {
         viewModelScope.launch {
             requestStatus.value = RequestStatus.LOADING
             try {
-                disciplinesList.value = //TestValues.generateDisciplinesBundles(15)
-                    Network.api.getDisciplinesByChoice(groupName).asBundlesList()
+                val list =
+                    withContext(Dispatchers.IO) { Network.api.getDisciplinesByChoice(groupNumber) }
+//                                        TestValues.generateDisciplinesBundles(15)
+                disciplinesList.value = list.asBundlesList()
                 requestStatus.value = RequestStatus.DONE
             } catch (e: UnknownHostException) {
                 println(e.message)

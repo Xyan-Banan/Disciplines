@@ -9,11 +9,12 @@ import com.example.disciplines.R
 import com.example.disciplines.data.network.Network
 import com.example.disciplines.data.network.RequestStatus
 import com.example.disciplines.data.network.model.Discipline
-import com.example.disciplines.ui.CurrentGroup
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
-class MobilityModuleViewModel : ViewModel() {
+class MobilityModuleViewModel(groupNumber: String) : ViewModel() {
     val modulesList = MutableLiveData<List<Discipline.MobilityModule>>()
     private val requestStatus = MutableLiveData<RequestStatus>()
     val confirmBtnVisibility = requestStatus.map {
@@ -50,18 +51,17 @@ class MobilityModuleViewModel : ViewModel() {
     }
 
     init {
-        val groupName = CurrentGroup.value ?: "353090490300" // TODO: handle null value properly
-        getModulesList(groupName)
+        getModulesList(groupNumber)
     }
 
-    private fun getModulesList(groupName: String) {
+    private fun getModulesList(groupNumber: String) {
         viewModelScope.launch {
-            val course = groupName[groupName.length - 3].digitToInt()
+            val course = groupNumber[groupNumber.length - 3].digitToInt()
             requestStatus.value = RequestStatus.LOADING
             try {
-                modulesList.value = Network.api.getMobilityModules(groupName)
-//                modulesList.value = Network.api.getMobilityModules()
-                    .filter { it.intensity >= course }
+                val list =
+                    withContext(Dispatchers.IO) { Network.api.getMobilityModules(groupNumber) }
+                modulesList.value = list.filter { it.intensity >= course }
                 requestStatus.value = RequestStatus.DONE
             } catch (e: Exception) {
                 println(e.message)
