@@ -36,7 +36,8 @@
     <string name="open">Открыть</string>
     <string name="fileIcon">Иконка файла</string>
     <string name="blockName">Блок дисциплин %1$d</string>
-    <string name="submit_btn_description">Button to submit group number</string>
+    <string name="submit_btn_description">Submit group number</string>
     <string name="groupNumber_editText_hint">Пример: 3530904/90321</string>
     <string name="instructions_disciplinesMenu">Введите номер группы</string>
+    <string name="groupInfo" >Ваш курс: %1$d \nТекущий семестр: %2$d \nГод поступления: %3$d</string>
 </resources>

@@ -24,7 +24,7 @@ class DisciplinesMenu : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProvider(this).get(DisciplinesMenuViewModel::class.java)
+        viewModel = ViewModelProvider(this)[DisciplinesMenuViewModel::class.java]
 
         binding = DisciplinesMenuFragmentBinding.inflate(inflater)
         binding.viewModel = viewModel
@@ -33,21 +33,21 @@ class DisciplinesMenu : Fragment() {
         binding.disciplinesByChoiceBtn.setOnClickListener {
             findNavController().navigate(
                 DisciplinesMenuDirections.actionDisciplinesMenuToDisciplineByChoiceFragment(
-                    viewModel.groupNumber.value!!
+                    viewModel.groupNumberInfo.value!!
                 )
             )
         }
         binding.mobilityModuleBtn.setOnClickListener {
             findNavController().navigate(
                 DisciplinesMenuDirections.actionDisciplinesMenuToMobilityModuleFragment(
-                    viewModel.groupNumber.value!!
+                    viewModel.groupNumberInfo.value!!
                 )
             )
         }
         binding.electivesBtn.setOnClickListener {
             findNavController().navigate(
                 DisciplinesMenuDirections.actionDisciplinesMenuToElectives(
-                    viewModel.groupNumber.value!!
+                    viewModel.groupNumberInfo.value!!
                 )
             )
         }
@@ -55,6 +55,7 @@ class DisciplinesMenu : Fragment() {
         binding.groupNumberET.addTextChangedListener(onTextChanged = { _, _, _, _ ->
             viewModel.isValidGroupNumber.value = false
             viewModel.error.value = null
+            viewModel.groupNumberInfo.value = null
         })
         binding.groupNumberET.setOnEditorActionListener { _, actionId, event ->
             if (event?.keyCode == KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_DONE) {

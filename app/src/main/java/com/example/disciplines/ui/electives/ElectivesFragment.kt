@@ -19,9 +19,9 @@ class ElectivesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val groupNumber = ElectivesFragmentArgs.fromBundle(requireArguments()).groupNumber
+        val groupInfo = ElectivesFragmentArgs.fromBundle(requireArguments()).groupInfo
         val viewModel: ElectivesViewModel by viewModels {
-            ElectivesViewModelFactory(requireActivity().application, groupNumber)
+            ElectivesViewModelFactory(requireActivity().application, groupInfo.groupNumber)
         }
         val binding = ElectiveListBinding.inflate(inflater)
         binding.viewModel = viewModel

@@ -4,9 +4,11 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.*
 import androidx.core.view.get
 import androidx.databinding.BindingAdapter
+import com.example.disciplines.GroupNumberInfo
 import com.example.disciplines.R
 import com.example.disciplines.data.network.model.Discipline
 import com.example.disciplines.data.network.model.DisciplinesBundle
@@ -123,4 +125,11 @@ fun CheckBox.setElective(elective: Discipline.Elective?) {
 @BindingAdapter("error")
 fun EditText.setErrorString(error: String?){
     this.error = error
+}
+
+@BindingAdapter("groupInfo")
+fun TextView.setGroupInfo(groupInfo: GroupNumberInfo?){
+    groupInfo?.run {
+        text = context.getString(R.string.groupInfo,course, semester, admissionYear)
+    }
 }

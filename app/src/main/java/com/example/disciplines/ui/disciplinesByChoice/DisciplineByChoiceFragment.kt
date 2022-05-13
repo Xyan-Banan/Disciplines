@@ -20,9 +20,9 @@ class DisciplineByChoiceFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val groupName = DisciplineByChoiceFragmentArgs.fromBundle(requireArguments()).groupNumber
+        val groupInfo = DisciplineByChoiceFragmentArgs.fromBundle(requireArguments()).groupInfo
         val viewModel: DisciplinesByChoiceViewModel by viewModels {
-            DisciplinesByChoiceViewModelFactory(groupName)
+            DisciplinesByChoiceViewModelFactory(groupInfo.groupNumber)
         }
 
         val binding = DisciplineListBinding.inflate(inflater)

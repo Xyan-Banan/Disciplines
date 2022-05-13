@@ -20,9 +20,9 @@ class MobilityModuleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val groupNumber = MobilityModuleFragmentArgs.fromBundle(requireArguments()).groupNumber
+        val groupInfo = MobilityModuleFragmentArgs.fromBundle(requireArguments()).groupInfo
         val viewModel: MobilityModuleViewModel by viewModels {
-            MobilityModuleViewModelFactory(groupNumber)
+            MobilityModuleViewModelFactory(groupInfo.groupNumber)
         }
         val binding = MobilityModuleListBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner

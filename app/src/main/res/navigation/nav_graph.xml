@@ -34,8 +34,8 @@
             android:id="@+id/action_disciplineByChoiceFragment_to_confirmationFragment"
             app:destination="@id/confirmationFragment" />
         <argument
-            android:name="groupNumber"
-            app:argType="string" />
+            android:name="groupInfo"
+            app:argType="com.example.disciplines.GroupNumberInfo" />
     </fragment>
     <fragment
         android:id="@+id/mobilityModuleFragment"
@@ -46,8 +46,8 @@
             android:id="@+id/action_mobilityModuleFragment_to_confirmationFragment"
             app:destination="@id/confirmationFragment" />
         <argument
-            android:name="groupNumber"
-            app:argType="string" />
+            android:name="groupInfo"
+            app:argType="com.example.disciplines.GroupNumberInfo" />
     </fragment>
     <fragment
         android:id="@+id/electivesFragment"
@@ -58,8 +58,8 @@
             android:id="@+id/action_electives_to_confirmationFragment"
             app:destination="@id/confirmationFragment" />
         <argument
-            android:name="groupNumber"
-            app:argType="string" />
+            android:name="groupInfo"
+            app:argType="com.example.disciplines.GroupNumberInfo" />
     </fragment>
     <fragment
         android:id="@+id/confirmationFragment"
