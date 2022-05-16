@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.disciplines.databinding.ConfirmationFragmentBinding
@@ -30,6 +31,8 @@ class ConfirmationFragment : Fragment() {
 //        viewModel.pdf.delete()
 //        viewModel.pdf = requireContext().contentResolver.openFile(it,"w", CancellationSignal()).fileDescriptor.f
     }
+
+    val openFileAction = registerForActivityResult(ActivityResultContracts.OpenDocument()) {}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,13 +58,42 @@ class ConfirmationFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.openBtn.setOnClickListener {
-
+            startActivity(getOpenIntent())
+//            startActivity(Intent.createChooser(intent, "Open file"))
         }
 
         binding.saveToPhoneBtn.setOnClickListener {
             createFileAction.launch(viewModel.applicationName)
         }
 
+        binding.shareBtn.setOnClickListener{
+            startActivity(getShareIntent())
+        }
+
         return binding.root
+    }
+
+    private fun getOpenIntent(): Intent {
+//            val uri = Uri.fromFile(viewModel.pdf)
+        val uri = viewModel.pdfUri
+        return Intent(Intent.ACTION_VIEW)
+            .setDataAndType(uri, "application/pdf")
+            .setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    }
+
+    private fun getShareIntent(): Intent {
+        val uri = viewModel.pdfUri
+//        val intent = Intent(Intent.ACTION_SEND)
+//            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+//            .setType("*/*")
+//            .putExtra(Intent.EXTRA_STREAM, uri)
+//            .setDataAndType(uri, "*/*")
+//            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+        val shareIntent = ShareCompat.IntentBuilder(requireContext())
+            .setType("*/*")
+            .setStream(uri)
+            .intent
+        return Intent.createChooser(shareIntent,null)
     }
 }

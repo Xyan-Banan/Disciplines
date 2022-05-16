@@ -25,7 +25,6 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
@@ -51,7 +50,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:enabled="@{!viewModel.isLoading}"
+            android:paddingEnd="60dp"
             android:text="@string/open"
+            app:icon="@drawable/ic_open"
+            app:iconSize="30dp"
             app:layout_constraintBottom_toTopOf="@id/saveToPhoneBtn"
             app:layout_constraintEnd_toEndOf="@+id/saveToPhoneBtn"
             app:layout_constraintHorizontal_bias="1.0"
@@ -63,33 +65,50 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="@{!viewModel.isLoading}"
+            android:paddingEnd="60dp"
             android:text="@string/saveToPhone"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:icon="@android:drawable/ic_menu_save"
+            app:layout_constraintBottom_toBottomOf="@+id/shareBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/openBtn" />
 
-        <ProgressBar
-            android:id="@+id/progressBarOpen"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:visibility="@{viewModel.progressBarVisibility}"
-            app:layout_constraintBottom_toBottomOf="@+id/openBtn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/openBtn"
-            app:layout_constraintTop_toTopOf="@+id/openBtn" />
+        <Button
+            android:id="@+id/shareBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:enabled="@{!viewModel.isLoading}"
+            android:paddingEnd="60dp"
+            android:text="@string/share"
+            android:textAlignment="gravity"
+            app:icon="@android:drawable/ic_menu_share"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/saveToPhoneBtn"
+            app:layout_constraintStart_toStartOf="@+id/saveToPhoneBtn"
+            app:layout_constraintTop_toBottomOf="@+id/saveToPhoneBtn" />
 
         <ProgressBar
-            android:id="@+id/progressBarSave"
+            android:id="@+id/progressBarCreationPdf"
             style="?android:attr/progressBarStyle"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="50dp"
             android:visibility="@{viewModel.progressBarVisibility}"
-            app:layout_constraintBottom_toBottomOf="@+id/saveToPhoneBtn"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/saveToPhoneBtn"
-            app:layout_constraintTop_toTopOf="@+id/saveToPhoneBtn" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <ImageView
+            android:id="@+id/fileIconIV"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/file_icon"
+            android:visibility="@{viewModel.fileIconVisibility}"
+            app:layout_constraintBottom_toBottomOf="@+id/progressBarCreationPdf"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_file" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,11 +1,14 @@
 package com.example.disciplines.ui.confirmation
 
 import android.app.Application
+import android.net.Uri
 import android.os.Build
 import android.text.SpannableStringBuilder
 import android.util.Log
 import android.view.View
+import androidx.core.content.FileProvider
 import androidx.lifecycle.*
+import com.example.disciplines.BuildConfig
 import com.example.disciplines.GroupNumberInfo
 import com.example.disciplines.R
 import com.example.disciplines.data.network.model.SelectedDisciplines
@@ -34,9 +37,18 @@ class ConfirmationViewModel(
     val isLoading: LiveData<Boolean>
         get() = _isLoading
     val progressBarVisibility = isLoading.map { if (it) View.VISIBLE else View.GONE }
+    val fileIconVisibility = isLoading.map { if (!it) View.VISIBLE else View.GONE }
     private val _pdfCreatedEvent = MutableLiveData(false)
     val pdfCreatedEvent: LiveData<Boolean>
         get() = _pdfCreatedEvent
+
+    val pdfUri: Uri by lazy {
+        FileProvider.getUriForFile(
+            app,
+            BuildConfig.APPLICATION_ID + ".provider",
+            pdf
+        )
+    }
 
 
     init {
@@ -57,7 +69,8 @@ class ConfirmationViewModel(
             val template = ApplicationTemplate(getHtml(selectedDisciplines))
             val filled = template.fill(selectedDisciplines, groupInfo.semester.toString())
 //            println(filled)
-            val pdf = File(app.cacheDir, "cache.pdf")
+            val pdf = File(app.cacheDir, "Application.pdf")
+            Log.d(ConfirmationViewModel::class.simpleName, "Created PDF: $pdf")
             val converterProperties = getConverterProperties()
 
             pdf.outputStream().use { outputStream ->
