@@ -1,4 +1,4 @@
-package com.example.disciplines.ui.mobilityModule
+package com.example.disciplines.ui.lists.mobilityModule
 
 import android.os.Bundle
 import android.view.Gravity

@@ -1,4 +1,4 @@
-package com.example.disciplines.ui.mobilityModule
+package com.example.disciplines.ui.lists.mobilityModule
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData

@@ -1,8 +1,9 @@
-package com.example.disciplines.ui.electives
+package com.example.disciplines.ui.lists.electives
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.disciplines.ui.mobilityModule.MobilityModuleViewModel
+import com.example.disciplines.GroupNumberInfo
+import com.example.disciplines.ui.lists.mobilityModule.MobilityModuleViewModel
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -11,7 +12,9 @@ import org.junit.runner.RunWith
 class ElectivesViewModelFactoryTest{
     @Test
     fun create_onOtherViewModel_throwsException() {
-        val factory = ElectivesViewModelFactory(ApplicationProvider.getApplicationContext(),"")
+        val factory = ElectivesViewModelFactory(ApplicationProvider.getApplicationContext(),
+            GroupNumberInfo("")
+        )
 
         Assert.assertThrows(IllegalArgumentException::class.java) {
             factory.create(
@@ -22,7 +25,7 @@ class ElectivesViewModelFactoryTest{
 
     @Test
     fun create_returnsProperViewModel() {
-        val factory = ElectivesViewModelFactory(ApplicationProvider.getApplicationContext(),"")
+        val factory = ElectivesViewModelFactory(ApplicationProvider.getApplicationContext(),GroupNumberInfo(""))
 
         val vm = factory.create(ElectivesViewModel::class.java)
 

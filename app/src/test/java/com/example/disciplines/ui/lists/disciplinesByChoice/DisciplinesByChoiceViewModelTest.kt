@@ -1,4 +1,4 @@
-package com.example.disciplines.ui.disciplinesByChoice
+package com.example.disciplines.ui.lists.disciplinesByChoice
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.disciplines.MainCoroutineRule
@@ -27,7 +27,7 @@ class DisciplinesByChoiceViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel = DisciplinesByChoiceViewModel()
+        viewModel = DisciplinesByChoiceViewModel("")
     }
 //
 //    @After
@@ -45,16 +45,14 @@ class DisciplinesByChoiceViewModelTest {
         val ex = listOf(
             DisciplinesBundle(
                 listOf(
-                    Discipline.ByChoice(intensity = 0),
-                    Discipline.ByChoice(intensity = 0)
+                    Discipline.ByChoice(  "", 0),
+                    Discipline.ByChoice("", 0)
                 )
             ),
             DisciplinesBundle(
                 listOf(
-                    Discipline.ByChoice(
-                        intensity = 0
-                    ),
-                    Discipline.ByChoice(intensity = 0)
+                    Discipline.ByChoice("", 0),
+                    Discipline.ByChoice("", 0)
                 )
             )
         )

@@ -6,11 +6,6 @@
     app:startDestination="@id/disciplinesMenu">
 
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.disciplines.ui.login.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
-    <fragment
         android:id="@+id/disciplinesMenu"
         android:name="com.example.disciplines.ui.disciplinesMenu.DisciplinesMenu"
         android:label="disciplines_menu_fragment"
@@ -27,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/disciplineByChoiceFragment"
-        android:name="com.example.disciplines.ui.disciplinesByChoice.DisciplineByChoiceFragment"
+        android:name="com.example.disciplines.ui.lists.disciplinesByChoice.DisciplineByChoiceFragment"
         android:label="disciplines_by_choice"
         tools:layout="@layout/discipline_list" >
         <action
@@ -39,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/mobilityModuleFragment"
-        android:name="com.example.disciplines.ui.mobilityModule.MobilityModuleFragment"
+        android:name="com.example.disciplines.ui.lists.mobilityModule.MobilityModuleFragment"
         android:label="mobility_module"
         tools:layout="@layout/mobility_module_list" >
         <action
@@ -51,7 +46,7 @@
     </fragment>
     <fragment
         android:id="@+id/electivesFragment"
-        android:name="com.example.disciplines.ui.electives.ElectivesFragment"
+        android:name="com.example.disciplines.ui.lists.electives.ElectivesFragment"
         android:label="Electives"
         tools:layout="@layout/elective_list">
         <action

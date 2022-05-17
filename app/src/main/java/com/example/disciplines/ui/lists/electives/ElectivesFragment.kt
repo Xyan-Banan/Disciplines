@@ -1,4 +1,4 @@
-package com.example.disciplines.ui.electives
+package com.example.disciplines.ui.lists.electives
 
 import android.os.Bundle
 import android.view.Gravity

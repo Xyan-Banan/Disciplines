@@ -9,7 +9,6 @@ import android.text.style.BulletSpan
 import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
-import androidx.core.content.res.ResourcesCompat
 import kotlin.math.roundToInt
 
 fun Toast.applyGravity(gravity: Int, xOffset: Int, yOffset: Int) =

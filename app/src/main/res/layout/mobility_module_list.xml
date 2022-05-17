@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.disciplines.ui.mobilityModule.MobilityModuleViewModel" />
+            type="com.example.disciplines.ui.lists.mobilityModule.MobilityModuleViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +17,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.mobilityModule.MobilityModuleFragment">
+            tools:context="com.example.disciplines.ui.lists.mobilityModule.MobilityModuleFragment">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

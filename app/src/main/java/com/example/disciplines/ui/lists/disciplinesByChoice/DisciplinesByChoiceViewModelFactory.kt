@@ -1,4 +1,4 @@
-package com.example.disciplines.ui.disciplinesByChoice
+package com.example.disciplines.ui.lists.disciplinesByChoice
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

@@ -1,4 +1,4 @@
-package com.example.disciplines.ui.electives
+package com.example.disciplines.ui.lists.electives
 
 import android.app.Application
 import android.text.SpannableString
@@ -11,13 +11,10 @@ import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.disciplines.GroupNumberInfo
 import com.example.disciplines.R
-import com.example.disciplines.data.network.Network
 import com.example.disciplines.data.network.RequestStatus
 import com.example.disciplines.data.network.TestValues
 import com.example.disciplines.data.network.model.Discipline
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
 
 class ElectivesViewModel(private val app: Application, groupInfo: GroupNumberInfo) :

@@ -4,7 +4,6 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.*
 import androidx.core.view.get
 import androidx.databinding.BindingAdapter

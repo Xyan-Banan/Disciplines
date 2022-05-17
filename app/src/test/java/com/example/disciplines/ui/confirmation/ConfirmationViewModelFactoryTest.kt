@@ -1,10 +1,9 @@
 package com.example.disciplines.ui.confirmation
 
-import androidx.lifecycle.ViewModel
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.disciplines.R
-import com.example.disciplines.ui.mobilityModule.MobilityModuleViewModel
+import com.example.disciplines.ui.lists.mobilityModule.MobilityModuleViewModel
 
 import org.junit.Assert.assertThrows
 import org.junit.Test

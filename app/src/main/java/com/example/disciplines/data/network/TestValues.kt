@@ -1,6 +1,7 @@
 package com.example.disciplines.data.network
 
-import com.example.disciplines.data.network.model.*
+import com.example.disciplines.data.network.model.Discipline
+import com.example.disciplines.data.network.model.DisciplinesBundle
 import kotlin.random.Random
 
 object TestValues {

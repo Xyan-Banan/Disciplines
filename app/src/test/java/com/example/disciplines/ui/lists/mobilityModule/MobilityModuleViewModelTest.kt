@@ -1,4 +1,4 @@
-package com.example.disciplines.ui.mobilityModule
+package com.example.disciplines.ui.lists.mobilityModule
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -26,7 +26,7 @@ class MobilityModuleViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel = MobilityModuleViewModel()
+        viewModel = MobilityModuleViewModel("")
     }
 
     @Test

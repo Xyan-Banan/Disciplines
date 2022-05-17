@@ -1,8 +1,9 @@
-package com.example.disciplines.ui.electives
+package com.example.disciplines.ui.lists.electives
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.disciplines.GroupNumberInfo
 import com.example.disciplines.MainCoroutineRule
 import com.example.disciplines.data.network.model.Discipline
 import com.example.disciplines.getOrAwaitValue
@@ -29,7 +30,9 @@ class ElectivesViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel = ElectivesViewModel(ApplicationProvider.getApplicationContext(),"")
+        viewModel = ElectivesViewModel(ApplicationProvider.getApplicationContext(),
+            GroupNumberInfo("")
+        )
     }
 
     @Test

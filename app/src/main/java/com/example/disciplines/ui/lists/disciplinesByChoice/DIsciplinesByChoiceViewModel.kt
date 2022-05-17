@@ -1,4 +1,4 @@
-package com.example.disciplines.ui.disciplinesByChoice
+package com.example.disciplines.ui.lists.disciplinesByChoice
 
 import android.util.Log
 import android.view.View
