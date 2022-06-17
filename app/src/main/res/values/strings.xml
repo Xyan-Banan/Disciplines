@@ -18,15 +18,14 @@
     <string name="instructions_disciplinesByChoice_empty">Нет доступных дисциплин по выбору. Обратитесь к руководителю образовательной программы.</string>
     <string name="instructions_mobilityModule">Выберите одну из предложенных дисциплин модуля мобильности</string>
     <string name="instructions_mobilityModule_empty">Нет доступных модулей мобильности. Обратитесь к руководителю образовательной программы.</string>
-    <string name="instructions_electives">Выберите по желанию необходимое количество факультативов.\n
-        Помните, что для проведения факультатива для %1$s, необходимо, чтобы из потока на него записалось не менее %2$d человек</string>
+    <string name="instructions_electives">Выберите по желанию необходимое количество факультативов.\nПомните, что для проведения факультатива для %1$s, необходимо, чтобы из потока на него записалось не менее %2$d человек</string>
     <string name="instructions_electives_empty">Нет доступных факультативов. Обратитесь к руководителю образовательной программы.</string>
-    <string name="toast_text_disciplinesByChoice">"Вы должны выборать в каждой паре по одной дисциплине! Выбрано: %1$d из %2$d"</string>
+    <string name="toast_text_disciplinesByChoice">"Вы должны выборать в каждом блоке по одной дисциплине! Выбрано: %1$d из %2$d"</string>
     <string name="discipline">%1$s (%2$d часов)</string>
     <string name="mobilityModuleCardText">%1$s (%2$d зачетных единиц) \nВходящие дисциплины: \n%3$s</string>
     <string name="status_image_description">Иконка статуса загрузки</string>
     <string name="toast_text_electives">Выберите хотя бы одну дисциплину</string>
-    <string name="toast_text_mobilityModule">Необходимо выбрать хотя бы один модуль мобильности</string>
+    <string name="toast_text_mobilityModule">Необходимо выбрать хотя бы одну дисциплину модуля мобильности</string>
     <string name="title_error">Ошибка</string>
     <string name="title_selected_electives">Выбранные факультативы</string>
     <string name="title_selected_disciplinesByChoice">Выбранные дисциплины</string>
@@ -42,4 +41,7 @@
     <string name="groupInfo" >Ваш курс: %1$d \nТекущий семестр: %2$d \nГод поступления: %3$d</string>
     <string name="share">Поделиться</string>
     <string name="file_icon">File Icon</string>
+    <string name="no_application_to_open_pdf">На телефоне нет приложений для просмотра PDF файлов</string>
+    <string name="file_created">Файл создан</string>
+    <string name="can_not_share_file">Невозможно поделиться файлом</string>
 </resources>

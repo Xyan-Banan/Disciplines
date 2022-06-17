@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/disciplinesMenu"
-        android:name="com.example.disciplines.ui.disciplinesMenu.DisciplinesMenu"
+        android:name="com.example.disciplines.ui.disciplinesMenu.DisciplinesMenuFragment"
         android:label="disciplines_menu_fragment"
         tools:layout="@layout/disciplines_menu_fragment" >
         <action

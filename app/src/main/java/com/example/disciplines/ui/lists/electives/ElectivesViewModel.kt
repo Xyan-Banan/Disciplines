@@ -11,10 +11,13 @@ import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.disciplines.GroupNumberInfo
 import com.example.disciplines.R
+import com.example.disciplines.data.network.Network
 import com.example.disciplines.data.network.RequestStatus
 import com.example.disciplines.data.network.TestValues
 import com.example.disciplines.data.network.model.Discipline
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
 
 class ElectivesViewModel(private val app: Application, groupInfo: GroupNumberInfo) :
@@ -62,9 +65,9 @@ class ElectivesViewModel(private val app: Application, groupInfo: GroupNumberInf
             requestStatus.value = RequestStatus.LOADING
             try {
                 val list =
-//                    withContext(Dispatchers.IO) { Network.api.getElectives(groupInfo.groupNumber) }
-                    TestValues.generateElectives(5)
-                electivesList.value = list
+                    withContext(Dispatchers.IO) { Network.api.getElectives(groupInfo.groupNumber) }
+                    //TestValues.generateElectives(5)
+                electivesList.value = list.sortedBy { it.name }
                 requestStatus.value = RequestStatus.DONE
             } catch (e: UnknownHostException) {
                 electivesList.value = emptyList()

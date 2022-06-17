@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.disciplines.R
 import com.example.disciplines.databinding.ConfirmationFragmentBinding
 
 class ConfirmationFragment : Fragment() {
@@ -32,7 +33,8 @@ class ConfirmationFragment : Fragment() {
 //        viewModel.pdf = requireContext().contentResolver.openFile(it,"w", CancellationSignal()).fileDescriptor.f
     }
 
-    val openFileAction = registerForActivityResult(ActivityResultContracts.OpenDocument()) {}
+    private lateinit var shareIntent: Intent
+    private lateinit var openIntent: Intent
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,32 +51,49 @@ class ConfirmationFragment : Fragment() {
             )
         ).get(ConfirmationViewModel::class.java)
 
-        viewModel.pdfCreatedEvent.observe(viewLifecycleOwner) { isCreated ->
-            if (isCreated) Toast.makeText(context, "Файл создан", Toast.LENGTH_SHORT).show()
-        }
-
         val binding = ConfirmationFragmentBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
+        viewModel.pdfCreatedEvent.observe(viewLifecycleOwner) { isCreated ->
+            if (isCreated) {
+                Toast.makeText(
+                    context,
+                    getString(R.string.file_created),
+                    Toast.LENGTH_SHORT
+                ).show()
+                shareIntent = getShareIntent()
+                openIntent = getOpenIntent()
+                requireActivity().packageManager.let { pm ->
+                    if (shareIntent.resolveActivity(pm) == null) {
+                        binding.shareBtn.isEnabled = false
+                        binding.shareBtn.error = getString(R.string.can_not_share_file)
+                    }
+                    if (openIntent.resolveActivity(pm) == null) {
+                        binding.openBtn.isEnabled = false
+                        binding.shareBtn.error = getString(R.string.no_application_to_open_pdf)
+                    }
+                }
+
+            }
+        }
+
         binding.openBtn.setOnClickListener {
-            startActivity(getOpenIntent())
-//            startActivity(Intent.createChooser(intent, "Open file"))
+            startActivity(openIntent)
         }
 
         binding.saveToPhoneBtn.setOnClickListener {
             createFileAction.launch(viewModel.applicationName)
         }
 
-        binding.shareBtn.setOnClickListener{
-            startActivity(getShareIntent())
+        binding.shareBtn.setOnClickListener {
+            startActivity(shareIntent)
         }
 
         return binding.root
     }
 
     private fun getOpenIntent(): Intent {
-//            val uri = Uri.fromFile(viewModel.pdf)
         val uri = viewModel.pdfUri
         return Intent(Intent.ACTION_VIEW)
             .setDataAndType(uri, "application/pdf")
@@ -82,18 +101,10 @@ class ConfirmationFragment : Fragment() {
     }
 
     private fun getShareIntent(): Intent {
-        val uri = viewModel.pdfUri
-//        val intent = Intent(Intent.ACTION_SEND)
-//            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-//            .setType("*/*")
-//            .putExtra(Intent.EXTRA_STREAM, uri)
-//            .setDataAndType(uri, "*/*")
-//            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
         val shareIntent = ShareCompat.IntentBuilder(requireContext())
-            .setType("*/*")
-            .setStream(uri)
+            .setType("application/pdf")
+            .setStream(viewModel.pdfUri)
             .intent
-        return Intent.createChooser(shareIntent,null)
+        return Intent.createChooser(shareIntent, null)
     }
 }

@@ -14,7 +14,7 @@
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.disciplinesMenu.DisciplinesMenu">
+        tools:context=".ui.disciplinesMenu.DisciplinesMenuFragment">
 
         <TextView
             android:id="@+id/instructionsTV"

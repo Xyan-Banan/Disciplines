@@ -116,7 +116,10 @@ fun RadioGroup.setMobilityModules(list: List<Discipline.MobilityModule>?) {
 @BindingAdapter("elective")
 fun CheckBox.setElective(elective: Discipline.Elective?) {
     elective?.let {
-        text = it.name
+        val stringBuilder = SpannableStringBuilder()
+            .append(it.name + "\n", RelativeSizeSpan(1.2f), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            .append("Трудоемкость: ${it.intensity} з.е./${it.intensity * 36} ч.")
+        text = stringBuilder
         isChecked = it.isChecked
     }
 }

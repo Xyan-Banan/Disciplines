@@ -13,8 +13,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.disciplines.databinding.DisciplinesMenuFragmentBinding
+import kotlinx.html.Dir
 
-class DisciplinesMenu : Fragment() {
+class DisciplinesMenuFragment : Fragment() {
 
     private lateinit var viewModel: DisciplinesMenuViewModel
     private lateinit var binding: DisciplinesMenuFragmentBinding
@@ -32,21 +33,21 @@ class DisciplinesMenu : Fragment() {
 
         binding.disciplinesByChoiceBtn.setOnClickListener {
             findNavController().navigate(
-                DisciplinesMenuDirections.actionDisciplinesMenuToDisciplineByChoiceFragment(
+                DisciplinesMenuFragmentDirections.actionDisciplinesMenuToDisciplineByChoiceFragment(
                     viewModel.groupNumberInfo.value!!
                 )
             )
         }
         binding.mobilityModuleBtn.setOnClickListener {
             findNavController().navigate(
-                DisciplinesMenuDirections.actionDisciplinesMenuToMobilityModuleFragment(
+                DisciplinesMenuFragmentDirections.actionDisciplinesMenuToMobilityModuleFragment(
                     viewModel.groupNumberInfo.value!!
                 )
             )
         }
         binding.electivesBtn.setOnClickListener {
             findNavController().navigate(
-                DisciplinesMenuDirections.actionDisciplinesMenuToElectives(
+                DisciplinesMenuFragmentDirections.actionDisciplinesMenuToElectives(
                     viewModel.groupNumberInfo.value!!
                 )
             )
