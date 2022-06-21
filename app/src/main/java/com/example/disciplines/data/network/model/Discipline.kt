@@ -4,7 +4,14 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 sealed class Discipline : Parcelable {
+    /**
+     * Название
+     */
     abstract val name: String
+
+    /**
+     * Трудоемкость
+     */
     abstract val intensity: Int
 
     @Parcelize

@@ -9,11 +9,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import com.example.disciplines.Degree
 import com.example.disciplines.GroupNumberInfo
 import com.example.disciplines.R
 import com.example.disciplines.data.network.Network
 import com.example.disciplines.data.network.RequestStatus
-import com.example.disciplines.data.network.TestValues
 import com.example.disciplines.data.network.model.Discipline
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ import java.net.UnknownHostException
 class ElectivesViewModel(private val app: Application, groupInfo: GroupNumberInfo) :
     AndroidViewModel(app) {
     val electivesList = MutableLiveData<List<Discipline.Elective>>()
-    val requestStatus = MutableLiveData<RequestStatus>()
+    private val requestStatus = MutableLiveData<RequestStatus>()
 
     val confirmBtnVisibility = requestStatus.map {
         when (it) {
@@ -66,7 +66,6 @@ class ElectivesViewModel(private val app: Application, groupInfo: GroupNumberInf
             try {
                 val list =
                     withContext(Dispatchers.IO) { Network.api.getElectives(groupInfo.groupNumber) }
-                    //TestValues.generateElectives(5)
                 electivesList.value = list.sortedBy { it.name }
                 requestStatus.value = RequestStatus.DONE
             } catch (e: UnknownHostException) {
@@ -81,8 +80,8 @@ class ElectivesViewModel(private val app: Application, groupInfo: GroupNumberInf
             return app.getString(R.string.instructions_electives_empty)
         else {
             val (studentType, neededPeople) = when (groupInfo.degree) {
-                GroupNumberInfo.Degree.BACHELOR -> "бакалавриата" to 18
-                GroupNumberInfo.Degree.MASTER -> "магистратуры" to 12
+                Degree.BACHELOR -> "бакалавриата" to 18
+                Degree.MASTER -> "магистратуры" to 12
             }
             val spannable = SpannableString(
                 app.getString(

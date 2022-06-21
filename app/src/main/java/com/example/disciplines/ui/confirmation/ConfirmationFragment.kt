@@ -15,6 +15,7 @@ import com.example.disciplines.R
 import com.example.disciplines.databinding.ConfirmationFragmentBinding
 
 class ConfirmationFragment : Fragment() {
+    private lateinit var binding: ConfirmationFragmentBinding
     private lateinit var viewModel: ConfirmationViewModel
     private val contract = object : ActivityResultContracts.CreateDocument() {
         override fun createIntent(context: Context, input: String): Intent {
@@ -22,16 +23,17 @@ class ConfirmationFragment : Fragment() {
         }
     }
     private val createFileAction = registerForActivityResult(contract) {
+        it ?: return@registerForActivityResult
         viewModel.pdf.inputStream().use { input ->
             requireContext().contentResolver.openOutputStream(it).use { output ->
                 output ?: throw IllegalStateException()
                 input.copyTo(output)
             }
         }
+    }
 //        TODO: delete cached file and use saved or clear cache folder on dispose
 //        viewModel.pdf.delete()
 //        viewModel.pdf = requireContext().contentResolver.openFile(it,"w", CancellationSignal()).fileDescriptor.f
-    }
 
     private lateinit var shareIntent: Intent
     private lateinit var openIntent: Intent
@@ -51,10 +53,14 @@ class ConfirmationFragment : Fragment() {
             )
         ).get(ConfirmationViewModel::class.java)
 
-        val binding = ConfirmationFragmentBinding.inflate(inflater)
+        binding = ConfirmationFragmentBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.pdfCreatedEvent.observe(viewLifecycleOwner) { isCreated ->
             if (isCreated) {
                 Toast.makeText(
@@ -74,7 +80,6 @@ class ConfirmationFragment : Fragment() {
                         binding.shareBtn.error = getString(R.string.no_application_to_open_pdf)
                     }
                 }
-
             }
         }
 
@@ -89,8 +94,6 @@ class ConfirmationFragment : Fragment() {
         binding.shareBtn.setOnClickListener {
             startActivity(shareIntent)
         }
-
-        return binding.root
     }
 
     private fun getOpenIntent(): Intent {

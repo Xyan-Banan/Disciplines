@@ -25,8 +25,8 @@ class ApplicationTemplate(private val rawHtml: String) {
                 //разделитель блоков
                 tr {
                     td {
-                        colSpan = "4"
-                        i{ +"Блок дисциплин во выбору ${bundleIndex + 1}" }
+                        colSpan = DEFAULT_COLSPAN
+                        i { +BLOCK_TITLE.format(bundleIndex + 1) }
                     }
                 }
                 val disciplines = bundle.list
@@ -49,7 +49,7 @@ class ApplicationTemplate(private val rawHtml: String) {
                         }
                         //отметка о выборе
                         td {
-                            +if (disciplineIndex == checked) "√ ✓ ✔ \uD83D\uDDF8" else ""
+                            +if (disciplineIndex == checked) CHECKED else NOT_CHECKED
                         }
                     }
                 }
@@ -70,10 +70,17 @@ class ApplicationTemplate(private val rawHtml: String) {
 
     private fun getModulesRows(module: Discipline.MobilityModule, semester: String): String {
         return StringBuilder().appendHTML().tr {
-                    td { +module.name }
-                    td { +module.intensity.toString() }
-                    td { +semester }
-                    td { a(module.link) { +module.link } }
-                }.toString()
+            td { +module.name }
+            td { +module.intensity.toString() }
+            td { +semester }
+            td { a(module.link) { +module.link } }
+        }.toString()
+    }
+
+    companion object {
+        private const val DEFAULT_COLSPAN = "4"
+        private const val CHECKED = "√"
+        private const val NOT_CHECKED = ""
+        private const val BLOCK_TITLE = "Блок дисциплин во выбору %d"
     }
 }

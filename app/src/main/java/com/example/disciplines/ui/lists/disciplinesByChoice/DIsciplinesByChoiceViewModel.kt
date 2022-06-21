@@ -67,7 +67,6 @@ class DisciplinesByChoiceViewModel(groupNumber: String) : ViewModel() {
             try {
                 val list =
                     withContext(Dispatchers.IO) { Network.api.getDisciplinesByChoice(groupNumber) }
-//                                        TestValues.generateDisciplinesBundles(15)
                 disciplinesList.value = list.asBundlesList()
                 requestStatus.value = RequestStatus.DONE
             } catch (e: UnknownHostException) {
@@ -78,4 +77,16 @@ class DisciplinesByChoiceViewModel(groupNumber: String) : ViewModel() {
             }
         }
     }
+
+    val isCanNavigate: Boolean
+        get() {
+            disciplinesList.value?.let {
+                return checked == it.size
+            }
+
+            return false
+        }
+    val checked: Int
+        get() = disciplinesList.value?.count { it.checkedIndex >= 0 } ?: 0
+
 }

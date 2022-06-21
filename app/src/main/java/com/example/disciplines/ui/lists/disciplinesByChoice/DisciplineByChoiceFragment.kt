@@ -7,48 +7,58 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.disciplines.GroupNumberInfo
 import com.example.disciplines.R
 import com.example.disciplines.applyGravity
 import com.example.disciplines.data.network.model.SelectedDisciplines
 import com.example.disciplines.databinding.DisciplineListBinding
 
 class DisciplineByChoiceFragment : Fragment() {
+    private lateinit var binding: DisciplineListBinding
+    private lateinit var viewModel: DisciplinesByChoiceViewModel
+    private lateinit var groupInfo: GroupNumberInfo
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        val groupInfo = DisciplineByChoiceFragmentArgs.fromBundle(requireArguments()).groupInfo
-        val viewModel: DisciplinesByChoiceViewModel by viewModels {
-            DisciplinesByChoiceViewModelFactory(groupInfo.groupNumber)
-        }
+        groupInfo = DisciplineByChoiceFragmentArgs.fromBundle(requireArguments()).groupInfo
+        viewModel =
+            ViewModelProvider(
+                this,
+                DisciplinesByChoiceViewModelFactory(groupInfo.groupNumber)
+            ).get(DisciplinesByChoiceViewModel::class.java)
 
-        val binding = DisciplineListBinding.inflate(inflater)
+        binding = DisciplineListBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.confirmBtn.setOnClickListener {
             if (viewModel.disciplinesList.value.isNullOrEmpty()) return@setOnClickListener
 
-            val list = viewModel.disciplinesList.value!!
-            val checked = list.count { it.checkedIndex >= 0 }
-
-            if (checked == list.size) {
+            if (viewModel.isCanNavigate) {
                 findNavController().navigate(
                     DisciplineByChoiceFragmentDirections.actionDisciplineByChoiceFragmentToConfirmationFragment(
-                        SelectedDisciplines.ByChoice(list), groupInfo
+                        SelectedDisciplines.ByChoice(viewModel.disciplinesList.value!!), groupInfo
                     )
                 )
             } else {
-                val text = getString(R.string.toast_text_disciplinesByChoice, checked, list.size)
+                val text = getString(
+                    R.string.toast_text_disciplinesByChoice,
+                    viewModel.checked,
+                    viewModel.disciplinesList.value!!.size
+                )
                 Toast.makeText(context, text, Toast.LENGTH_LONG)
                     .applyGravity(Gravity.CENTER, 0, 0)
                     .show()
             }
         }
-
-        return binding.root
     }
 }

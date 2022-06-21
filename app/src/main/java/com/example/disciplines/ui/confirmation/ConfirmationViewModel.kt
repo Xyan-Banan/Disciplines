@@ -69,7 +69,7 @@ class ConfirmationViewModel(
             val template = ApplicationTemplate(getHtml(selectedDisciplines))
             val filled = template.fill(selectedDisciplines, groupInfo.semester.toString())
 //            println(filled)
-            val pdf = File(app.cacheDir, "Application.pdf")
+            val pdf = File(app.cacheDir, CACHE_FILE_NAME)
             Log.d(ConfirmationViewModel::class.simpleName, "Created PDF: $pdf")
             val converterProperties = getConverterProperties()
 
@@ -103,7 +103,7 @@ class ConfirmationViewModel(
         }
 
         return ConverterProperties()
-            .setCharset("utf8")
+            .setCharset(PROPERTIES_CHARSET)
             .setFontProvider(fontProvider)
     }
 
@@ -114,7 +114,7 @@ class ConfirmationViewModel(
             is SelectedDisciplines.Electives -> R.raw.template_electives
         }
         return app.resources.openRawResource(templateId)
-            .use { it.bufferedReader().use { it.readText() } }
+            .use { stream -> stream.bufferedReader().use { reader -> reader.readText() } }
     }
 
 
@@ -143,7 +143,7 @@ class ConfirmationViewModel(
     private fun getApplicationName(selected: SelectedDisciplines): String {
         val dateTime = getDateTime()
         val applicationType = getApplicationType(selected)
-        return "Заявление ($applicationType) $dateTime"
+        return APPLICATION_FILE_NAME.format(applicationType, dateTime)
     }
 
     private fun getApplicationType(selected: SelectedDisciplines): String {
@@ -157,8 +157,14 @@ class ConfirmationViewModel(
 
     private fun getDateTime(): String {
         val date = Calendar.getInstance().time
-        val pattern = "dd.MM.yy_HH.mm.ss"
-        return SimpleDateFormat(pattern, Locale.getDefault()).format(date)
+        return SimpleDateFormat(DATETIME_FORMAT, Locale.getDefault()).format(date)
+    }
+
+    companion object {
+        private const val DATETIME_FORMAT = "dd.MM.yy_HH.mm.ss"
+        private const val APPLICATION_FILE_NAME = "Заявление (%s) %s"
+        private const val PROPERTIES_CHARSET = "utf8"
+        private const val CACHE_FILE_NAME = "Application.pdf"
     }
 }
 

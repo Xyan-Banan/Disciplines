@@ -1,8 +1,5 @@
 package com.example.disciplines.ui
 
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.RelativeSizeSpan
 import android.view.LayoutInflater
 import android.widget.*
 import androidx.core.view.get
@@ -19,7 +16,7 @@ import com.example.disciplines.databinding.MobilityModuleItemBinding
 @BindingAdapter("discipline")
 fun RadioButton.setDiscipline(discipline: Discipline.ByChoice?) {
     discipline?.let {
-        text = resources.getString(R.string.discipline, it.name, it.intensity)
+        text = DisciplinesTextMapper.from(it)
     }
 }
 
@@ -53,7 +50,7 @@ fun RadioGroup.setDisciplinesBundle(disciplinesBundle: DisciplinesBundle?) {
 fun LinearLayout.setDisciplines(disciplines: List<DisciplinesBundle>?) {
     val bundlesList = disciplines ?: return
 
-    for(bundle in bundlesList.withIndex()) {
+    for (bundle in bundlesList.withIndex()) {
         val binding = DisciplinesBundleBinding.inflate(
             LayoutInflater.from(context),
             this,
@@ -71,7 +68,7 @@ fun LinearLayout.setDisciplines(disciplines: List<DisciplinesBundle>?) {
 fun LinearLayout.setElectives(electives: List<Discipline.Elective>?) {
     electives ?: return
 
-    for(elective in electives) {
+    for (elective in electives) {
         val binding = ElectiveItemBinding.inflate(
             LayoutInflater.from(context),
             this,
@@ -90,12 +87,7 @@ fun LinearLayout.setElectives(electives: List<Discipline.Elective>?) {
 @BindingAdapter("mobilityModule")
 fun RadioButton.setMobilityModule(mobilityModule: Discipline.MobilityModule?) {
     mobilityModule?.let {
-        val stringBuilder = SpannableStringBuilder()
-            .append(it.name + "\n", RelativeSizeSpan(1.2f), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            .append("Трудоемкость: ${it.intensity} з.е./${it.hours} ч.\n")
-            .append("Платформа: ${it.platform}")
-
-        text = stringBuilder
+        text = DisciplinesTextMapper.from(it)
     }
 }
 
@@ -116,22 +108,19 @@ fun RadioGroup.setMobilityModules(list: List<Discipline.MobilityModule>?) {
 @BindingAdapter("elective")
 fun CheckBox.setElective(elective: Discipline.Elective?) {
     elective?.let {
-        val stringBuilder = SpannableStringBuilder()
-            .append(it.name + "\n", RelativeSizeSpan(1.2f), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            .append("Трудоемкость: ${it.intensity} з.е./${it.intensity * 36} ч.")
-        text = stringBuilder
+        text = DisciplinesTextMapper.from(it)
         isChecked = it.isChecked
     }
 }
 
 @BindingAdapter("error")
-fun EditText.setErrorString(error: String?){
+fun EditText.setErrorString(error: String?) {
     this.error = error
 }
 
 @BindingAdapter("groupInfo")
-fun TextView.setGroupInfo(groupInfo: GroupNumberInfo?){
+fun TextView.setGroupInfo(groupInfo: GroupNumberInfo?) {
     groupInfo?.run {
-        text = context.getString(R.string.groupInfo,course, semester, admissionYear)
+        text = context.getString(R.string.groupInfo, course, semester, admissionYear)
     }
 }

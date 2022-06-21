@@ -1,14 +1,6 @@
 <resources>
     <string name="app_name">Дисциплины по выбору</string>
     <!-- Strings related to login -->
-    <string name="prompt_email">Почта</string>
-    <string name="prompt_password">Пароль</string>
-    <string name="action_sign_in">Войти</string>
-    <string name="action_sign_in_short">Войти</string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
     <string name="disciplinesByChoice">Дисциплины по выбору</string>
     <string name="mobilityModule">Модуль мобильности</string>
     <string name="electives">Факультативы</string>
@@ -22,7 +14,6 @@
     <string name="instructions_electives_empty">Нет доступных факультативов. Обратитесь к руководителю образовательной программы.</string>
     <string name="toast_text_disciplinesByChoice">"Вы должны выборать в каждом блоке по одной дисциплине! Выбрано: %1$d из %2$d"</string>
     <string name="discipline">%1$s (%2$d часов)</string>
-    <string name="mobilityModuleCardText">%1$s (%2$d зачетных единиц) \nВходящие дисциплины: \n%3$s</string>
     <string name="status_image_description">Иконка статуса загрузки</string>
     <string name="toast_text_electives">Выберите хотя бы одну дисциплину</string>
     <string name="toast_text_mobilityModule">Необходимо выбрать хотя бы одну дисциплину модуля мобильности</string>
@@ -30,7 +21,6 @@
     <string name="title_selected_electives">Выбранные факультативы</string>
     <string name="title_selected_disciplinesByChoice">Выбранные дисциплины</string>
     <string name="title_selected_mobilityModule">Выбранный модуль мобильности</string>
-    <string name="create_application_btn_text">Сформировать заявление</string>
     <string name="saveToPhone">Сохранить в память телефона</string>
     <string name="open">Открыть</string>
     <string name="fileIcon">Иконка файла</string>
@@ -44,4 +34,7 @@
     <string name="no_application_to_open_pdf">На телефоне нет приложений для просмотра PDF файлов</string>
     <string name="file_created">Файл создан</string>
     <string name="can_not_share_file">Невозможно поделиться файлом</string>
+    <string name="error_invalid_group_number">Неверно введен номер группы</string>
+    <string name="error_no_data_for_evening">На данный момент нет данных для вечерних и заочных групп</string>
+    <string name="error_invalid_course_and_year">Проверьте указанный курс и год поступления</string>
 </resources>
