@@ -9,9 +9,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.disciplines.DisciplinesApplication
 import com.example.disciplines.R
 import com.example.disciplines.applyGravity
-import com.example.disciplines.data.network.model.SelectedDisciplines
+import com.example.disciplines.data.model.SelectedDisciplines
 import com.example.disciplines.databinding.ElectiveListBinding
 
 class ElectivesFragment : Fragment() {
@@ -21,7 +22,11 @@ class ElectivesFragment : Fragment() {
     ): View {
         val groupInfo = ElectivesFragmentArgs.fromBundle(requireArguments()).groupInfo
         val viewModel: ElectivesViewModel by viewModels {
-            ElectivesViewModelFactory(requireActivity().application, groupInfo)
+            ElectivesViewModelFactory(
+                requireActivity().application,
+                (requireContext().applicationContext as DisciplinesApplication).disciplinesRepository,
+                groupInfo
+            )
         }
         val binding = ElectiveListBinding.inflate(inflater)
         binding.viewModel = viewModel

@@ -3,7 +3,7 @@ package com.example.disciplines.ui
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
-import com.example.disciplines.data.network.model.Discipline
+import com.example.disciplines.data.model.Discipline
 
 
 object DisciplinesTextMapper {

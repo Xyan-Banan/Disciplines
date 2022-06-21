@@ -9,10 +9,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.disciplines.DisciplinesApplication
 import com.example.disciplines.GroupNumberInfo
 import com.example.disciplines.R
 import com.example.disciplines.applyGravity
-import com.example.disciplines.data.network.model.SelectedDisciplines
+import com.example.disciplines.data.model.SelectedDisciplines
 import com.example.disciplines.databinding.DisciplineListBinding
 
 class DisciplineByChoiceFragment : Fragment() {
@@ -29,7 +30,10 @@ class DisciplineByChoiceFragment : Fragment() {
         viewModel =
             ViewModelProvider(
                 this,
-                DisciplinesByChoiceViewModelFactory(groupInfo.groupNumber)
+                DisciplinesByChoiceViewModelFactory(
+                    (requireContext().applicationContext as DisciplinesApplication).disciplinesRepository,
+                    groupInfo.groupNumber
+                )
             ).get(DisciplinesByChoiceViewModel::class.java)
 
         binding = DisciplineListBinding.inflate(inflater)

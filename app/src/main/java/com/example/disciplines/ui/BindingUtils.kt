@@ -6,8 +6,8 @@ import androidx.core.view.get
 import androidx.databinding.BindingAdapter
 import com.example.disciplines.GroupNumberInfo
 import com.example.disciplines.R
-import com.example.disciplines.data.network.model.Discipline
-import com.example.disciplines.data.network.model.DisciplinesBundle
+import com.example.disciplines.data.model.Discipline
+import com.example.disciplines.data.model.DisciplinesBundle
 import com.example.disciplines.databinding.DisciplineItemBinding
 import com.example.disciplines.databinding.DisciplinesBundleBinding
 import com.example.disciplines.databinding.ElectiveItemBinding
