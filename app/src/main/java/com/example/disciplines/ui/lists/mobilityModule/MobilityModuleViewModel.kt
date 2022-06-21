@@ -6,15 +6,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.disciplines.R
-import com.example.disciplines.data.network.Network
-import com.example.disciplines.data.network.RequestStatus
-import com.example.disciplines.data.network.model.Discipline
+import com.example.disciplines.data.DisciplinesRepository
+import com.example.disciplines.data.source.network.DisciplinesRemoteDataSource
+import com.example.disciplines.data.source.network.RequestStatus
+import com.example.disciplines.data.model.Discipline
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class MobilityModuleViewModel(groupNumber: String) : ViewModel() {
+class MobilityModuleViewModel(
+    private val disciplinesRepository: DisciplinesRepository,
+    groupNumber: String
+) : ViewModel() {
     val modulesList = MutableLiveData<List<Discipline.MobilityModule>>()
     private val requestStatus = MutableLiveData<RequestStatus>()
     val confirmBtnVisibility = requestStatus.map {
@@ -59,8 +63,7 @@ class MobilityModuleViewModel(groupNumber: String) : ViewModel() {
             val course = groupNumber[groupNumber.length - 3].digitToInt()
             requestStatus.value = RequestStatus.LOADING
             try {
-                val list =
-                    withContext(Dispatchers.IO) { Network.api.getMobilityModules(groupNumber) }
+                val list = disciplinesRepository.getMobilityModules(groupNumber)
                 modulesList.value = list.filter { it.intensity >= course }
                 requestStatus.value = RequestStatus.DONE
             } catch (e: Exception) {

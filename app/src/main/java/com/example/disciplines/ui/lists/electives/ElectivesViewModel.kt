@@ -10,17 +10,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.disciplines.Degree
+import com.example.disciplines.DisciplinesApplication
 import com.example.disciplines.GroupNumberInfo
 import com.example.disciplines.R
-import com.example.disciplines.data.network.Network
-import com.example.disciplines.data.network.RequestStatus
-import com.example.disciplines.data.network.model.Discipline
+import com.example.disciplines.data.DisciplinesRepository
+import com.example.disciplines.data.source.network.DisciplinesRemoteDataSource
+import com.example.disciplines.data.source.network.RequestStatus
+import com.example.disciplines.data.model.Discipline
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
 
-class ElectivesViewModel(private val app: Application, groupInfo: GroupNumberInfo) :
+class ElectivesViewModel(
+    private val app: Application,
+    private val disciplinesRepository: DisciplinesRepository,
+    groupInfo: GroupNumberInfo
+) :
     AndroidViewModel(app) {
     val electivesList = MutableLiveData<List<Discipline.Elective>>()
     private val requestStatus = MutableLiveData<RequestStatus>()
@@ -64,8 +70,7 @@ class ElectivesViewModel(private val app: Application, groupInfo: GroupNumberInf
         viewModelScope.launch {
             requestStatus.value = RequestStatus.LOADING
             try {
-                val list =
-                    withContext(Dispatchers.IO) { Network.api.getElectives(groupInfo.groupNumber) }
+                val list = disciplinesRepository.getElectives(groupInfo.groupNumber)
                 electivesList.value = list.sortedBy { it.name }
                 requestStatus.value = RequestStatus.DONE
             } catch (e: UnknownHostException) {
@@ -80,8 +85,8 @@ class ElectivesViewModel(private val app: Application, groupInfo: GroupNumberInf
             return app.getString(R.string.instructions_electives_empty)
         else {
             val (studentType, neededPeople) = when (groupInfo.degree) {
-                Degree.BACHELOR -> "бакалавриата" to 18
-                Degree.MASTER -> "магистратуры" to 12
+                Degree.BACHELOR -> BACHELOR_NAME to BACHELOR_NEEDED_PEOPLE
+                Degree.MASTER -> MASTER_NAME to MASTER_NEEDED_PEOPLE
             }
             val spannable = SpannableString(
                 app.getString(
@@ -98,5 +103,12 @@ class ElectivesViewModel(private val app: Application, groupInfo: GroupNumberInf
             )
             return spannable
         }
+    }
+
+    companion object {
+        private const val BACHELOR_NAME = "бакалавриата"
+        private const val BACHELOR_NEEDED_PEOPLE = 18
+        private const val MASTER_NAME = "магистратуры"
+        private const val MASTER_NEEDED_PEOPLE = 12
     }
 }

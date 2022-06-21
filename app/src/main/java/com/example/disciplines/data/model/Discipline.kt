@@ -1,4 +1,4 @@
-package com.example.disciplines.data.network.model
+package com.example.disciplines.data.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

@@ -11,7 +11,7 @@ import androidx.lifecycle.*
 import com.example.disciplines.BuildConfig
 import com.example.disciplines.GroupNumberInfo
 import com.example.disciplines.R
-import com.example.disciplines.data.network.model.SelectedDisciplines
+import com.example.disciplines.data.model.SelectedDisciplines
 import com.example.disciplines.spanWithBullet
 import com.itextpdf.html2pdf.ConverterProperties
 import com.itextpdf.html2pdf.HtmlConverter

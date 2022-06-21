@@ -1,4 +1,4 @@
-package com.example.disciplines.data.network
+package com.example.disciplines.data.source.network
 
 enum class RequestStatus {
     LOADING,

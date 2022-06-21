@@ -1,8 +1,8 @@
 package com.example.disciplines.ui.confirmation
 
-import com.example.disciplines.data.network.model.Discipline
-import com.example.disciplines.data.network.model.DisciplinesBundle
-import com.example.disciplines.data.network.model.SelectedDisciplines
+import com.example.disciplines.data.model.Discipline
+import com.example.disciplines.data.model.DisciplinesBundle
+import com.example.disciplines.data.model.SelectedDisciplines
 import kotlinx.html.a
 import kotlinx.html.i
 import kotlinx.html.stream.appendHTML

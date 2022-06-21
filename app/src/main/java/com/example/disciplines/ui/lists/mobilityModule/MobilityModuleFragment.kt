@@ -10,9 +10,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.disciplines.DisciplinesApplication
 import com.example.disciplines.R
 import com.example.disciplines.applyGravity
-import com.example.disciplines.data.network.model.SelectedDisciplines
+import com.example.disciplines.data.model.SelectedDisciplines
 import com.example.disciplines.databinding.MobilityModuleListBinding
 
 class MobilityModuleFragment : Fragment() {
@@ -22,7 +23,10 @@ class MobilityModuleFragment : Fragment() {
     ): View {
         val groupInfo = MobilityModuleFragmentArgs.fromBundle(requireArguments()).groupInfo
         val viewModel: MobilityModuleViewModel by viewModels {
-            MobilityModuleViewModelFactory(groupInfo.groupNumber)
+            MobilityModuleViewModelFactory(
+                (requireContext().applicationContext as DisciplinesApplication).disciplinesRepository,
+                groupInfo.groupNumber
+            )
         }
         val binding = MobilityModuleListBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
