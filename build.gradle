@@ -21,6 +21,7 @@ task clean(type: Delete) {
 }
 
 ext {
+    version_dagger = '2.42'
     version_moshi = '1.13.0'
     version_okhttp = '5.0.0-alpha.5'
     version_retrofit = '2.9.0'

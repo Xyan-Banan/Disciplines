@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.disciplines.ui.confirmation.ConfirmationViewModel" />
+            type="com.example.disciplines.presentation.confirmation.ConfirmationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

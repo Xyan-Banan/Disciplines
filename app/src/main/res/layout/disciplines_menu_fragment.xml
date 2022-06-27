@@ -7,14 +7,14 @@
 
         <variable
             name="viewModel"
-            type="com.example.disciplines.ui.disciplinesMenu.DisciplinesMenuViewModel" />
+            type="com.example.disciplines.presentation.disciplinesMenu.DisciplinesMenuViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.disciplinesMenu.DisciplinesMenuFragment">
+        tools:context=".presentation.disciplinesMenu.DisciplinesMenuFragment">
 
         <TextView
             android:id="@+id/instructionsTV"

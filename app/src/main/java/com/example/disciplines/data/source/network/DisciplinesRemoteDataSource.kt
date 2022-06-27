@@ -1,49 +1,40 @@
 package com.example.disciplines.data.source.network
 
 import com.example.disciplines.BuildConfig
-import com.example.disciplines.data.DisciplinesDataSource
-import com.example.disciplines.data.model.Discipline
-import com.example.disciplines.data.model.DisciplinesBundle
-import com.example.disciplines.data.model.asBundlesList
+import com.example.disciplines.data.source.DisciplinesDataSource
+import com.example.disciplines.data.models.Discipline
+import com.example.disciplines.data.models.DisciplinesBundle
+import com.example.disciplines.data.models.asBundlesList
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object DisciplinesRemoteDataSource : DisciplinesDataSource {
+@Singleton
+class DisciplinesRemoteDataSource @Inject constructor(private val api: API) : DisciplinesDataSource {
     //alternative to gson
 //private val moshi = Moshi.Builder()
 //    .add(KotlinJsonAdapterFactory())
 //    .build()
 
-    private interface Api {
-        @GET("disciplinesByChoice/{groupName}")
-        suspend fun getDisciplinesByChoice(@Path("groupName") name: String): List<List<Discipline.ByChoice>>
+//    private val retrofit = Retrofit.Builder()
+//        .client(
+//            OkHttpClient.Builder()
+//                .addInterceptor(
+//                    HttpLoggingInterceptor()
+//                        .setLevel(HttpLoggingInterceptor.Level.BODY)
+//                )
+//                .build()
+//        )
+////    .addConverterFactory(MoshiConverterFactory.create(moshi))
+//        .addConverterFactory(GsonConverterFactory.create())
+//        .baseUrl(BuildConfig.BASE_URL)
+//        .build()
+//
+//    private val api: API by lazy { retrofit.create(API::class.java) }
 
-        @GET("mobilityModules/{groupName}")
-        suspend fun getMobilityModules(@Path("groupName") name: String): List<Discipline.MobilityModule>
-
-        @GET("electives/{groupName}")
-        suspend fun getElectives(@Path("groupName") name: String): List<Discipline.Elective>
-    }
-
-    private val retrofit = Retrofit.Builder()
-        .client(
-            OkHttpClient.Builder()
-                .addInterceptor(
-                    HttpLoggingInterceptor()
-                        .setLevel(HttpLoggingInterceptor.Level.BODY)
-                )
-                .build()
-        )
-//    .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(BuildConfig.BASE_URL)
-        .build()
-
-    private val api: Api by lazy { retrofit.create(Api::class.java) }
     override suspend fun getDisciplinesByChoice(groupName: String): List<DisciplinesBundle> {
         return api.getDisciplinesByChoice(groupName).asBundlesList()
     }

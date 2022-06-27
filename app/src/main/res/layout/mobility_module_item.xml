@@ -6,7 +6,7 @@
 
         <variable
             name="mobilityModule"
-            type="com.example.disciplines.data.model.Discipline.MobilityModule" />
+            type="com.example.disciplines.data.models.Discipline.MobilityModule" />
     </data>
 
     <RadioButton

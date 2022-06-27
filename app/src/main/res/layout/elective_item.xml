@@ -6,7 +6,7 @@
 
         <variable
             name="elective"
-            type="com.example.disciplines.data.model.Discipline.Elective" />
+            type="com.example.disciplines.data.models.Discipline.Elective" />
     </data>
 
     <CheckBox
