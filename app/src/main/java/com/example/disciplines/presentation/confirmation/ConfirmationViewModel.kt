@@ -9,10 +9,10 @@ import android.view.View
 import androidx.core.content.FileProvider
 import androidx.lifecycle.*
 import com.example.disciplines.BuildConfig
-import com.example.disciplines.GroupNumberInfo
+import com.example.disciplines.presentation.GroupNumberInfo
 import com.example.disciplines.R
 import com.example.disciplines.data.models.SelectedDisciplines
-import com.example.disciplines.spanWithBullet
+import com.example.disciplines.presentation.util.spanWithBullet
 import com.itextpdf.html2pdf.ConverterProperties
 import com.itextpdf.html2pdf.HtmlConverter
 import com.itextpdf.html2pdf.resolver.font.DefaultFontProvider

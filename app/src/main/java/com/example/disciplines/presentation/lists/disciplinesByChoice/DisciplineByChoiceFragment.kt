@@ -12,9 +12,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.disciplines.DisciplinesApplication
-import com.example.disciplines.GroupNumberInfo
+import com.example.disciplines.presentation.GroupNumberInfo
 import com.example.disciplines.R
-import com.example.disciplines.applyGravity
+import com.example.disciplines.presentation.util.applyGravity
 import com.example.disciplines.data.models.SelectedDisciplines
 import com.example.disciplines.databinding.DisciplineListBinding
 import javax.inject.Inject

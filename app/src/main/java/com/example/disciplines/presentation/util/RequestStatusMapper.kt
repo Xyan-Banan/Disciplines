@@ -1,10 +1,8 @@
-package com.example.disciplines.presentation.lists
+package com.example.disciplines.presentation.util
 
 import android.view.View
 import com.example.disciplines.R
-import com.example.disciplines.data.models.Discipline
 import com.example.disciplines.data.source.network.RequestStatus
-import kotlinx.coroutines.withTimeoutOrNull
 
 object RequestStatusMapper {
     fun toConfirmBtnVisibility(status: RequestStatus, list: List<Any>?): Int {

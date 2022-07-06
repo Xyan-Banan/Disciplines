@@ -5,13 +5,13 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.RelativeSizeSpan
 import androidx.lifecycle.*
-import com.example.disciplines.Degree
-import com.example.disciplines.GroupNumberInfo
+import com.example.disciplines.presentation.Degree
+import com.example.disciplines.presentation.GroupNumberInfo
 import com.example.disciplines.R
 import com.example.disciplines.data.models.Discipline
 import com.example.disciplines.data.source.network.RequestStatus
 import com.example.disciplines.domain.repositories.DisciplinesRepository
-import com.example.disciplines.presentation.lists.RequestStatusMapper
+import com.example.disciplines.presentation.util.RequestStatusMapper
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 import javax.inject.Inject

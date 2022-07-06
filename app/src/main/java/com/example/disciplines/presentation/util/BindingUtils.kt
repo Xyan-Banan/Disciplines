@@ -1,18 +1,17 @@
-package com.example.disciplines.presentation
+package com.example.disciplines.presentation.util
 
 import android.view.LayoutInflater
 import android.widget.*
 import androidx.core.view.get
 import androidx.databinding.BindingAdapter
-import com.example.disciplines.GroupNumberInfo
 import com.example.disciplines.R
 import com.example.disciplines.data.models.Discipline
 import com.example.disciplines.data.models.DisciplinesBundle
-import com.example.disciplines.data.models.DisciplinesTextFormatter
 import com.example.disciplines.databinding.DisciplineItemBinding
 import com.example.disciplines.databinding.DisciplinesBundleBinding
 import com.example.disciplines.databinding.ElectiveItemBinding
 import com.example.disciplines.databinding.MobilityModuleItemBinding
+import com.example.disciplines.presentation.GroupNumberInfo
 
 @BindingAdapter("discipline")
 fun RadioButton.setDiscipline(discipline: Discipline.ByChoice?) {

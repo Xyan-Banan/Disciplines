@@ -1,8 +1,5 @@
-package com.example.disciplines.data.models
+package com.example.disciplines.presentation
 
-import com.example.disciplines.Degree
-import com.example.disciplines.FormOfEducation
-import com.example.disciplines.GroupNumberInfo
 import java.util.*
 
 object GroupNumberInfoFactory {

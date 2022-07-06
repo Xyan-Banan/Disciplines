@@ -8,7 +8,7 @@ import com.example.disciplines.R
 import com.example.disciplines.data.models.DisciplinesBundle
 import com.example.disciplines.data.source.network.RequestStatus
 import com.example.disciplines.domain.repositories.DisciplinesRepository
-import com.example.disciplines.presentation.lists.RequestStatusMapper
+import com.example.disciplines.presentation.util.RequestStatusMapper
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 import javax.inject.Inject

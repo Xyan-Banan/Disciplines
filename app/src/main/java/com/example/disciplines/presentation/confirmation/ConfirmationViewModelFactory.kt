@@ -3,7 +3,7 @@ package com.example.disciplines.presentation.confirmation
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.disciplines.GroupNumberInfo
+import com.example.disciplines.presentation.GroupNumberInfo
 import com.example.disciplines.data.models.SelectedDisciplines
 
 class ConfirmationViewModelFactory(

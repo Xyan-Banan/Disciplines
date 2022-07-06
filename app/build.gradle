@@ -26,13 +26,13 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BASE_URL", localProperties['debug_base_url']
+            buildConfigField "String", "BASE_URL", '"https://disciplines.getsandbox.com"'
             resValue "string", "default_group_name", "353090490321"
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BASE_URL", localProperties['release_base_url']
+            buildConfigField "String", "BASE_URL", '""'
             resValue "string", "default_group_name", ""
         }
     }

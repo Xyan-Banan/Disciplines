@@ -1,8 +1,9 @@
-package com.example.disciplines.data.models
+package com.example.disciplines.presentation.util
 
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
+import com.example.disciplines.data.models.Discipline
 
 
 object DisciplinesTextFormatter {

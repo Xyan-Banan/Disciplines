@@ -1,4 +1,4 @@
-package com.example.disciplines
+package com.example.disciplines.presentation.util
 
 import android.content.res.Resources
 import android.graphics.Color
@@ -9,6 +9,7 @@ import android.text.style.BulletSpan
 import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
+import com.example.disciplines.R
 import kotlin.math.roundToInt
 
 fun Toast.applyGravity(gravity: Int, xOffset: Int, yOffset: Int) =
