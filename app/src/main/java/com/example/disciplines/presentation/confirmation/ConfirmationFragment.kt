@@ -17,20 +17,16 @@ import com.example.disciplines.databinding.ConfirmationFragmentBinding
 class ConfirmationFragment : Fragment() {
     private lateinit var binding: ConfirmationFragmentBinding
     private lateinit var viewModel: ConfirmationViewModel
-    private val contract = object : ActivityResultContracts.CreateDocument() {
-        override fun createIntent(context: Context, input: String): Intent {
-            return super.createIntent(context, input).setType("application/pdf")
-        }
-    }
-    private val createFileAction = registerForActivityResult(contract) {
-        it ?: return@registerForActivityResult
-        viewModel.pdf.inputStream().use { input ->
-            requireContext().contentResolver.openOutputStream(it).use { output ->
-                output ?: throw IllegalStateException()
-                input.copyTo(output)
+    private val createFileAction =
+        registerForActivityResult(ActivityResultContracts.CreateDocument("application/pdf")) { uri ->
+            uri ?: return@registerForActivityResult
+            viewModel.pdf.inputStream().use { input ->
+                requireContext().contentResolver.openOutputStream(uri).use { output ->
+                    output ?: error("Provider crushed")
+                    input.copyTo(output)
+                }
             }
         }
-    }
 //        TODO: delete cached file and use saved or clear cache folder on dispose
 //        viewModel.pdf.delete()
 //        viewModel.pdf = requireContext().contentResolver.openFile(it,"w", CancellationSignal()).fileDescriptor.f
