@@ -13,7 +13,7 @@ class DisciplinesByChoiceViewModelFactory(
             @Suppress("UNCHECKED_CAST")
             return DisciplinesByChoiceViewModel(
                 disciplinesRepository,
-                groupNumber
+//                groupNumber
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

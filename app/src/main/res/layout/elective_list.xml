@@ -46,7 +46,7 @@
                     android:layout_marginTop="@dimen/instructionsTopMargin"
                     android:layout_marginEnd="@dimen/marginStartEnd"
                     android:layout_marginBottom="10dp"
-                    android:text="@{viewModel.instructions}"
+
                     android:textSize="20sp"
                     android:visibility="@{viewModel.instructionsVisibility}"
                     app:layout_constraintBottom_toTopOf="@+id/disciplinesL"

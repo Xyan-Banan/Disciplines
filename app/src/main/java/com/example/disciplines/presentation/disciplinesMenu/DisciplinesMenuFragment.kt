@@ -27,8 +27,6 @@ class DisciplinesMenuFragment : Fragment() {
         viewModel = ViewModelProvider(this)[DisciplinesMenuViewModel::class.java]
 
         binding = DisciplinesMenuFragmentBinding.inflate(inflater)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
     }
@@ -83,7 +81,7 @@ class DisciplinesMenuFragment : Fragment() {
         }
 
         viewModel.isValidGroupNumber.observe(viewLifecycleOwner) {
-            binding.run {
+            with(binding) {
                 disciplinesByChoiceBtn.isEnabled = it
                 mobilityModuleBtn.isEnabled = it
                 electivesBtn.isEnabled = it

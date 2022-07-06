@@ -11,7 +11,10 @@ class MobilityModuleViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MobilityModuleViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return MobilityModuleViewModel(disciplinesRepository, groupNumber) as T
+            return MobilityModuleViewModel(
+                disciplinesRepository,
+//                groupNumber
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

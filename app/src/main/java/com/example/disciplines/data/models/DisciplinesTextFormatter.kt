@@ -5,7 +5,7 @@ import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
 
 
-object DisciplinesTextMapper {
+object DisciplinesTextFormatter {
     fun from(discipline: Discipline): CharSequence {
         return when (discipline) {
             is Discipline.MobilityModule -> from(discipline)

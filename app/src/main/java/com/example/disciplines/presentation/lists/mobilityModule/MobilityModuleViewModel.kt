@@ -1,28 +1,26 @@
 package com.example.disciplines.presentation.lists.mobilityModule
 
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.disciplines.R
-import com.example.disciplines.domain.repositories.DisciplinesRepository
-import com.example.disciplines.data.source.network.RequestStatus
 import com.example.disciplines.data.models.Discipline
+import com.example.disciplines.data.source.network.RequestStatus
+import com.example.disciplines.domain.repositories.DisciplinesRepository
+import com.example.disciplines.presentation.lists.RequestStatusMapper
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-class MobilityModuleViewModel(
-    private val disciplinesRepository: DisciplinesRepository,
-    groupNumber: String
+class MobilityModuleViewModel
+@Inject constructor(
+    private val disciplinesRepository: DisciplinesRepository
 ) : ViewModel() {
     val modulesList = MutableLiveData<List<Discipline.MobilityModule>>()
     private val requestStatus = MutableLiveData<RequestStatus>()
     val confirmBtnVisibility = requestStatus.map {
-        when (it) {
-            RequestStatus.DONE -> if (modulesList.value.isNullOrEmpty()) View.GONE else View.VISIBLE
-            else -> View.GONE
-        }
+        RequestStatusMapper.toConfirmBtnVisibility(it, modulesList.value)
     }
     val instructions = requestStatus.map {
         when (it) {
@@ -33,35 +31,21 @@ class MobilityModuleViewModel(
         }
     }
     val instructionsVisibility = requestStatus.map {
-        when (it) {
-            RequestStatus.LOADING -> View.GONE
-            else -> View.VISIBLE
-        }
+        RequestStatusMapper.toInstructionsVisibility(it)
     }
     val statusImageVisibility = requestStatus.map {
-        when (it) {
-            RequestStatus.DONE -> View.GONE
-            else -> View.VISIBLE
-        }
+        RequestStatusMapper.toStatusImageVisibility(it)
     }
     val statusImage = requestStatus.map {
-        when (it) {
-            RequestStatus.ERROR -> R.drawable.ic_connection_error
-            else -> R.drawable.loading_animation
-        }
+        RequestStatusMapper.toStatusImage(it)
     }
 
-    init {
-        getModulesList(groupNumber)
-    }
-
-    private fun getModulesList(groupNumber: String) {
+    fun getModulesList(groupNumber: String) {
         viewModelScope.launch {
-            val course = groupNumber[groupNumber.length - 3].digitToInt()
             requestStatus.value = RequestStatus.LOADING
             try {
                 val list = disciplinesRepository.getMobilityModules(groupNumber)
-                modulesList.value = list.filter { it.intensity >= course }
+                modulesList.value = list
                 requestStatus.value = RequestStatus.DONE
             } catch (e: Exception) {
                 println(e.message)

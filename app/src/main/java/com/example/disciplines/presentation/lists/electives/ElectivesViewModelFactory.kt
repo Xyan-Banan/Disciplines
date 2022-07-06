@@ -15,7 +15,11 @@ class ElectivesViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ElectivesViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return ElectivesViewModel(application, disciplinesRepository, groupInfo) as T
+            return ElectivesViewModel(
+//                application,
+                disciplinesRepository,
+//                groupInfo
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

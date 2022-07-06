@@ -1,33 +1,27 @@
 package com.example.disciplines.presentation.lists.disciplinesByChoice
 
-import android.util.Log
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.disciplines.R
-import com.example.disciplines.domain.repositories.DisciplinesRepository
-import com.example.disciplines.data.source.network.RequestStatus
 import com.example.disciplines.data.models.DisciplinesBundle
+import com.example.disciplines.data.source.network.RequestStatus
+import com.example.disciplines.domain.repositories.DisciplinesRepository
+import com.example.disciplines.presentation.lists.RequestStatusMapper
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
-import kotlin.time.ExperimentalTime
-import kotlin.time.measureTime
+import javax.inject.Inject
 
-@OptIn(ExperimentalTime::class)
-class DisciplinesByChoiceViewModel(
-    private val disciplinesRepository: DisciplinesRepository,
-    groupNumber: String
+class DisciplinesByChoiceViewModel
+@Inject constructor(
+    private val disciplinesRepository: DisciplinesRepository
 ) : ViewModel() {
     val disciplinesList = MutableLiveData<List<DisciplinesBundle>>()
     private val requestStatus = MutableLiveData<RequestStatus>()
 
     val confirmBtnVisibility = requestStatus.map {
-        when (it) {
-            RequestStatus.DONE -> if (disciplinesList.value.isNullOrEmpty()) View.GONE else View.VISIBLE
-            else -> View.GONE
-        }
+        RequestStatusMapper.toConfirmBtnVisibility(it, disciplinesList.value)
     }
     val instructions = requestStatus.map {
         when (it) {
@@ -38,30 +32,16 @@ class DisciplinesByChoiceViewModel(
         }
     }
     val instructionsVisibility = requestStatus.map {
-        when (it) {
-            RequestStatus.LOADING -> View.GONE
-            else -> View.VISIBLE
-        }
+        RequestStatusMapper.toInstructionsVisibility(it)
     }
     val statusImageVisibility = requestStatus.map {
-        when (it) {
-            RequestStatus.DONE -> View.GONE
-            else -> View.VISIBLE
-        }
+        RequestStatusMapper.toStatusImageVisibility(it)
     }
     val statusImage = requestStatus.map {
-        when (it) {
-            RequestStatus.ERROR -> R.drawable.ic_connection_error
-            else -> R.drawable.loading_animation
-        }
+        RequestStatusMapper.toStatusImage(it)
     }
 
-    init {
-        val duration = measureTime { getDisciplines(groupNumber) }
-        Log.d(javaClass.simpleName, "Duration: $duration")
-    }
-
-    private fun getDisciplines(groupNumber: String) {
+    fun getDisciplines(groupNumber: String) {
         viewModelScope.launch {
             requestStatus.value = RequestStatus.LOADING
             try {
@@ -86,5 +66,4 @@ class DisciplinesByChoiceViewModel(
         }
     val checked: Int
         get() = disciplinesList.value?.count { it.checkedIndex >= 0 } ?: 0
-
 }

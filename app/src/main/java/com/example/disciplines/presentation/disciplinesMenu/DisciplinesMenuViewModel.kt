@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import com.example.disciplines.GroupNumberInfo
-import com.example.disciplines.data.models.GroupNumberInfoFactory
 import com.example.disciplines.R
+import com.example.disciplines.data.models.GroupNumberInfoFactory
 import java.util.*
 
 class DisciplinesMenuViewModel : ViewModel() {

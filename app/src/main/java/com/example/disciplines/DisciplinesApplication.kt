@@ -1,24 +1,15 @@
 package com.example.disciplines
 
 import android.app.Application
-import com.example.disciplines.di.DaggerRepositoryComponent
-import com.example.disciplines.di.RepositoryComponent
-import com.example.disciplines.di.ServiceLocator
-import com.example.disciplines.domain.repositories.DisciplinesRepository
-import kotlinx.coroutines.Dispatchers
+import com.example.disciplines.di.AppComponent
+import com.example.disciplines.di.DaggerAppComponent
 
 
 class DisciplinesApplication : Application() {
-    lateinit var disciplinesRepository: DisciplinesRepository
-        private set
+    lateinit var component: AppComponent
 
     override fun onCreate() {
         super.onCreate()
-        disciplinesRepository = DaggerRepositoryComponent.builder()
-            .ioDispatcher(Dispatchers.IO)
-            .build()
-            .getDefaultRepository()
+        component = DaggerAppComponent.factory().create()
     }
-
-
 }
