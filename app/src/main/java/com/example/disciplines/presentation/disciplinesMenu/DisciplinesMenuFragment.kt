@@ -3,33 +3,21 @@ package com.example.disciplines.presentation.disciplinesMenu
 import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.disciplines.R
 import com.example.disciplines.databinding.DisciplinesMenuFragmentBinding
 
-class DisciplinesMenuFragment : Fragment() {
+class DisciplinesMenuFragment : Fragment(R.layout.disciplines_menu_fragment) {
 
-    private lateinit var viewModel: DisciplinesMenuViewModel
-    private lateinit var binding: DisciplinesMenuFragmentBinding
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        viewModel = ViewModelProvider(this)[DisciplinesMenuViewModel::class.java]
-
-        binding = DisciplinesMenuFragmentBinding.inflate(inflater)
-
-        return binding.root
-    }
+    private val viewModel: DisciplinesMenuViewModel by viewModels()
+    private val binding by viewBinding(DisciplinesMenuFragmentBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.disciplinesByChoiceBtn.setOnClickListener {

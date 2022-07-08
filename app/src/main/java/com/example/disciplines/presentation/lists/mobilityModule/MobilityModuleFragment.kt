@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.disciplines.DisciplinesApplication
 import com.example.disciplines.presentation.GroupNumberInfo
 import com.example.disciplines.R
@@ -21,11 +22,7 @@ import com.example.disciplines.databinding.MobilityModuleListBinding
 import javax.inject.Inject
 
 class MobilityModuleFragment : Fragment() {
-    companion object {
-        private const val TAG = "MobilityModuleFragment"
-    }
-
-    private lateinit var binding: MobilityModuleListBinding
+    private val binding by viewBinding(MobilityModuleListBinding::bind)
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -39,21 +36,13 @@ class MobilityModuleFragment : Fragment() {
         component.inject(this)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         groupInfo = MobilityModuleFragmentArgs.fromBundle(requireArguments()).groupInfo
         viewModel.getModulesList(groupInfo.groupNumber)
-        binding = MobilityModuleListBinding.inflate(inflater)
+
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         binding.confirmBtn.setOnClickListener { onConfirm() }
     }
 

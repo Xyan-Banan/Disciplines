@@ -1,6 +1,5 @@
 package com.example.disciplines.presentation.confirmation
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,11 +10,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.disciplines.R
 import com.example.disciplines.databinding.ConfirmationFragmentBinding
 
 class ConfirmationFragment : Fragment() {
-    private lateinit var binding: ConfirmationFragmentBinding
+    private val binding by viewBinding(ConfirmationFragmentBinding::bind)
     private lateinit var viewModel: ConfirmationViewModel
     private val createFileAction =
         registerForActivityResult(ActivityResultContracts.CreateDocument("application/pdf")) { uri ->
@@ -49,14 +49,13 @@ class ConfirmationFragment : Fragment() {
             )
         ).get(ConfirmationViewModel::class.java)
 
-        binding = ConfirmationFragmentBinding.inflate(inflater)
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
-
-        return binding.root
+        return inflater.inflate(R.layout.confirmation_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+
         viewModel.pdfCreatedEvent.observe(viewLifecycleOwner) { isCreated ->
             if (isCreated) {
                 Toast.makeText(
