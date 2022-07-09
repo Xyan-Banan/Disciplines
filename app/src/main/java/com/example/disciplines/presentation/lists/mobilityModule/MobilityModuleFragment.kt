@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -18,10 +19,13 @@ import com.example.disciplines.presentation.GroupNumberInfo
 import com.example.disciplines.R
 import com.example.disciplines.presentation.util.applyGravity
 import com.example.disciplines.data.models.SelectedDisciplines
+import com.example.disciplines.data.source.network.RequestStatus
+import com.example.disciplines.databinding.DisciplineListBinding
 import com.example.disciplines.databinding.MobilityModuleListBinding
+import com.example.disciplines.presentation.util.setMobilityModules
 import javax.inject.Inject
 
-class MobilityModuleFragment : Fragment() {
+class MobilityModuleFragment : Fragment(R.layout.mobility_module_list) {
     private val binding by viewBinding(MobilityModuleListBinding::bind)
 
     @Inject
@@ -40,10 +44,54 @@ class MobilityModuleFragment : Fragment() {
         groupInfo = MobilityModuleFragmentArgs.fromBundle(requireArguments()).groupInfo
         viewModel.getModulesList(groupInfo.groupNumber)
 
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
+        viewModel.requestStatus.observe(viewLifecycleOwner) {
+            it ?: return@observe
+            when (it) {
+                RequestStatus.LOADING -> binding.onLoading()
+                RequestStatus.DONE -> binding.onDone()
+                RequestStatus.ERROR -> binding.onError()
+            }
+        }
+
+        viewModel.modulesList.observe(viewLifecycleOwner) {
+            binding.radioGroup2.setMobilityModules(it)
+        }
 
         binding.confirmBtn.setOnClickListener { onConfirm() }
+    }
+
+    private fun MobilityModuleListBinding.onLoading() {
+        //hide
+        instructions.isVisible = false
+        confirmBtn.isVisible = false
+        //show
+        statusImage.isVisible = true
+        statusImage.setImageResource(R.drawable.loading_animation)
+    }
+
+    private fun MobilityModuleListBinding.onDone() {
+        //hide
+        statusImage.isVisible = false
+        //show
+        instructions.isVisible = true
+
+        if (viewModel.modulesList.value.isNullOrEmpty()) {
+            instructions.setText(R.string.instructions_mobilityModule_empty)
+            confirmBtn.isVisible = false
+        } else {
+            instructions.setText(R.string.instructions_mobilityModule)
+            confirmBtn.isVisible = true
+        }
+    }
+
+    private fun MobilityModuleListBinding.onError() {
+        //hide
+        confirmBtn.isVisible = false
+        //show
+        instructions.isVisible = true
+        instructions.setText(R.string.instructions_error_loading)
+        statusImage.isVisible = true
+        statusImage.setImageResource(R.drawable.ic_connection_error)
     }
 
     private fun onConfirm() {

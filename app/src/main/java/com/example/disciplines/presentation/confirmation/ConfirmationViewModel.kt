@@ -33,8 +33,10 @@ class ConfirmationViewModel(
     val selectedText = getSelectedText(selected)
     val applicationName = getApplicationName(selected)
     lateinit var pdf: File
+
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean>
+
         get() = _isLoading
     val progressBarVisibility = isLoading.map { if (it) View.VISIBLE else View.GONE }
     val fileIconVisibility = isLoading.map { if (!it) View.VISIBLE else View.GONE }
@@ -50,7 +52,6 @@ class ConfirmationViewModel(
         )
     }
 
-
     init {
         viewModelScope.launch {
             _isLoading.value = true
@@ -59,7 +60,6 @@ class ConfirmationViewModel(
             _pdfCreatedEvent.value = true
         }
     }
-
 
     private suspend fun createPdf(
         selectedDisciplines: SelectedDisciplines,
@@ -158,6 +158,11 @@ class ConfirmationViewModel(
     private fun getDateTime(): String {
         val date = Calendar.getInstance().time
         return SimpleDateFormat(DATETIME_FORMAT, Locale.getDefault()).format(date)
+    }
+
+    fun deletePdf() {
+        if(::pdf.isInitialized)
+            pdf.delete()
     }
 
     companion object {

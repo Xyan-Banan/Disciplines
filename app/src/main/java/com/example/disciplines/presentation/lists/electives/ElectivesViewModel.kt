@@ -22,44 +22,48 @@ class ElectivesViewModel
 ) :
     ViewModel() {
     val electivesList = MutableLiveData<List<Discipline.Elective>>()
-    val requestStatus = MutableLiveData<RequestStatus>()
+    private val _requestStatus = MutableLiveData<RequestStatus>()
+    val requestStatus: LiveData<RequestStatus> get() = _requestStatus
 
-    val confirmBtnVisibility = requestStatus.map {
+    val confirmBtnVisibility = _requestStatus.map {
         RequestStatusMapper.toConfirmBtnVisibility(it, electivesList.value)
     }
 
-    val instructionsVisibility = requestStatus.map {
+    val instructionsVisibility = _requestStatus.map {
         RequestStatusMapper.toInstructionsVisibility(it)
     }
-    val statusImageVisibility = requestStatus.map {
+    val statusImageVisibility = _requestStatus.map {
         RequestStatusMapper.toStatusImageVisibility(it)
     }
-    val statusImage = requestStatus.map {
+    val statusImage = _requestStatus.map {
         RequestStatusMapper.toStatusImage(it)
     }
 
     fun getElectivesList(groupNumber: String) {
         viewModelScope.launch {
-            requestStatus.value = RequestStatus.LOADING
+            _requestStatus.value = RequestStatus.LOADING
             try {
                 val list = disciplinesRepository.getElectives(groupNumber)
                 electivesList.value = list.sortedBy { it.name }
-                requestStatus.value = RequestStatus.DONE
+                _requestStatus.value = RequestStatus.DONE
             } catch (e: UnknownHostException) {
                 electivesList.value = emptyList()
-                requestStatus.value = RequestStatus.ERROR
+                _requestStatus.value = RequestStatus.ERROR
             }
         }
     }
 
     fun getInstructions(resources: Resources, groupInfo: GroupNumberInfo): CharSequence {
-        return when (requestStatus.value) {
+        return when (_requestStatus.value) {
             RequestStatus.DONE -> getInstructionsOnDone(resources, groupInfo)
             else -> resources.getString(R.string.instructions_error_loading)
         }
     }
 
-    private fun getInstructionsOnDone(resources: Resources, groupInfo: GroupNumberInfo): CharSequence {
+    private fun getInstructionsOnDone(
+        resources: Resources,
+        groupInfo: GroupNumberInfo
+    ): CharSequence {
         return if (electivesList.value.isNullOrEmpty())
             resources.getString(R.string.instructions_electives_empty)
         else {
@@ -81,7 +85,7 @@ class ElectivesViewModel
         }
     }
 
-    private fun getDegreeArgs(groupInfo: GroupNumberInfo) =
+    fun getDegreeArgs(groupInfo: GroupNumberInfo) =
         when (groupInfo.degree) {
             Degree.BACHELOR -> BACHELOR_PAIR
             Degree.MASTER -> MASTER_PAIR

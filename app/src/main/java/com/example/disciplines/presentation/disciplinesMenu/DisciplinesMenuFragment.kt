@@ -20,6 +20,8 @@ class DisciplinesMenuFragment : Fragment(R.layout.disciplines_menu_fragment) {
     private val binding by viewBinding(DisciplinesMenuFragmentBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+
         binding.disciplinesByChoiceBtn.setOnClickListener {
             findNavController().navigate(
                 DisciplinesMenuFragmentDirections.actionDisciplinesMenuToDisciplineByChoiceFragment(

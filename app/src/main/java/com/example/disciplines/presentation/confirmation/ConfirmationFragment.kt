@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ShareCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -50,8 +51,21 @@ class ConfirmationFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
+        with(binding) {
+            with(viewModel) {
+                textView.setText(title)
+                selectedListTV.text = selectedText
+                isLoading.observe(viewLifecycleOwner) {
+                    it?.let { isLoading ->
+                        progressBarCreationPdf.isVisible = isLoading
+                        fileIconIV.isVisible = !isLoading
+                        openBtn.isEnabled = !isLoading
+                        saveToPhoneBtn.isEnabled = !isLoading
+                        shareBtn.isEnabled = !isLoading
+                    }
+                }
+            }
+        }
 
         viewModel.pdfCreatedEvent.observe(viewLifecycleOwner) { isCreated ->
             if (isCreated) {
@@ -105,6 +119,6 @@ class ConfirmationFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.pdf.delete()
+        viewModel.deletePdf()
     }
 }

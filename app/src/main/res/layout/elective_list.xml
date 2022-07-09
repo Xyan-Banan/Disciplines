@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.example.disciplines.presentation.lists.electives.ElectivesViewModel" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -46,17 +40,15 @@
                     android:layout_marginTop="@dimen/instructionsTopMargin"
                     android:layout_marginEnd="@dimen/marginStartEnd"
                     android:layout_marginBottom="10dp"
-
                     android:textSize="20sp"
-                    android:visibility="@{viewModel.instructionsVisibility}"
-                    app:layout_constraintBottom_toTopOf="@+id/disciplinesL"
+                    app:layout_constraintBottom_toTopOf="@+id/disciplinesList"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/fragmentTitle"
                     tools:text="@string/instructions_electives" />
 
                 <LinearLayout
-                    android:id="@+id/disciplinesL"
+                    android:id="@+id/disciplinesList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/marginStartEnd"
@@ -65,8 +57,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/confirmBtn"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/instructions"
-                    app:electives="@{viewModel.electivesList}" />
+                    app:layout_constraintTop_toBottomOf="@+id/instructions" />
 
 
                 <Button
@@ -76,11 +67,10 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="30dp"
                     android:text="@string/confirmSelectionBtnText"
-                    android:visibility="@{viewModel.confirmBtnVisibility}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/disciplinesL" />
+                    app:layout_constraintTop_toBottomOf="@+id/disciplinesList" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
@@ -89,8 +79,6 @@
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:contentDescription="@string/status_image_description"
-            android:visibility="@{viewModel.statusImageVisibility}"
-            app:imageResource="@{viewModel.statusImage}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
