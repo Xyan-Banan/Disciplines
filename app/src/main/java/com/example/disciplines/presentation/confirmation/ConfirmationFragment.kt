@@ -27,9 +27,6 @@ class ConfirmationFragment : Fragment() {
                 }
             }
         }
-//        TODO: delete cached file and use saved or clear cache folder on dispose
-//        viewModel.pdf.delete()
-//        viewModel.pdf = requireContext().contentResolver.openFile(it,"w", CancellationSignal()).fileDescriptor.f
 
     private lateinit var shareIntent: Intent
     private lateinit var openIntent: Intent
@@ -104,5 +101,10 @@ class ConfirmationFragment : Fragment() {
             .setStream(viewModel.pdfUri)
             .intent
         return Intent.createChooser(shareIntent, null)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.pdf.delete()
     }
 }
