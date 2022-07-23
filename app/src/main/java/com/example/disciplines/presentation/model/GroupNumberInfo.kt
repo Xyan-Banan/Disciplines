@@ -1,4 +1,4 @@
-package com.example.disciplines.presentation
+package com.example.disciplines.presentation.model
 
 import java.io.Serializable
 

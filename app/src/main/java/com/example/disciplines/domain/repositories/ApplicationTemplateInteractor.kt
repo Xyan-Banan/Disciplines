@@ -1,26 +1,21 @@
-package com.example.disciplines.presentation.confirmation
+package com.example.disciplines.domain.repositories
 
 import com.example.disciplines.data.models.Discipline
 import com.example.disciplines.data.models.DisciplinesBundle
-import com.example.disciplines.data.models.SelectedDisciplines
 import kotlinx.html.a
 import kotlinx.html.i
 import kotlinx.html.stream.appendHTML
 import kotlinx.html.td
 import kotlinx.html.tr
 
-class ApplicationTemplate(private val rawHtml: String) {
-    fun fill(selectedDisciplines: SelectedDisciplines, semester: String): String {
-        val rows = when (selectedDisciplines) {
-            is SelectedDisciplines.MobilityModule -> getModulesRows(selectedDisciplines.module, semester)
-            is SelectedDisciplines.Electives -> getElectivesRows(selectedDisciplines.electives, semester)
-            is SelectedDisciplines.ByChoice -> getByChoiceRows(selectedDisciplines.bundles, semester)
-        }
-        return rawHtml.format(rows)
-    }
+object ApplicationTemplateInteractor {
 
-    private fun getByChoiceRows(bundles: Collection<DisciplinesBundle>, semester: String): String {
-        return StringBuilder().appendHTML().apply {
+    fun fillByChoiceTemplate(
+        template: String,
+        bundles: Collection<DisciplinesBundle>,
+        semester: Int
+    ): String {
+        val table = StringBuilder().appendHTML().apply {
             for ((bundleIndex, bundle) in bundles.withIndex()) {
                 //разделитель блоков
                 tr {
@@ -44,7 +39,7 @@ class ApplicationTemplate(private val rawHtml: String) {
                             //период изучения (для всего блока одинаковый)
                             td {
                                 rowSpan = "${disciplines.size}"
-                                +semester
+                                +semester.toString()
                             }
                         }
                         //отметка о выборе
@@ -55,32 +50,38 @@ class ApplicationTemplate(private val rawHtml: String) {
                 }
             }
         }.finalize().toString()
+
+        return template.format(table)
     }
 
-    private fun getElectivesRows(electives: Collection<Discipline.Elective>, semester: String): String {
-        return StringBuilder().appendHTML().apply {
+    fun fillElectivesTemplate(
+        template: String,
+        electives: Collection<Discipline.Elective>,
+        semester: Int
+    ): String {
+        val table = StringBuilder().appendHTML().apply {
             for (elective in electives)
                 tr {
                     td { +elective.name }
                     td { +elective.intensity.toString() }
-                    td { +semester }
+                    td { +semester.toString() }
                 }
         }.finalize().toString()
+        return template.format(table)
     }
 
-    private fun getModulesRows(module: Discipline.MobilityModule, semester: String): String {
-        return StringBuilder().appendHTML().tr {
+    fun fillModulesTemplate(template: String, module: Discipline.MobilityModule, semester: Int): String {
+        val table = StringBuilder().appendHTML().tr {
             td { +module.name }
             td { +module.intensity.toString() }
-            td { +semester }
+            td { +semester.toString() }
             td { a(module.link) { +module.link } }
         }.toString()
+        return template.format(table)
     }
 
-    companion object {
-        private const val DEFAULT_COLSPAN = "4"
-        private const val CHECKED = "√"
-        private const val NOT_CHECKED = ""
-        private const val BLOCK_TITLE = "Блок дисциплин во выбору %d"
-    }
+    private const val DEFAULT_COLSPAN = "4"
+    private const val CHECKED = "√"
+    private const val NOT_CHECKED = ""
+    private const val BLOCK_TITLE = "Блок дисциплин во выбору %d"
 }

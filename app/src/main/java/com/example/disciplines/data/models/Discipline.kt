@@ -33,12 +33,17 @@ sealed class Discipline : Parcelable {
     data class Elective(
         override val name: String,
         override val intensity: Int = 0,
-        var isChecked: Boolean = false
+        var isSelected: Boolean = false
     ) : Discipline()
 }
 
 @Parcelize
-data class DisciplinesBundle(val list: List<Discipline.ByChoice>, var checkedIndex: Int = -1) :
-    Parcelable
+class DisciplinesBundle(
+    val list: List<Discipline.ByChoice>,
+    var checkedIndex: Int = -1
+) :
+    Parcelable {
+    constructor(list: List<Discipline.ByChoice>) : this(list.sortedBy { it.name }, -1)
+}
 
 fun List<List<Discipline.ByChoice>>.asBundlesList() = map { DisciplinesBundle(it) }

@@ -6,7 +6,6 @@ import com.example.disciplines.data.source.DisciplinesDataSource
 import com.example.disciplines.domain.repositories.DisciplinesRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DefaultDisciplinesRepositoryImpl
@@ -20,25 +19,19 @@ class DefaultDisciplinesRepositoryImpl
 
     override suspend fun getDisciplinesByChoice(groupName: String): List<DisciplinesBundle> {
         return cachedDisciplines.getOrPut(groupName.dropLast(2)) {
-            withContext(ioDispatcher) {
-                disciplinesRemoteDataSource.getDisciplinesByChoice(groupName)
-            }
+            disciplinesRemoteDataSource.getDisciplinesByChoice(groupName)
         }
     }
 
     override suspend fun getMobilityModules(groupName: String): List<Discipline.MobilityModule> {
         return cachedMobilityModules.getOrPut(groupName.dropLast(2)) {
-            withContext(ioDispatcher) {
-                disciplinesRemoteDataSource.getMobilityModules(groupName)
-            }
+            disciplinesRemoteDataSource.getMobilityModules(groupName)
         }
     }
 
     override suspend fun getElectives(groupName: String): List<Discipline.Elective> {
         return cachedElectives.getOrPut(groupName.dropLast(2)) {
-            withContext(ioDispatcher) {
-                disciplinesRemoteDataSource.getElectives(groupName)
-            }
+            disciplinesRemoteDataSource.getElectives(groupName)
         }
     }
 }

@@ -1,12 +1,16 @@
 package com.example.disciplines.presentation.lists.mobilityModule
 
-import androidx.lifecycle.*
-import com.example.disciplines.R
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.disciplines.data.models.Discipline
 import com.example.disciplines.data.source.network.RequestStatus
 import com.example.disciplines.domain.repositories.DisciplinesRepository
-import com.example.disciplines.presentation.util.RequestStatusMapper
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 
@@ -14,22 +18,45 @@ class MobilityModuleViewModel
 @Inject constructor(
     private val disciplinesRepository: DisciplinesRepository
 ) : ViewModel() {
-    val modulesList = MutableLiveData<List<Discipline.MobilityModule>>()
+    private val _modulesList = MutableLiveData<List<Discipline.MobilityModule>>()
+    val modulesList: LiveData<List<Discipline.MobilityModule>> get() = _modulesList
+
     private val _requestStatus = MutableLiveData<RequestStatus>()
     val requestStatus: LiveData<RequestStatus> get() = _requestStatus
+
+    private val _navigationEvent = MutableLiveData<NavigationEvent?>()
+    val navigationEvent: LiveData<NavigationEvent?> get() = _navigationEvent
 
     fun getModulesList(groupNumber: String) {
         viewModelScope.launch {
             _requestStatus.value = RequestStatus.LOADING
-            try {
+            runCatching {
                 val list = disciplinesRepository.getMobilityModules(groupNumber)
-                modulesList.value = list
+                _modulesList.value = list
                 _requestStatus.value = RequestStatus.DONE
-            } catch (e: Exception) {
-                println(e.message)
-                modulesList.value = emptyList()
-                _requestStatus.value = RequestStatus.ERROR
+            }.onFailure { e ->
+                if (e is UnknownHostException) {
+                    println(e.message)
+                    _modulesList.value = emptyList()
+                    _requestStatus.value = RequestStatus.ERROR
+                } else throw e
             }
         }
+    }
+
+    fun onConfirm(radioGroup: RadioGroup) {
+        val canNavigate = (radioGroup.checkedRadioButtonId >= 0)
+
+        _navigationEvent.value = if (canNavigate) {
+            val checkedRadioButton =
+                radioGroup.findViewById<RadioButton>(radioGroup.checkedRadioButtonId)
+            val checkedIndex = radioGroup.indexOfChild(checkedRadioButton)
+            NavigationEvent.Can(_modulesList.value!![checkedIndex])
+        } else
+            NavigationEvent.Not
+    }
+
+    fun navigationFinished() {
+        _navigationEvent.value = null
     }
 }

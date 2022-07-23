@@ -1,16 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--suppress XmlUnusedNamespaceDeclaration -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <data>
-
-        <variable
-            name="elective"
-            type="com.example.disciplines.data.models.Discipline.Elective" />
-    </data>
-
-    <CheckBox
-        style="@style/listItemButton"
-        app:elective="@{elective}" />
-</layout>
+<CheckBox style="@style/listItemButton" />

@@ -5,13 +5,16 @@ import android.net.Uri
 import android.os.Build
 import android.text.SpannableStringBuilder
 import android.util.Log
-import android.view.View
 import androidx.core.content.FileProvider
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.disciplines.BuildConfig
-import com.example.disciplines.presentation.GroupNumberInfo
 import com.example.disciplines.R
 import com.example.disciplines.data.models.SelectedDisciplines
+import com.example.disciplines.domain.repositories.ApplicationTemplateInteractor
+import com.example.disciplines.presentation.model.GroupNumberInfo
 import com.example.disciplines.presentation.util.spanWithBullet
 import com.itextpdf.html2pdf.ConverterProperties
 import com.itextpdf.html2pdf.HtmlConverter
@@ -36,10 +39,7 @@ class ConfirmationViewModel(
 
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean>
-
         get() = _isLoading
-    val progressBarVisibility = isLoading.map { if (it) View.VISIBLE else View.GONE }
-    val fileIconVisibility = isLoading.map { if (!it) View.VISIBLE else View.GONE }
     private val _pdfCreatedEvent = MutableLiveData(false)
     val pdfCreatedEvent: LiveData<Boolean>
         get() = _pdfCreatedEvent
@@ -66,22 +66,42 @@ class ConfirmationViewModel(
         groupInfo: GroupNumberInfo
     ): File =
         withContext(Dispatchers.IO) {
-            val template = ApplicationTemplate(getHtml(selectedDisciplines))
-            val filled = template.fill(selectedDisciplines, groupInfo.semester.toString())
-//            println(filled)
+            val html = getHtml(selectedDisciplines, groupInfo.semester)
             val pdf = File(app.cacheDir, CACHE_FILE_NAME)
             Log.d(ConfirmationViewModel::class.simpleName, "Created PDF: $pdf")
             val converterProperties = getConverterProperties()
 
             pdf.outputStream().use { outputStream ->
                 HtmlConverter.convertToPdf(
-                    filled,
+                    html,
                     outputStream,
                     converterProperties
                 )
             }
             return@withContext pdf
         }
+
+    private fun getHtml(selected: SelectedDisciplines, semester: Int): String {
+        val template = getTemplate(selected)
+
+        return when (selected) {
+            is SelectedDisciplines.ByChoice -> ApplicationTemplateInteractor.fillByChoiceTemplate(
+                template,
+                selected.bundles,
+                semester
+            )
+            is SelectedDisciplines.Electives -> ApplicationTemplateInteractor.fillElectivesTemplate(
+                template,
+                selected.electives,
+                semester
+            )
+            is SelectedDisciplines.MobilityModule -> ApplicationTemplateInteractor.fillModulesTemplate(
+                template,
+                selected.module,
+                semester
+            )
+        }
+    }
 
     private fun getConverterProperties(): ConverterProperties {
         val fonts = listOf(
@@ -107,7 +127,7 @@ class ConfirmationViewModel(
             .setFontProvider(fontProvider)
     }
 
-    private fun getHtml(selectedDisciplines: SelectedDisciplines): String {
+    private fun getTemplate(selectedDisciplines: SelectedDisciplines): String {
         val templateId = when (selectedDisciplines) {
             is SelectedDisciplines.MobilityModule -> R.raw.template_mobility_module
             is SelectedDisciplines.ByChoice -> R.raw.template_by_choice
@@ -161,7 +181,7 @@ class ConfirmationViewModel(
     }
 
     fun deletePdf() {
-        if(::pdf.isInitialized)
+        if (::pdf.isInitialized)
             pdf.delete()
     }
 

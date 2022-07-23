@@ -1,20 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--suppress XmlUnusedNamespaceDeclaration -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!--suppress XmlUnusedNamespaceDeclaration -->
+<RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <variable
-            name="discipline"
-            type="com.example.disciplines.data.models.Discipline.ByChoice" />
-    </data>
-
-    <RadioButton
-        style="@style/discipline_radio_button"
-        app:discipline="@{discipline}"
-        tools:background="@drawable/border_polytech_main"
-        tools:checked="true"
-        tools:text="Дисциплина 1.2" />
-</layout>
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/discipline_radio_button"
+    tools:background="@drawable/border_polytech_main"
+    tools:checked="true"
+    tools:text="Дисциплина 1.2" />

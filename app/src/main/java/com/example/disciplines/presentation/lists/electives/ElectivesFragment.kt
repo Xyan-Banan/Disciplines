@@ -16,12 +16,13 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.disciplines.DisciplinesApplication
 import com.example.disciplines.R
+import com.example.disciplines.data.models.Discipline
 import com.example.disciplines.data.models.SelectedDisciplines
 import com.example.disciplines.data.source.network.RequestStatus
 import com.example.disciplines.databinding.ElectiveListBinding
-import com.example.disciplines.presentation.GroupNumberInfo
+import com.example.disciplines.presentation.model.GroupNumberInfo
 import com.example.disciplines.presentation.util.applyGravity
-import com.example.disciplines.presentation.util.setDisciplines
+import com.example.disciplines.presentation.util.createToast
 import com.example.disciplines.presentation.util.setElectives
 import javax.inject.Inject
 
@@ -41,47 +42,44 @@ class ElectivesFragment : Fragment(R.layout.elective_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         groupInfo = ElectivesFragmentArgs.fromBundle(requireArguments()).groupInfo
-        viewModel.getElectivesList(groupInfo.groupNumber)
+        viewModel.getElectivesList(groupInfo)
 
         viewModel.requestStatus.observe(viewLifecycleOwner) {
             it ?: return@observe
             when (it) {
-                RequestStatus.LOADING -> binding.onLoading()
-                RequestStatus.DONE -> binding.onDone()
-                RequestStatus.ERROR -> binding.onError()
+                RequestStatus.LOADING -> onLoading()
+                RequestStatus.DONE -> onDone()
+                RequestStatus.ERROR -> onError()
             }
         }
 
         viewModel.electivesList.observe(viewLifecycleOwner) {
             binding.disciplinesList.setElectives(it)
+            binding.confirmBtn.isVisible = !it.isNullOrEmpty()
         }
 
-        binding.confirmBtn.setOnClickListener { onConfirm() }
+        viewModel.degreeArgs.observe(viewLifecycleOwner, this::setInstructions)
+
+        binding.confirmBtn.setOnClickListener { viewModel.onConfirm() }
+        viewModel.navigationEvent.observe(viewLifecycleOwner) { selected ->
+            selected ?: return@observe
+
+            if (selected.isNotEmpty())
+                navigateToConfirm(selected)
+            else {
+                showErrorToast()
+            }
+        }
     }
 
-    private fun ElectiveListBinding.onLoading() {
-        //hide
-        instructions.isVisible = false
-        confirmBtn.isVisible = false
-        //show
-        statusImage.isVisible = true
-        statusImage.setImageResource(R.drawable.loading_animation)
-    }
-
-    private fun ElectiveListBinding.onDone() {
-        //hide
-        statusImage.isVisible = false
-        //show
-        instructions.isVisible = true
-
-        if (viewModel.electivesList.value.isNullOrEmpty()) {
-            instructions.setText(R.string.instructions_electives_empty)
-            confirmBtn.isVisible = false
-        } else {
-            val (studentType, neededPeople) = viewModel.getDegreeArgs(groupInfo)
+    private fun setInstructions(degreeArgs: DegreeArgs?) {
+        if (degreeArgs == null)
+            binding.instructions.setText(R.string.instructions_electives_empty)
+        else {
+            val studentType = getString(degreeArgs.nameRes)
             val instructionsText =
-                getString(R.string.instructions_electives, studentType, neededPeople)
-            instructions.text = SpannableString(instructionsText).apply {
+                getString(R.string.instructions_electives, studentType, degreeArgs.neededPeople)
+            binding.instructions.text = SpannableString(instructionsText).apply {
                 setSpan(
                     RelativeSizeSpan(0.8f),
                     instructionsText.indexOf('\n') + 1,
@@ -89,36 +87,54 @@ class ElectivesFragment : Fragment(R.layout.elective_list) {
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
             }
-            confirmBtn.isVisible = true
         }
     }
 
-    private fun ElectiveListBinding.onError() {
-        //hide
-        confirmBtn.isVisible = false
-        //show
-        instructions.isVisible = true
-        instructions.setText(R.string.instructions_error_loading)
-        statusImage.isVisible = true
-        statusImage.setImageResource(R.drawable.ic_connection_error)
+
+    private fun showErrorToast() {
+        createToast(R.string.toast_text_electives, Toast.LENGTH_LONG)
+            .applyGravity(Gravity.CENTER, 0, 0)
+            .show()
     }
 
-    private fun onConfirm() {
-        val checked = viewModel.electivesList.value!!.filter { it.isChecked }
-
-        if (checked.isNotEmpty())
-            findNavController().navigate(
-                ElectivesFragmentDirections.actionElectivesToConfirmationFragment(
-                    SelectedDisciplines.Electives(checked), groupInfo
-                )
+    private fun navigateToConfirm(selected: List<Discipline.Elective>) {
+        findNavController().navigate(
+            ElectivesFragmentDirections.actionElectivesToConfirmationFragment(
+                SelectedDisciplines.Electives(selected), groupInfo
             )
-        else {
-            Toast.makeText(
-                context,
-                getString(R.string.toast_text_electives),
-                Toast.LENGTH_LONG
-            ).applyGravity(Gravity.CENTER, 0, 0)
-                .show()
+        )
+        viewModel.navigationFinished()
+    }
+
+    private fun onLoading() {
+        with(binding) {
+            //hide
+            instructions.isVisible = false
+            confirmBtn.isVisible = false
+            //show
+            statusImage.isVisible = true
+            statusImage.setImageResource(R.drawable.loading_animation)
+        }
+    }
+
+    private fun onDone() {
+        with(binding) {
+            //hide
+            statusImage.isVisible = false
+            //show
+            instructions.isVisible = true
+        }
+    }
+
+    private fun onError() {
+        with(binding) {
+            //hide
+            confirmBtn.isVisible = false
+            //show
+            instructions.isVisible = true
+            instructions.setText(R.string.instructions_error_loading)
+            statusImage.isVisible = true
+            statusImage.setImageResource(R.drawable.ic_connection_error)
         }
     }
 }

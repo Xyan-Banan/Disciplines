@@ -9,10 +9,25 @@ import android.text.style.BulletSpan
 import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
+import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
 import com.example.disciplines.R
 import kotlin.math.roundToInt
 
-fun Toast.applyGravity(gravity: Int, xOffset: Int, yOffset: Int) =
+fun Fragment.showToast(msg: String, duration: Int = Toast.LENGTH_SHORT) =
+    Toast.makeText(context, msg, duration).show()
+
+fun Fragment.showToast(@StringRes msg: Int, duration: Int = Toast.LENGTH_SHORT) =
+    Toast.makeText(context, msg, duration).show()
+
+fun Fragment.createToast(msg: String, duration: Int = Toast.LENGTH_SHORT): Toast =
+    Toast.makeText(context, msg, duration)
+
+fun Fragment.createToast(@StringRes msg: Int, duration: Int = Toast.LENGTH_SHORT): Toast =
+    Toast.makeText(context, msg, duration)
+
+
+fun Toast.applyGravity(gravity: Int, xOffset: Int = 0, yOffset: Int = 0) =
     apply { setGravity(gravity, xOffset, yOffset) }
 
 @RequiresApi(Build.VERSION_CODES.P)

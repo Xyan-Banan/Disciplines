@@ -5,14 +5,9 @@ import com.example.disciplines.data.models.DisciplinesBundle
 import com.example.disciplines.data.models.asBundlesList
 import com.example.disciplines.data.source.DisciplinesDataSource
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class DisciplinesRemoteDataSource @Inject constructor(private val api: API) : DisciplinesDataSource {
-    //alternative to gson
-//private val moshi = Moshi.Builder()
-//    .add(KotlinJsonAdapterFactory())
-//    .build()
+class DisciplinesRemoteDataSource @Inject constructor(private val api: API) :
+    DisciplinesDataSource {
 
     override suspend fun getDisciplinesByChoice(groupName: String): List<DisciplinesBundle> {
         return api.getDisciplinesByChoice(groupName).asBundlesList()

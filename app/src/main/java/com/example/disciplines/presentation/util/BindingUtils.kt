@@ -1,7 +1,10 @@
 package com.example.disciplines.presentation.util
 
 import android.view.LayoutInflater
-import android.widget.*
+import android.widget.CheckBox
+import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import androidx.core.view.get
 import androidx.databinding.BindingAdapter
 import com.example.disciplines.R
@@ -11,16 +14,7 @@ import com.example.disciplines.databinding.DisciplineItemBinding
 import com.example.disciplines.databinding.DisciplinesBundleBinding
 import com.example.disciplines.databinding.ElectiveItemBinding
 import com.example.disciplines.databinding.MobilityModuleItemBinding
-import com.example.disciplines.presentation.GroupNumberInfo
 
-@BindingAdapter("discipline")
-fun RadioButton.setDiscipline(discipline: Discipline.ByChoice?) {
-    discipline?.let {
-        text = DisciplinesTextFormatter.from(it)
-    }
-}
-
-@BindingAdapter("disciplinesBundle")
 fun RadioGroup.setDisciplinesBundle(disciplinesBundle: DisciplinesBundle?) {
     disciplinesBundle?.let {
         it.list.forEach { discipline ->
@@ -30,7 +24,7 @@ fun RadioGroup.setDisciplinesBundle(disciplinesBundle: DisciplinesBundle?) {
                 false
             )
 
-            btn.discipline = discipline
+            btn.root.text = DisciplinesTextFormatter.from(discipline)
 
             addView(btn.root)
         }
@@ -46,7 +40,6 @@ fun RadioGroup.setDisciplinesBundle(disciplinesBundle: DisciplinesBundle?) {
     }
 }
 
-@BindingAdapter("disciplines")
 fun LinearLayout.setDisciplines(disciplines: List<DisciplinesBundle>?) {
     val bundlesList = disciplines ?: return
 
@@ -57,8 +50,8 @@ fun LinearLayout.setDisciplines(disciplines: List<DisciplinesBundle>?) {
             false
         )
 
-        binding.disciplinesBundle = bundle.value
-        binding.blockName = context.getString(R.string.blockName, bundle.index + 1)
+        binding.bundleRG.setDisciplinesBundle(bundle.value)
+        binding.blockNameTV.text = context.getString(R.string.blockName, bundle.index + 1)
 
         addView(binding.root)
     }
@@ -75,19 +68,16 @@ fun LinearLayout.setElectives(electives: List<Discipline.Elective>?) {
             false
         )
 
-        binding.elective = elective
-        (binding.root as CheckBox).setOnCheckedChangeListener { _, isChecked ->
-            binding.elective?.isChecked = isChecked
+        with(binding.root)
+        {
+            text = DisciplinesTextFormatter.from(elective)
+            isChecked = elective.isSelected
+            setOnCheckedChangeListener { _, isChecked ->
+                elective.isSelected = isChecked
+            }
         }
 
         addView(binding.root)
-    }
-}
-
-@BindingAdapter("mobilityModule")
-fun RadioButton.setMobilityModule(mobilityModule: Discipline.MobilityModule?) {
-    mobilityModule?.let {
-        text = DisciplinesTextFormatter.from(it)
     }
 }
 
@@ -99,28 +89,7 @@ fun RadioGroup.setMobilityModules(list: List<Discipline.MobilityModule>?) {
             this,
             false
         )
-        btn.mobilityModule = item
-//                btn.root.setOnClickListener { Log.i("TAG", "${it.id} $it") }
+        btn.root.text = DisciplinesTextFormatter.from(item)
         addView(btn.root)
-    }
-}
-
-@BindingAdapter("elective")
-fun CheckBox.setElective(elective: Discipline.Elective?) {
-    elective?.let {
-        text = DisciplinesTextFormatter.from(it)
-        isChecked = it.isChecked
-    }
-}
-
-@BindingAdapter("error")
-fun EditText.setErrorString(error: String?) {
-    this.error = error
-}
-
-@BindingAdapter("groupInfo")
-fun TextView.setGroupInfo(groupInfo: GroupNumberInfo?) {
-    groupInfo?.run {
-        text = context.getString(R.string.groupInfo, course, semester, admissionYear)
     }
 }

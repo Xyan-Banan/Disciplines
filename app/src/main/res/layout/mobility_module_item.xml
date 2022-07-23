@@ -1,16 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--suppress XmlUnusedNamespaceDeclaration -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <data>
-
-        <variable
-            name="mobilityModule"
-            type="com.example.disciplines.data.models.Discipline.MobilityModule" />
-    </data>
-
-    <RadioButton
-        style="@style/listItemButton"
-        app:mobilityModule="@{mobilityModule}" />
-</layout>
+<RadioButton style="@style/listItemButton" />

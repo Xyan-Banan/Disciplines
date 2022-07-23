@@ -2,7 +2,6 @@ package com.example.disciplines.presentation.lists.disciplinesByChoice
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.Toast
@@ -14,11 +13,14 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.disciplines.DisciplinesApplication
 import com.example.disciplines.R
+import com.example.disciplines.data.models.DisciplinesBundle
 import com.example.disciplines.data.models.SelectedDisciplines
 import com.example.disciplines.data.source.network.RequestStatus
 import com.example.disciplines.databinding.DisciplineListBinding
-import com.example.disciplines.presentation.GroupNumberInfo
+import com.example.disciplines.presentation.lists.disciplinesByChoice.NavigationEvent.*
+import com.example.disciplines.presentation.model.GroupNumberInfo
 import com.example.disciplines.presentation.util.applyGravity
+import com.example.disciplines.presentation.util.createToast
 import com.example.disciplines.presentation.util.setDisciplines
 import javax.inject.Inject
 
@@ -44,71 +46,79 @@ class DisciplineByChoiceFragment : Fragment(R.layout.discipline_list) {
         viewModel.requestStatus.observe(viewLifecycleOwner) {
             it ?: return@observe
             when (it) {
-                RequestStatus.LOADING -> binding.onLoading()
-                RequestStatus.DONE -> binding.onDone()
-                RequestStatus.ERROR -> binding.onError()
+                RequestStatus.LOADING -> onLoading()
+                RequestStatus.DONE -> onDone()
+                RequestStatus.ERROR -> onError()
             }
         }
 
         viewModel.disciplinesList.observe(viewLifecycleOwner) {
             binding.disciplinesList.setDisciplines(it)
+            binding.confirmBtn.isVisible = !it.isNullOrEmpty()
+            binding.instructions.setText(
+                if (it.isNullOrEmpty()) R.string.instructions_disciplinesByChoice_empty
+                else R.string.instructions_disciplinesByChoice
+            )
         }
 
-        binding.confirmBtn.setOnClickListener { onConfirm() }
+        binding.confirmBtn.setOnClickListener { viewModel.onConfirm() }
+        viewModel.navigationEvent.observe(viewLifecycleOwner) {
+            when (it) {
+                is Can -> navigateToConfirm(it.list)
+                is Not -> showErrorToast(it.checked, it.total)
+            }
+        }
     }
 
-    private fun DisciplineListBinding.onLoading() {
-        //hide
-        instructions.isVisible = false
-        confirmBtn.isVisible = false
-        //show
-        statusImage.isVisible = true
-        statusImage.setImageResource(R.drawable.loading_animation)
-    }
-
-    private fun DisciplineListBinding.onDone() {
-        //hide
-        statusImage.isVisible = false
-        //show
-        instructions.isVisible = true
-
-        if (viewModel.disciplinesList.value.isNullOrEmpty()) {
-            instructions.setText(R.string.instructions_disciplinesByChoice_empty)
+    private fun onLoading() {
+        with(binding) {
+            //hide
+            instructions.isVisible = false
             confirmBtn.isVisible = false
-        } else {
-            instructions.setText(R.string.instructions_disciplinesByChoice)
-            confirmBtn.isVisible = true
+            //show
+            statusImage.isVisible = true
+            statusImage.setImageResource(R.drawable.loading_animation)
         }
     }
 
-    private fun DisciplineListBinding.onError() {
-        //hide
-        confirmBtn.isVisible = false
-        //show
-        instructions.isVisible = true
-        instructions.setText(R.string.instructions_error_loading)
-        statusImage.isVisible = true
-        statusImage.setImageResource(R.drawable.ic_connection_error)
+    private fun onDone() {
+        with(binding) {
+            //hide
+            statusImage.isVisible = false
+            //show
+            instructions.isVisible = true
+        }
     }
 
-    private fun onConfirm() {
-        if (viewModel.disciplinesList.value.isNullOrEmpty()) return
-
-        if (viewModel.isCanNavigate) {
-            findNavController().navigate(
-                DisciplineByChoiceFragmentDirections.actionDisciplineByChoiceFragmentToConfirmationFragment(
-                    SelectedDisciplines.ByChoice(viewModel.disciplinesList.value!!), groupInfo
-                )
-            )
-        } else {
-            val text = getString(
-                R.string.toast_text_disciplinesByChoice,
-                viewModel.checked,
-                viewModel.disciplinesList.value!!.size
-            )
-            Toast.makeText(context, text, Toast.LENGTH_LONG)
-                .applyGravity(Gravity.CENTER, 0, 0)
-                .show()
+    private fun onError() {
+        with(binding) {
+            //hide
+            confirmBtn.isVisible = false
+            //show
+            instructions.isVisible = true
+            instructions.setText(R.string.instructions_error_loading)
+            statusImage.isVisible = true
+            statusImage.setImageResource(R.drawable.ic_connection_error)
         }
+    }
+
+    private fun navigateToConfirm(bundles: List<DisciplinesBundle>) {
+        findNavController().navigate(
+            DisciplineByChoiceFragmentDirections.actionDisciplineByChoiceFragmentToConfirmationFragment(
+                SelectedDisciplines.ByChoice(bundles), groupInfo
+            )
+        )
+        viewModel.navigationFinished()
+    }
+
+    private fun showErrorToast(checked: Int, total: Int) {
+        val text = getString(
+            R.string.toast_text_disciplinesByChoice,
+            checked,
+            total
+        )
+        createToast(text, Toast.LENGTH_LONG)
+            .applyGravity(Gravity.CENTER)
+            .show()
     }
 }

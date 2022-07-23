@@ -20,29 +20,7 @@ class DisciplinesMenuFragment : Fragment(R.layout.disciplines_menu_fragment) {
     private val binding by viewBinding(DisciplinesMenuFragmentBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-
-        binding.disciplinesByChoiceBtn.setOnClickListener {
-            findNavController().navigate(
-                DisciplinesMenuFragmentDirections.actionDisciplinesMenuToDisciplineByChoiceFragment(
-                    viewModel.groupNumberInfo.value!!
-                )
-            )
-        }
-        binding.mobilityModuleBtn.setOnClickListener {
-            findNavController().navigate(
-                DisciplinesMenuFragmentDirections.actionDisciplinesMenuToMobilityModuleFragment(
-                    viewModel.groupNumberInfo.value!!
-                )
-            )
-        }
-        binding.electivesBtn.setOnClickListener {
-            findNavController().navigate(
-                DisciplinesMenuFragmentDirections.actionDisciplinesMenuToElectives(
-                    viewModel.groupNumberInfo.value!!
-                )
-            )
-        }
+        setUpNavigationButtons()
 
         binding.groupNumberET.addTextChangedListener(onTextChanged = { _, _, _, _ ->
             viewModel.dropGroupInfo()
@@ -57,6 +35,10 @@ class DisciplinesMenuFragment : Fragment(R.layout.disciplines_menu_fragment) {
 
         binding.submitBtn.setOnClickListener {
             submitGroupNumber()
+        }
+
+        viewModel.isValidGroupNumber.observe(viewLifecycleOwner) {
+            if (it) hideKeyboard()
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
@@ -78,16 +60,36 @@ class DisciplinesMenuFragment : Fragment(R.layout.disciplines_menu_fragment) {
             }
         }
 
-        viewModel.isGroupInfoVisible.observe(viewLifecycleOwner) {
-            binding.groupInfoTV.visibility = it
+        viewModel.isGroupInfoVisible.observe(viewLifecycleOwner, binding.groupInfoTV::setVisibility)
+    }
+
+    private fun setUpNavigationButtons() {
+        binding.disciplinesByChoiceBtn.setOnClickListener {
+            findNavController().navigate(
+                DisciplinesMenuFragmentDirections.actionDisciplinesMenuToDisciplineByChoiceFragment(
+                    viewModel.groupNumberInfo.value!!
+                )
+            )
+        }
+        binding.mobilityModuleBtn.setOnClickListener {
+            findNavController().navigate(
+                DisciplinesMenuFragmentDirections.actionDisciplinesMenuToMobilityModuleFragment(
+                    viewModel.groupNumberInfo.value!!
+                )
+            )
+        }
+        binding.electivesBtn.setOnClickListener {
+            findNavController().navigate(
+                DisciplinesMenuFragmentDirections.actionDisciplinesMenuToElectives(
+                    viewModel.groupNumberInfo.value!!
+                )
+            )
         }
     }
 
     private fun submitGroupNumber() {
         val gNumber = binding.groupNumberET.text.toString().trim()
         viewModel.submitGroupNumber(gNumber)
-        if (viewModel.isValidGroupNumber.value == true)
-            hideKeyboard()
     }
 
     private fun hideKeyboard() {

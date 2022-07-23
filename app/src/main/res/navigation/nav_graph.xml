@@ -30,7 +30,7 @@
             app:destination="@id/confirmationFragment" />
         <argument
             android:name="groupInfo"
-            app:argType="com.example.disciplines.presentation.GroupNumberInfo" />
+            app:argType="com.example.disciplines.presentation.model.GroupNumberInfo" />
     </fragment>
     <fragment
         android:id="@+id/mobilityModuleFragment"
@@ -42,7 +42,7 @@
             app:destination="@id/confirmationFragment" />
         <argument
             android:name="groupInfo"
-            app:argType="com.example.disciplines.presentation.GroupNumberInfo" />
+            app:argType="com.example.disciplines.presentation.model.GroupNumberInfo" />
     </fragment>
     <fragment
         android:id="@+id/electivesFragment"
@@ -54,7 +54,7 @@
             app:destination="@id/confirmationFragment" />
         <argument
             android:name="groupInfo"
-            app:argType="com.example.disciplines.presentation.GroupNumberInfo" />
+            app:argType="com.example.disciplines.presentation.model.GroupNumberInfo" />
     </fragment>
     <fragment
         android:id="@+id/confirmationFragment"
@@ -66,6 +66,6 @@
             app:argType="com.example.disciplines.data.models.SelectedDisciplines" />
         <argument
             android:name="groupInfo"
-            app:argType="com.example.disciplines.presentation.GroupNumberInfo" />
+            app:argType="com.example.disciplines.presentation.model.GroupNumberInfo" />
     </fragment>
 </navigation>
