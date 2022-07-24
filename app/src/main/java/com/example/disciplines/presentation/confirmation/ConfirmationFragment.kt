@@ -1,24 +1,27 @@
 package com.example.disciplines.presentation.confirmation
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ShareCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.disciplines.DisciplinesApplication
 import com.example.disciplines.R
+import com.example.disciplines.data.models.SelectedDisciplines
 import com.example.disciplines.databinding.ConfirmationFragmentBinding
+import com.example.disciplines.presentation.model.GroupNumberInfo
 import com.example.disciplines.presentation.util.showToast
+import javax.inject.Inject
 
-class ConfirmationFragment : Fragment() {
+class ConfirmationFragment : Fragment(R.layout.confirmation_fragment) {
     private val binding by viewBinding(ConfirmationFragmentBinding::bind)
-    private lateinit var viewModel: ConfirmationViewModel
+
     private val createFileAction =
         registerForActivityResult(ActivityResultContracts.CreateDocument("application/pdf")) { uri ->
             uri ?: return@registerForActivityResult
@@ -33,22 +36,21 @@ class ConfirmationFragment : Fragment() {
     private lateinit var shareIntent: Intent
     private lateinit var openIntent: Intent
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val (selected, groupInfo) = ConfirmationFragmentArgs.fromBundle(requireArguments())
-            .run { selected to groupInfo }
-        viewModel = ViewModelProvider(
-            this,
-            ConfirmationViewModelFactory(
-                selected,
-                groupInfo,
-                requireActivity().application
-            )
-        ).get(ConfirmationViewModel::class.java)
+    private lateinit var selected: SelectedDisciplines
+    private lateinit var groupInfo: GroupNumberInfo
 
-        return inflater.inflate(R.layout.confirmation_fragment, container, false)
+    @Inject
+    lateinit var viewModelFactory: ConfirmationViewModelFactory.Factory
+    private val viewModel: ConfirmationViewModel by viewModels {
+        viewModelFactory.create(selected, groupInfo)
+    }
+
+    override fun onAttach(context: Context) {
+        selected = ConfirmationFragmentArgs.fromBundle(requireArguments()).selected
+        groupInfo = ConfirmationFragmentArgs.fromBundle(requireArguments()).groupInfo
+        val component = (context.applicationContext as DisciplinesApplication).component
+        component.inject(this)
+        super.onAttach(context)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

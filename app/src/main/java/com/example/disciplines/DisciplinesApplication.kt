@@ -11,6 +11,6 @@ class DisciplinesApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        component = DaggerAppComponent.factory().create()
+        component = DaggerAppComponent.factory().create(this)
     }
 }

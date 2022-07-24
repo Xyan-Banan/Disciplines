@@ -1,5 +1,7 @@
 package com.example.disciplines.di
 
+import android.app.Application
+import com.example.disciplines.presentation.confirmation.ConfirmationFragment
 import com.example.disciplines.presentation.lists.disciplinesByChoice.DisciplineByChoiceFragment
 import com.example.disciplines.presentation.lists.electives.ElectivesFragment
 import com.example.disciplines.presentation.lists.mobilityModule.MobilityModuleFragment
@@ -16,6 +18,8 @@ interface AppComponent {
     interface Factory {
         fun create(
             @BindsInstance
+            application: Application,
+            @BindsInstance
             ioDispatcher: CoroutineDispatcher = Dispatchers.IO
         ): AppComponent
     }
@@ -23,4 +27,5 @@ interface AppComponent {
     fun inject(fragment: DisciplineByChoiceFragment)
     fun inject(fragment: MobilityModuleFragment)
     fun inject(fragment: ElectivesFragment)
+    fun inject(confirmationFragment: ConfirmationFragment)
 }
