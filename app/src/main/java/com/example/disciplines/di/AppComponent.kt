@@ -14,6 +14,8 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [DefaultDisciplinesRepositoryImplModule::class, RemoteDataSourceModule::class, ApiModule::class, ViewModelModule::class])
 interface AppComponent {
+    fun confirmationComponent(): ConfirmationComponent.Factory
+
     @Component.Factory
     interface Factory {
         fun create(
@@ -27,5 +29,5 @@ interface AppComponent {
     fun inject(fragment: DisciplineByChoiceFragment)
     fun inject(fragment: MobilityModuleFragment)
     fun inject(fragment: ElectivesFragment)
-    fun inject(confirmationFragment: ConfirmationFragment)
+//    fun inject(confirmationFragment: ConfirmationFragment)
 }

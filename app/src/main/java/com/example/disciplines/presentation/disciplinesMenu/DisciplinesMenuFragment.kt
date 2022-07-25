@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.disciplines.DisciplinesApplication
 import com.example.disciplines.R
 import com.example.disciplines.databinding.DisciplinesMenuFragmentBinding
 
@@ -65,23 +66,32 @@ class DisciplinesMenuFragment : Fragment(R.layout.disciplines_menu_fragment) {
 
     private fun setUpNavigationButtons() {
         binding.disciplinesByChoiceBtn.setOnClickListener {
-            findNavController().navigate(
-                DisciplinesMenuFragmentDirections.actionDisciplinesMenuToDisciplineByChoiceFragment(
-                    viewModel.groupNumberInfo.value!!
+            viewModel.groupNumberInfo.value?.let { groupInfo ->
+                (requireContext().applicationContext as DisciplinesApplication).setGroupInfo(
+                    groupInfo
                 )
-            )
+                findNavController().navigate(
+                    DisciplinesMenuFragmentDirections.actionDisciplinesMenuToDisciplineByChoiceFragment(
+                        groupInfo
+                    )
+                )
+            }
         }
         binding.mobilityModuleBtn.setOnClickListener {
+            val groupInfo = viewModel.groupNumberInfo.value!!
+            (requireContext().applicationContext as DisciplinesApplication).setGroupInfo(groupInfo)
             findNavController().navigate(
                 DisciplinesMenuFragmentDirections.actionDisciplinesMenuToMobilityModuleFragment(
-                    viewModel.groupNumberInfo.value!!
+                    groupInfo
                 )
             )
         }
         binding.electivesBtn.setOnClickListener {
+            val groupInfo = viewModel.groupNumberInfo.value!!
+            (requireContext().applicationContext as DisciplinesApplication).setGroupInfo(groupInfo)
             findNavController().navigate(
                 DisciplinesMenuFragmentDirections.actionDisciplinesMenuToElectives(
-                    viewModel.groupNumberInfo.value!!
+                    groupInfo
                 )
             )
         }

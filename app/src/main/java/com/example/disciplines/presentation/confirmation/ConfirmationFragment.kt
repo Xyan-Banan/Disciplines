@@ -42,13 +42,13 @@ class ConfirmationFragment : Fragment(R.layout.confirmation_fragment) {
     @Inject
     lateinit var viewModelFactory: ConfirmationViewModelFactory.Factory
     private val viewModel: ConfirmationViewModel by viewModels {
-        viewModelFactory.create(selected, groupInfo)
+        viewModelFactory.create(selected)
     }
 
     override fun onAttach(context: Context) {
         selected = ConfirmationFragmentArgs.fromBundle(requireArguments()).selected
         groupInfo = ConfirmationFragmentArgs.fromBundle(requireArguments()).groupInfo
-        val component = (context.applicationContext as DisciplinesApplication).component
+        val component = (context.applicationContext as DisciplinesApplication).confirmationComponent
         component.inject(this)
         super.onAttach(context)
     }

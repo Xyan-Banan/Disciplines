@@ -12,7 +12,7 @@ import dagger.assisted.AssistedInject
 class ConfirmationViewModelFactory @AssistedInject constructor(
     @Assisted(ASSISTED_KEY_SELECTED)
     private val selected: SelectedDisciplines,
-    @Assisted(ASSISTED_KEY_GROUP_INFO)
+//    @Assisted(ASSISTED_KEY_GROUP_INFO)
     private val groupInfo: GroupNumberInfo,
     private val application: Application
 ) :
@@ -28,8 +28,8 @@ class ConfirmationViewModelFactory @AssistedInject constructor(
         fun create(
             @Assisted(ASSISTED_KEY_SELECTED)
             selected: SelectedDisciplines,
-            @Assisted(ASSISTED_KEY_GROUP_INFO)
-            groupInfo: GroupNumberInfo
+//            @Assisted(ASSISTED_KEY_GROUP_INFO)
+//            groupInfo: GroupNumberInfo
         ): ConfirmationViewModelFactory
     }
 
