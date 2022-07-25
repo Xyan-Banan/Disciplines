@@ -1,4 +1,4 @@
-package com.example.disciplines.domain.repositories
+package com.example.disciplines.domain
 
 import com.example.disciplines.data.models.Discipline
 import com.example.disciplines.data.models.DisciplinesBundle

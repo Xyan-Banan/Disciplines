@@ -13,7 +13,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.disciplines.BuildConfig
 import com.example.disciplines.R
 import com.example.disciplines.data.models.SelectedDisciplines
-import com.example.disciplines.domain.repositories.ApplicationTemplateInteractor
+import com.example.disciplines.domain.ApplicationTemplateInteractor
 import com.example.disciplines.presentation.model.GroupNumberInfo
 import com.example.disciplines.presentation.util.spanWithBullet
 import com.itextpdf.html2pdf.ConverterProperties

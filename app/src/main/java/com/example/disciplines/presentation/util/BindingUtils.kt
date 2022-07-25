@@ -57,7 +57,6 @@ fun LinearLayout.setDisciplines(disciplines: List<DisciplinesBundle>?) {
     }
 }
 
-@BindingAdapter("electives")
 fun LinearLayout.setElectives(electives: List<Discipline.Elective>?) {
     electives ?: return
 
@@ -81,7 +80,6 @@ fun LinearLayout.setElectives(electives: List<Discipline.Elective>?) {
     }
 }
 
-@BindingAdapter("mobilityModules")
 fun RadioGroup.setMobilityModules(list: List<Discipline.MobilityModule>?) {
     list?.forEach { item ->
         val btn = MobilityModuleItemBinding.inflate(
