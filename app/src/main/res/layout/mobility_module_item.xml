@@ -1,2 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RadioButton style="@style/listItemButton" />
+<RadioButton xmlns:tools="http://schemas.android.com/tools"
+    style="@style/listItemButton"
+    tools:text="Название дисциплины \nТрудоемкость: # з.е./# ч. \nПлатформа: ..." />

@@ -8,7 +8,6 @@ import com.example.disciplines.presentation.lists.mobilityModule.MobilityModuleV
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import javax.inject.Singleton
 
 @Module
 abstract class ViewModelModule {
@@ -28,7 +27,7 @@ abstract class ViewModelModule {
     @ViewModelKey(ElectivesViewModel::class)
     abstract fun electivesViewModel(electivesViewModel: ElectivesViewModel): ViewModel
 
-    @Singleton
+    @SubcomponentScope
     @Binds
     abstract fun bindViewModelFactory(factory: AppViewModelFactory): ViewModelProvider.Factory
 }

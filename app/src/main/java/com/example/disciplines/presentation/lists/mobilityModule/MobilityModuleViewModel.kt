@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.disciplines.data.models.Discipline
 import com.example.disciplines.data.source.network.RequestStatus
 import com.example.disciplines.domain.repositories.DisciplinesRepository
+import com.example.disciplines.presentation.model.GroupNumberInfo
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 import javax.inject.Inject
@@ -16,6 +17,7 @@ import javax.inject.Inject
 
 class MobilityModuleViewModel
 @Inject constructor(
+    groupInfo: GroupNumberInfo,
     private val disciplinesRepository: DisciplinesRepository
 ) : ViewModel() {
     private val _modulesList = MutableLiveData<List<Discipline.MobilityModule>>()
@@ -27,7 +29,11 @@ class MobilityModuleViewModel
     private val _navigationEvent = MutableLiveData<NavigationEvent?>()
     val navigationEvent: LiveData<NavigationEvent?> get() = _navigationEvent
 
-    fun getModulesList(groupNumber: String) {
+    init {
+        getModulesList(groupInfo.groupNumber)
+    }
+
+    private fun getModulesList(groupNumber: String) {
         viewModelScope.launch {
             _requestStatus.value = RequestStatus.LOADING
             runCatching {

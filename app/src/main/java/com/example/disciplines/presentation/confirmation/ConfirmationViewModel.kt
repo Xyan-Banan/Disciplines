@@ -13,7 +13,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.disciplines.BuildConfig
 import com.example.disciplines.R
 import com.example.disciplines.data.models.SelectedDisciplines
-import com.example.disciplines.domain.ApplicationTemplateInteractor
+import com.example.disciplines.domain.ApplicationTemplateUtils
 import com.example.disciplines.presentation.model.GroupNumberInfo
 import com.example.disciplines.presentation.util.spanWithBullet
 import com.itextpdf.html2pdf.ConverterProperties
@@ -29,6 +29,7 @@ import java.util.*
 class ConfirmationViewModel(
     selected: SelectedDisciplines,
     groupInfo: GroupNumberInfo,
+    private val templateUtils: ApplicationTemplateUtils,
     val app: Application
 ) :
     AndroidViewModel(app) {
@@ -85,17 +86,17 @@ class ConfirmationViewModel(
         val template = getTemplate(selected)
 
         return when (selected) {
-            is SelectedDisciplines.ByChoice -> ApplicationTemplateInteractor.fillByChoiceTemplate(
+            is SelectedDisciplines.ByChoice -> templateUtils.fillByChoiceTemplate(
                 template,
                 selected.bundles,
                 semester
             )
-            is SelectedDisciplines.Electives -> ApplicationTemplateInteractor.fillElectivesTemplate(
+            is SelectedDisciplines.Electives -> templateUtils.fillElectivesTemplate(
                 template,
                 selected.electives,
                 semester
             )
-            is SelectedDisciplines.MobilityModule -> ApplicationTemplateInteractor.fillModulesTemplate(
+            is SelectedDisciplines.MobilityModule -> templateUtils.fillModulesTemplate(
                 template,
                 selected.module,
                 semester

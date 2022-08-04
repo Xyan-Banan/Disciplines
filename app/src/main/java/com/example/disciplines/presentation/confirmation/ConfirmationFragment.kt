@@ -15,7 +15,7 @@ import com.example.disciplines.DisciplinesApplication
 import com.example.disciplines.R
 import com.example.disciplines.data.models.SelectedDisciplines
 import com.example.disciplines.databinding.ConfirmationFragmentBinding
-import com.example.disciplines.presentation.model.GroupNumberInfo
+import com.example.disciplines.di.SubcomponentNotInitialized
 import com.example.disciplines.presentation.util.showToast
 import javax.inject.Inject
 
@@ -37,19 +37,15 @@ class ConfirmationFragment : Fragment(R.layout.confirmation_fragment) {
     private lateinit var openIntent: Intent
 
     private lateinit var selected: SelectedDisciplines
-    private lateinit var groupInfo: GroupNumberInfo
 
     @Inject
     lateinit var viewModelFactory: ConfirmationViewModelFactory.Factory
-    private val viewModel: ConfirmationViewModel by viewModels {
-        viewModelFactory.create(selected, groupInfo)
-    }
+    private val viewModel: ConfirmationViewModel by viewModels { viewModelFactory.create(selected) }
 
     override fun onAttach(context: Context) {
         selected = ConfirmationFragmentArgs.fromBundle(requireArguments()).selected
-        groupInfo = ConfirmationFragmentArgs.fromBundle(requireArguments()).groupInfo
-        val component = (context.applicationContext as DisciplinesApplication).component
-        component.inject(this)
+        val component = (context.applicationContext as DisciplinesApplication).viewModelsComponent
+        component?.inject(this) ?: SubcomponentNotInitialized()
         super.onAttach(context)
     }
 

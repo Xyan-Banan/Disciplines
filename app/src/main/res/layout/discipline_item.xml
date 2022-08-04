@@ -3,4 +3,4 @@
     style="@style/discipline_radio_button"
     tools:background="@drawable/border_polytech_main"
     tools:checked="true"
-    tools:text="Дисциплина 1.2" />
+    tools:text="Название дисциплины (# з.е./# ч.)" />

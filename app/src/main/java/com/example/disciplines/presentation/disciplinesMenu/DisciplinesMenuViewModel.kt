@@ -5,8 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
-import com.example.disciplines.presentation.model.GroupNumberInfo
+import androidx.navigation.NavDirections
 import com.example.disciplines.R
+import com.example.disciplines.presentation.model.GroupNumberInfo
 import com.example.disciplines.presentation.util.GroupNumberInfoFactory
 import java.util.*
 
@@ -86,6 +87,17 @@ class DisciplinesMenuViewModel : ViewModel() {
         _isValidGroupNumber.value = false
         _error.value = null
         _groupNumberInfo.value = null
+    }
+
+    private val _navigationEvent = MutableLiveData<NavigationHelper?>(null)
+    val navigationEvent: LiveData<NavigationHelper?> get() = _navigationEvent
+
+    fun navigate(directions: NavDirections) {
+        _navigationEvent.value = NavigationHelper(directions, _groupNumberInfo.value!!)
+    }
+
+    fun navigated() {
+        _navigationEvent.value = null
     }
 
     companion object {
