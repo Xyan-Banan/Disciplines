@@ -2,7 +2,7 @@ package com.example.disciplines
 
 import android.app.Application
 import com.example.disciplines.di.AppComponent
-import com.example.disciplines.di.ConfirmationComponent
+import com.example.disciplines.di.ViewModelsComponent
 import com.example.disciplines.di.DaggerAppComponent
 import com.example.disciplines.presentation.model.GroupNumberInfo
 
@@ -10,9 +10,7 @@ import com.example.disciplines.presentation.model.GroupNumberInfo
 class DisciplinesApplication : Application() {
     lateinit var component: AppComponent
         private set
-    lateinit var confirmationComponent: ConfirmationComponent
-        private set
-    var groupInfo: GroupNumberInfo? = null
+    var viewModelsComponent: ViewModelsComponent? = null
         private set
 
     override fun onCreate() {
@@ -20,10 +18,9 @@ class DisciplinesApplication : Application() {
         component = DaggerAppComponent.factory().create(this)
     }
 
-    fun setGroupInfo(gInfo: GroupNumberInfo){
-        if(groupInfo == gInfo) return
+    fun setGroupInfo(gInfo: GroupNumberInfo) {
+        if (viewModelsComponent?.groupInfo == gInfo) return
 
-        groupInfo = gInfo
-        confirmationComponent = component.confirmationComponent().create(gInfo)
+        viewModelsComponent = component.confirmationComponent().create(gInfo)
     }
 }

@@ -20,6 +20,7 @@ import com.example.disciplines.data.models.Discipline
 import com.example.disciplines.data.models.SelectedDisciplines
 import com.example.disciplines.data.source.network.RequestStatus
 import com.example.disciplines.databinding.ElectiveListBinding
+import com.example.disciplines.di.SubcomponentNotInitialized
 import com.example.disciplines.presentation.model.GroupNumberInfo
 import com.example.disciplines.presentation.util.applyGravity
 import com.example.disciplines.presentation.util.createToast
@@ -33,16 +34,13 @@ class ElectivesFragment : Fragment(R.layout.elective_list) {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel: ElectivesViewModel by viewModels { viewModelFactory }
 
-    lateinit var groupInfo: GroupNumberInfo
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        val component = (context.applicationContext as DisciplinesApplication).component
-        component.inject(this)
+        val component = (context.applicationContext as DisciplinesApplication).viewModelsComponent
+        component?.inject(this) ?: throw SubcomponentNotInitialized()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        groupInfo = ElectivesFragmentArgs.fromBundle(requireArguments()).groupInfo
-        viewModel.getElectivesList(groupInfo)
 
         viewModel.requestStatus.observe(viewLifecycleOwner) {
             it ?: return@observe
@@ -100,7 +98,7 @@ class ElectivesFragment : Fragment(R.layout.elective_list) {
     private fun navigateToConfirm(selected: List<Discipline.Elective>) {
         findNavController().navigate(
             ElectivesFragmentDirections.actionElectivesToConfirmationFragment(
-                SelectedDisciplines.Electives(selected), groupInfo
+                SelectedDisciplines.Electives(selected)
             )
         )
         viewModel.navigationFinished()

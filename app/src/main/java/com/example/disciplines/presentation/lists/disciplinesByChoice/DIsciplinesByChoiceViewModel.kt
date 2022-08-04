@@ -5,12 +5,14 @@ import androidx.lifecycle.*
 import com.example.disciplines.data.models.DisciplinesBundle
 import com.example.disciplines.data.source.network.RequestStatus
 import com.example.disciplines.domain.repositories.DisciplinesRepository
+import com.example.disciplines.presentation.model.GroupNumberInfo
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 import javax.inject.Inject
 
 class DisciplinesByChoiceViewModel
 @Inject constructor(
+    groupInfo: GroupNumberInfo,
     private val disciplinesRepository: DisciplinesRepository
 ) : ViewModel() {
     private val _disciplinesList = MutableLiveData<List<DisciplinesBundle>>()
@@ -22,7 +24,11 @@ class DisciplinesByChoiceViewModel
     private val _navigationEvent = MutableLiveData<NavigationEvent>()
     val navigationEvent: LiveData<NavigationEvent> get() = _navigationEvent
 
-    fun getDisciplines(groupNumber: String) {
+    init {
+        getDisciplines(groupInfo.groupNumber)
+    }
+
+    private fun getDisciplines(groupNumber: String) {
         viewModelScope.launch {
             _requestStatus.value = RequestStatus.LOADING
             runCatching {

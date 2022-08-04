@@ -7,8 +7,11 @@ import kotlinx.html.i
 import kotlinx.html.stream.appendHTML
 import kotlinx.html.td
 import kotlinx.html.tr
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object ApplicationTemplateInteractor {
+@Singleton
+class ApplicationTemplateUtils @Inject constructor() {
 
     fun fillByChoiceTemplate(
         template: String,
@@ -70,7 +73,11 @@ object ApplicationTemplateInteractor {
         return template.format(table)
     }
 
-    fun fillModulesTemplate(template: String, module: Discipline.MobilityModule, semester: Int): String {
+    fun fillModulesTemplate(
+        template: String,
+        module: Discipline.MobilityModule,
+        semester: Int
+    ): String {
         val table = StringBuilder().appendHTML().tr {
             td { +module.name }
             td { +module.intensity.toString() }
@@ -80,8 +87,10 @@ object ApplicationTemplateInteractor {
         return template.format(table)
     }
 
-    private const val DEFAULT_COLSPAN = "4"
-    private const val CHECKED = "√"
-    private const val NOT_CHECKED = ""
-    private const val BLOCK_TITLE = "Блок дисциплин во выбору %d"
+    companion object {
+        private const val DEFAULT_COLSPAN = "4"
+        private const val CHECKED = "√"
+        private const val NOT_CHECKED = ""
+        private const val BLOCK_TITLE = "Блок дисциплин во выбору %d"
+    }
 }

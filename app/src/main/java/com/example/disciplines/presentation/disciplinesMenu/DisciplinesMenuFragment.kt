@@ -14,6 +14,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.disciplines.DisciplinesApplication
 import com.example.disciplines.R
 import com.example.disciplines.databinding.DisciplinesMenuFragmentBinding
+import com.example.disciplines.presentation.model.GroupNumberInfo
 
 class DisciplinesMenuFragment : Fragment(R.layout.disciplines_menu_fragment) {
 
@@ -34,13 +35,7 @@ class DisciplinesMenuFragment : Fragment(R.layout.disciplines_menu_fragment) {
             false
         }
 
-        binding.submitBtn.setOnClickListener {
-            submitGroupNumber()
-        }
-
-        viewModel.isValidGroupNumber.observe(viewLifecycleOwner) {
-            if (it) hideKeyboard()
-        }
+        binding.submitBtn.setOnClickListener { submitGroupNumber() }
 
         viewModel.error.observe(viewLifecycleOwner) {
             binding.groupNumberET.error = it?.let { getString(it) }
@@ -54,6 +49,7 @@ class DisciplinesMenuFragment : Fragment(R.layout.disciplines_menu_fragment) {
         }
 
         viewModel.isValidGroupNumber.observe(viewLifecycleOwner) {
+            if (it) hideKeyboard()
             with(binding) {
                 disciplinesByChoiceBtn.isEnabled = it
                 mobilityModuleBtn.isEnabled = it
@@ -62,44 +58,43 @@ class DisciplinesMenuFragment : Fragment(R.layout.disciplines_menu_fragment) {
         }
 
         viewModel.isGroupInfoVisible.observe(viewLifecycleOwner, binding.groupInfoTV::setVisibility)
+        viewModel.navigationEvent.observe(viewLifecycleOwner) {
+            it?.let {
+                submitGroupNumberToApplication(it.groupInfo)
+                findNavController().navigate(it.directions)
+                viewModel.navigated()
+            }
+        }
+
     }
 
     private fun setUpNavigationButtons() {
-        binding.disciplinesByChoiceBtn.setOnClickListener {
-            viewModel.groupNumberInfo.value?.let { groupInfo ->
-                (requireContext().applicationContext as DisciplinesApplication).setGroupInfo(
-                    groupInfo
-                )
-                findNavController().navigate(
-                    DisciplinesMenuFragmentDirections.actionDisciplinesMenuToDisciplineByChoiceFragment(
-                        groupInfo
-                    )
+        with(DisciplinesMenuFragmentDirections) {
+            binding.disciplinesByChoiceBtn.setOnClickListener {
+                viewModel.navigate(
+                    actionDisciplinesMenuToDisciplineByChoiceFragment()
                 )
             }
-        }
-        binding.mobilityModuleBtn.setOnClickListener {
-            val groupInfo = viewModel.groupNumberInfo.value!!
-            (requireContext().applicationContext as DisciplinesApplication).setGroupInfo(groupInfo)
-            findNavController().navigate(
-                DisciplinesMenuFragmentDirections.actionDisciplinesMenuToMobilityModuleFragment(
-                    groupInfo
+            binding.mobilityModuleBtn.setOnClickListener {
+                viewModel.navigate(
+                    actionDisciplinesMenuToMobilityModuleFragment()
                 )
-            )
-        }
-        binding.electivesBtn.setOnClickListener {
-            val groupInfo = viewModel.groupNumberInfo.value!!
-            (requireContext().applicationContext as DisciplinesApplication).setGroupInfo(groupInfo)
-            findNavController().navigate(
-                DisciplinesMenuFragmentDirections.actionDisciplinesMenuToElectives(
-                    groupInfo
+            }
+            binding.electivesBtn.setOnClickListener {
+                viewModel.navigate(
+                    actionDisciplinesMenuToElectives()
                 )
-            )
+            }
         }
     }
 
     private fun submitGroupNumber() {
         val gNumber = binding.groupNumberET.text.toString().trim()
         viewModel.submitGroupNumber(gNumber)
+    }
+
+    private fun submitGroupNumberToApplication(groupInfo: GroupNumberInfo) {
+        (requireContext().applicationContext as DisciplinesApplication).setGroupInfo(groupInfo)
     }
 
     private fun hideKeyboard() {

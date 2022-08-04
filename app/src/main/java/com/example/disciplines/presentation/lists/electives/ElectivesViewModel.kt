@@ -17,6 +17,7 @@ import javax.inject.Inject
 
 class ElectivesViewModel
 @Inject constructor(
+    groupInfo: GroupNumberInfo,
     private val disciplinesRepository: DisciplinesRepository
 ) :
     ViewModel() {
@@ -32,7 +33,11 @@ class ElectivesViewModel
     private val _degreeArgs = MutableLiveData<DegreeArgs?>()
     val degreeArgs: LiveData<DegreeArgs?> get() = _degreeArgs
 
-    fun getElectivesList(groupInfo: GroupNumberInfo) {
+    init {
+        getElectivesList(groupInfo)
+    }
+
+    private fun getElectivesList(groupInfo: GroupNumberInfo) {
         viewModelScope.launch {
             _requestStatus.value = RequestStatus.LOADING
             runCatching {

@@ -17,9 +17,9 @@ import com.example.disciplines.data.models.Discipline
 import com.example.disciplines.data.models.SelectedDisciplines
 import com.example.disciplines.data.source.network.RequestStatus
 import com.example.disciplines.databinding.MobilityModuleListBinding
+import com.example.disciplines.di.SubcomponentNotInitialized
 import com.example.disciplines.presentation.lists.mobilityModule.NavigationEvent.Can
 import com.example.disciplines.presentation.lists.mobilityModule.NavigationEvent.Not
-import com.example.disciplines.presentation.model.GroupNumberInfo
 import com.example.disciplines.presentation.util.applyGravity
 import com.example.disciplines.presentation.util.setMobilityModules
 import javax.inject.Inject
@@ -31,18 +31,13 @@ class MobilityModuleFragment : Fragment(R.layout.mobility_module_list) {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel: MobilityModuleViewModel by viewModels { viewModelFactory }
 
-    private lateinit var groupInfo: GroupNumberInfo
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        val component = (context.applicationContext as DisciplinesApplication).component
-        component.inject(this)
+        val component = (context.applicationContext as DisciplinesApplication).viewModelsComponent
+        component?.inject(this) ?: throw SubcomponentNotInitialized()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        groupInfo = MobilityModuleFragmentArgs.fromBundle(requireArguments()).groupInfo
-        viewModel.getModulesList(groupInfo.groupNumber)
-
         viewModel.requestStatus.observe(viewLifecycleOwner) {
             it ?: return@observe
             when (it) {
@@ -63,8 +58,8 @@ class MobilityModuleFragment : Fragment(R.layout.mobility_module_list) {
 
         binding.confirmBtn.setOnClickListener { viewModel.onConfirm(binding.radioGroup2) }
         viewModel.navigationEvent.observe(viewLifecycleOwner) {
-            it?: return@observe
-            when(it){
+            it ?: return@observe
+            when (it) {
                 is Can -> navigateToConfirm(it.module)
                 is Not -> showErrorToast()
             }
@@ -106,7 +101,7 @@ class MobilityModuleFragment : Fragment(R.layout.mobility_module_list) {
     private fun navigateToConfirm(module: Discipline.MobilityModule) {
         findNavController().navigate(
             MobilityModuleFragmentDirections.actionMobilityModuleFragmentToConfirmationFragment(
-                SelectedDisciplines.MobilityModule(module), groupInfo
+                SelectedDisciplines.MobilityModule(module)
             )
         )
         viewModel.navigationFinished()
