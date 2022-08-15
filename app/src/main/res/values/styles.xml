@@ -8,14 +8,9 @@
         <item name="android:buttonTint">@color/polytechFontColor</item>
         <item name="android:textColor">@color/polytechFontColor</item>
         <item name="android:layout_marginBottom">10dp</item>
-        <!--        <item name="android:padding">10dp</item>-->
-        <!--        <item name="android:paddingTop">5dp</item>-->
         <item name="android:padding">5dp</item>
         <item name="android:paddingStart">5dp</item>
-<!--        <item name="paddingEnd">30dp</item>-->
         <item name="android:gravity">top|start</item>
-        <item name="android:text">Название дисциплины \n
-            Трудоемкость: # з.е./# ч.</item>
     </style>
 
     <style name="discipline_radio_button">

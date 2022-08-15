@@ -1,15 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <data>
-
-        <variable
-            name="mobilityModule"
-            type="com.example.disciplines.data.model.Discipline.MobilityModule" />
-    </data>
-
-    <RadioButton
-        style="@style/listItemButton"
-        app:mobilityModule="@{mobilityModule}" />
-</layout>
+<RadioButton xmlns:tools="http://schemas.android.com/tools"
+    style="@style/listItemButton"
+    tools:text="Название дисциплины \nТрудоемкость: # з.е./# ч. \nПлатформа: ..." />

@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <variable
-            name="discipline"
-            type="com.example.disciplines.data.model.Discipline.ByChoice" />
-    </data>
-
-    <RadioButton
-        style="@style/discipline_radio_button"
-        app:discipline="@{discipline}"
-        tools:background="@drawable/border_polytech_main"
-        tools:checked="true"
-        tools:text="Дисциплина 1.2" />
-</layout>
+<RadioButton xmlns:tools="http://schemas.android.com/tools"
+    style="@style/discipline_radio_button"
+    tools:background="@drawable/border_polytech_main"
+    tools:checked="true"
+    tools:text="Название дисциплины (# з.е./# ч.)" />

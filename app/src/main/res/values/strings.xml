@@ -37,4 +37,6 @@
     <string name="error_invalid_group_number">Неверно введен номер группы</string>
     <string name="error_no_data_for_evening">На данный момент нет данных для вечерних и заочных групп</string>
     <string name="error_invalid_course_and_year">Проверьте указанный курс и год поступления</string>
+    <string name="bachelor_name">бакалавриата</string>
+    <string name="master_name">магистратуры</string>
 </resources>

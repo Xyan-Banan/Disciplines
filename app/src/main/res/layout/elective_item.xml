@@ -1,15 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <data>
-
-        <variable
-            name="elective"
-            type="com.example.disciplines.data.model.Discipline.Elective" />
-    </data>
-
-    <CheckBox
-        style="@style/listItemButton"
-        app:elective="@{elective}" />
-</layout>
+<CheckBox xmlns:tools="http://schemas.android.com/tools"
+    style="@style/listItemButton"
+    tools:text="Название дисциплины \nТрудоемкость: # з.е./# ч." />
